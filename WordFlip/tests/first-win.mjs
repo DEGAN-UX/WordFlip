@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const sandbox={window:{}};
+vm.runInNewContext(fs.readFileSync(new URL('../dist/first-win.js',import.meta.url),'utf8'),sandbox);
+const win=sandbox.window.WordFlipFirstWin;
+assert.equal(win.hasSucceeded({},'w1'),false,'new card celebrates');
+assert.equal(win.hasSucceeded({'w1:hu-en':{reviews:3,recognised:2,correct:0}},'w1'),false,'recognition alone is not a success');
+assert.equal(win.hasSucceeded({'w1:hu-en':{correct:1}},'w1'),true,'prior success prevents repeat');
+assert.equal(win.hasSucceeded({'w1:hu-en':{correct:1}},'w10'),false,'IDs do not overlap');
+assert.equal(win.hasSucceeded({'w1:en-hu':{correct:1}},'w1'),true,'both directions share one celebration');
+const pattern='hu-grammar:plurals:plural:back:-ak';
+assert.equal(win.hasSucceeded({[`cheatsheet:${pattern}:recognition`]:{correct:1}},pattern,true),true,'cheatsheet question types share one celebration');
+assert.equal(win.hasSucceeded({[`cheatsheet:${pattern}:recognition`]:{correct:0}},pattern,true),false);
+assert.equal(new Set([win.phrase(0),win.phrase(1),win.phrase(2)]).size,3,'celebration phrases vary');
+console.log('First-win celebrations passed: first success, cross-direction and Cheatsheet pattern deduplication');

@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+const context={window:{}};
+vm.runInNewContext(readFileSync(new URL('../dist/pool-announcements.js',import.meta.url),'utf8'),context);
+const {update,summary}=context.window.WordFlipPoolAnnouncements;
+const cards=[{id:'a',category:'word',priority:1},{id:'b',category:'phrase',topic:'family',priority:2},{id:'c',category:'phrase',topic:'family',priority:3},{id:'d',category:'verb',priority:8}];
+const first=update(null,cards,[{...cards[0],isNew:true}],2,true);
+assert.equal(first.unlocked.length,0,'Initial pool is a baseline, not a fresh unlock');
+const second=update(first.state,cards,[],3,true);
+assert.equal(second.unlocked.map(c=>c.id).join(','),'c');
+const third=update(second.state,cards,[],3,true);
+assert.equal(third.unlocked.length,0,'Do not announce the same unlock twice');
+const onDemand=update(third.state,cards,[{...cards[3],isNew:true}],3,true);
+assert.equal(onDemand.unlocked.map(c=>c.id).join(','),'d');
+assert.equal(summary([cards[1],cards[2]],'it',[['family','Family & friends']])[0],'2 Family & friends');
+console.log('Pool announcements passed');

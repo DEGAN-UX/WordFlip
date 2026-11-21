@@ -1,0 +1,618 @@
+# article + noun | English (250 useful nouns; article is part of the learned form)
+il libro|book
+la casa|house
+il cane|dog
+il gatto|cat
+l'acqua|water
+il pane|bread
+il latte|milk
+il caffè|coffee
+il tè|tea
+il vino|wine
+la birra|beer
+il formaggio|cheese
+la carne|meat
+il pesce|fish
+il riso|rice
+la pasta|pasta
+la pizza|pizza
+la mela|apple
+la banana|banana
+l'arancia|orange
+la pera|pear
+la fragola|strawberry
+il limone|lemon
+il pomodoro|tomato
+la patata|potato
+la carota|carrot
+la cipolla|onion
+l'insalata|salad
+la zuppa|soup
+la torta|cake
+il gelato|ice cream
+lo zucchero|sugar
+il sale|salt
+il pepe|pepper
+l'olio|oil
+il burro|butter
+l'uovo|egg
+la colazione|breakfast
+il pranzo|lunch
+la cena|dinner
+il ristorante|restaurant
+il bar|café / bar
+il menù|menu
+il conto|bill
+il tavolo|table
+la sedia|chair
+il piatto|plate
+il bicchiere|glass
+la tazza|cup
+la bottiglia|bottle
+la forchetta|fork
+il coltello|knife
+il cucchiaio|spoon
+la cucina|kitchen
+il bagno|bathroom
+la camera|room
+la camera da letto|bedroom
+il letto|bed
+la porta|door
+la finestra|window
+il muro|wall
+il pavimento|floor
+il soffitto|ceiling
+il tetto|roof
+il giardino|garden
+il balcone|balcony
+la chiave|key
+la luce|light
+la lampada|lamp
+il telefono|telephone
+il computer|computer
+lo schermo|screen
+la televisione|television
+la radio|radio
+la musica|music
+il film|film
+la foto|photograph
+la macchina fotografica|camera
+la borsa|bag
+lo zaino|rucksack
+la valigia|suitcase
+il portafoglio|wallet
+il denaro|money
+il prezzo|price
+il negozio|shop
+il mercato|market
+il supermercato|supermarket
+la farmacia|pharmacy
+l'ospedale|hospital
+il medico|doctor
+la medicina|medicine
+la salute|health
+la testa|head
+il viso|face
+l'occhio|eye
+l'orecchio|ear
+il naso|nose
+la bocca|mouth
+il dente|tooth
+il collo|neck
+il braccio|arm
+la mano|hand
+il dito|finger
+la gamba|leg
+il piede|foot
+la schiena|back
+il cuore|heart
+il corpo|body
+il dolore|pain
+la febbre|fever
+la famiglia|family
+la madre|mother
+il padre|father
+il figlio|son
+la figlia|daughter
+il fratello|brother
+la sorella|sister
+il marito|husband
+la moglie|wife
+il nonno|grandfather
+la nonna|grandmother
+il bambino|child / boy
+la bambina|girl
+l'uomo|man
+la donna|woman
+la persona|person
+l'amico|friend (male)
+l'amica|friend (female)
+il vicino|neighbour
+la gente|people
+il nome|name
+il cognome|surname
+l'età|age
+la vita|life
+il lavoro|work / job
+l'ufficio|office
+il collega|colleague
+il capo|boss
+la scuola|school
+l'università|university
+lo studente|student (male)
+la studentessa|student (female)
+l'insegnante|teacher
+la lezione|lesson
+la parola|word
+la frase|sentence
+la domanda|question
+la risposta|answer
+la lingua|language
+l'italiano|Italian language
+l'inglese|English language
+la lettera|letter
+il numero|number
+la pagina|page
+il quaderno|notebook
+la penna|pen
+la matita|pencil
+la carta|paper
+il giornale|newspaper
+la notizia|news item
+la storia|story / history
+il problema|problem
+la soluzione|solution
+l'idea|idea
+il tempo|time / weather
+il giorno|day
+la notte|night
+la mattina|morning
+il pomeriggio|afternoon
+la sera|evening
+la settimana|week
+il mese|month
+l'anno|year
+l'ora|hour
+il minuto|minute
+il momento|moment
+oggi|today
+domani|tomorrow
+ieri|yesterday
+la primavera|spring
+l'estate|summer
+l'autunno|autumn
+l'inverno|winter
+il sole|sun
+la luna|moon
+la stella|star
+il cielo|sky
+la nuvola|cloud
+la pioggia|rain
+la neve|snow
+il vento|wind
+il caldo|heat
+il freddo|cold
+il mare|sea
+il lago|lake
+il fiume|river
+la montagna|mountain
+la collina|hill
+la foresta|forest
+l'albero|tree
+il fiore|flower
+l'erba|grass
+la spiaggia|beach
+l'isola|island
+la strada|road
+la via|street
+la piazza|square
+la città|city
+il paese|town / country
+il villaggio|village
+la stazione|station
+l'aeroporto|airport
+il treno|train
+l'autobus|bus
+la metropolitana|underground
+il taxi|taxi
+la macchina|car
+la bicicletta|bicycle
+la moto|motorbike
+l'aereo|aeroplane
+la nave|ship
+il biglietto|ticket
+il viaggio|journey
+la vacanza|holiday
+l'albergo|hotel
+la prenotazione|reservation
+la mappa|map
+la direzione|direction
+la fermata|stop
+il centro|centre
+la sinistra|left
+la destra|right
+l'entrata|entrance
+l'uscita|exit
+il ponte|bridge
+il parco|park
+il museo|museum
+la chiesa|church
+il castello|castle
+il cinema|cinema
+il teatro|theatre
+la banca|bank
+la posta|post office
+il passaporto|passport
+il documento|document
+la firma|signature
+la polizia|police
+la sicurezza|safety
+la libertà|freedom
+la pace|peace
+la felicità|happiness
+la paura|fear
+l'amore|love
+la speranza|hope
+il sogno|dream
+il sorriso|smile
+la festa|party
+il regalo|gift
+il compleanno|birthday
+il colore|colour
+la forma|shape
+la dimensione|size
+la qualità|quality
+la quantità|quantity
+la scelta|choice
+la possibilità|possibility
+la ragione|reason
+la verità|truth
+la differenza|difference
+la fine|end
+l'inizio|beginning
+
+# infinitive | English (high-utility verbs)
+essere|be
+avere|have
+fare|do / make
+andare|go
+venire|come
+stare|stay / be
+potere|be able to
+volere|want
+dovere|have to
+sapere|know (a fact)
+conoscere|know (a person / place)
+dire|say
+parlare|speak
+chiedere|ask
+rispondere|answer
+ascoltare|listen
+sentire|hear / feel
+vedere|see
+guardare|watch
+leggere|read
+scrivere|write
+studiare|study
+imparare|learn
+insegnare|teach
+capire|understand
+pensare|think
+credere|believe
+ricordare|remember
+dimenticare|forget
+trovare|find
+cercare|look for
+prendere|take
+dare|give
+ricevere|receive
+portare|bring / carry
+mettere|put
+togliere|remove
+lasciare|leave / allow
+tenere|hold / keep
+usare|use
+aprire|open
+chiudere|close
+entrare|enter
+uscire|go out
+arrivare|arrive
+partire|depart
+tornare|return
+restare|remain
+aspettare|wait
+seguire|follow
+camminare|walk
+correre|run
+saltare|jump
+guidare|drive
+viaggiare|travel
+volare|fly
+nuotare|swim
+salire|go up
+scendere|go down
+girare|turn
+passare|pass
+attraversare|cross
+abitare|live (reside)
+vivere|live
+nascere|be born
+morire|die
+crescere|grow
+lavorare|work
+giocare|play
+dormire|sleep
+svegliarsi|wake up
+alzarsi|get up
+sedersi|sit down
+lavarsi|wash oneself
+vestirsi|get dressed
+mangiare|eat
+bere|drink
+cucinare|cook
+preparare|prepare
+tagliare|cut
+comprare|buy
+vendere|sell
+pagare|pay
+costare|cost
+ordinare|order
+prenotare|book / reserve
+scegliere|choose
+preferire|prefer
+piacere|please / be liked
+amare|love
+odiare|hate
+desiderare|desire
+sperare|hope
+temere|fear
+ridere|laugh
+piangere|cry
+sorridere|smile
+cantare|sing
+ballare|dance
+suonare|play an instrument
+disegnare|draw
+dipingere|paint
+fotografare|photograph
+costruire|build
+riparare|repair
+pulire|clean
+sporcare|make dirty
+cambiare|change
+diventare|become
+iniziare|begin
+cominciare|start
+finire|finish
+continuare|continue
+provare|try
+riuscire|succeed
+perdere|lose
+vincere|win
+aiutare|help
+servire|serve / be needed
+offrire|offer
+mostrare|show
+spiegare|explain
+controllare|check
+decidere|decide
+organizzare|organise
+incontrare|meet
+visitare|visit
+invitare|invite
+chiamare|call
+telefonare|telephone
+mandare|send
+spedire|send / post
+aspettarsi|expect
+succedere|happen
+sembrare|seem
+apparire|appear
+esistere|exist
+mancare|be missing
+bastare|be enough
+importare|matter
+dipendere|depend
+appartenere|belong
+significare|mean
+tradurre|translate
+contare|count
+misurare|measure
+pesare|weigh
+aggiungere|add
+dividere|divide
+unire|join
+rompere|break
+cadere|fall
+tirare|pull
+spingere|push
+accendere|switch on
+spegnere|switch off
+accettare|accept
+rifiutare|refuse
+permettere|allow
+promettere|promise
+proteggere|protect
+
+# adjective (masculine singular) | English
+grande|big
+piccolo|small
+alto|tall / high
+basso|short / low
+lungo|long
+corto|short (length)
+largo|wide
+stretto|narrow
+nuovo|new
+vecchio|old
+giovane|young
+bello|beautiful
+brutto|ugly
+buono|good
+cattivo|bad
+facile|easy
+difficile|difficult
+semplice|simple
+complicato|complicated
+importante|important
+interessante|interesting
+noioso|boring
+divertente|fun
+felice|happy
+triste|sad
+contento|pleased
+arrabbiato|angry
+stanco|tired
+malato|ill
+sano|healthy
+caldo|hot
+freddo|cold
+tiepido|lukewarm
+fresco|cool / fresh
+pulito|clean
+sporco|dirty
+pieno|full
+vuoto|empty
+aperto|open
+chiuso|closed
+veloce|fast
+lento|slow
+caro|expensive / dear
+economico|inexpensive
+ricco|rich
+povero|poor
+forte|strong
+debole|weak
+sicuro|safe / certain
+pericoloso|dangerous
+gentile|kind / polite
+educato|well-mannered
+scortese|rude
+famoso|famous
+strano|strange
+normale|normal
+possibile|possible
+impossibile|impossible
+vero|true
+falso|false
+giusto|right / fair
+sbagliato|wrong
+pronto|ready
+libero|free / available
+occupato|busy / occupied
+solo|alone
+uguale|equal / same
+diverso|different
+rosso|red
+blu|blue
+verde|green
+giallo|yellow
+nero|black
+bianco|white
+grigio|grey
+rosa|pink
+marrone|brown
+viola|purple
+arancione|orange (colour)
+dolce|sweet
+salato|salty
+amaro|bitter
+acido|sour
+morbido|soft
+duro|hard
+pesante|heavy
+leggero|light (weight)
+
+# functional words: custom complete example and translation
+io|I|Io sono qui.|I am here.
+tu|you (singular)|Tu parli italiano.|You speak Italian.
+lui|he|Lui lavora qui.|He works here.
+lei|she|Lei studia italiano.|She studies Italian.
+noi|we|Noi siamo pronti.|We are ready.
+voi|you (plural)|Voi avete tempo.|You have time.
+loro|they|Loro abitano a Roma.|They live in Rome.
+questo|this|Questo è mio.|This is mine.
+quello|that|Quello è bello.|That is beautiful.
+chi|who|Chi è?|Who is it?
+che cosa|what|Che cosa vuoi?|What do you want?
+dove|where|Dove abiti?|Where do you live?
+quando|when|Quando parti?|When are you leaving?
+perché|why / because|Perché sei qui?|Why are you here?
+come|how|Come stai?|How are you?
+quanto|how much|Quanto costa?|How much does it cost?
+quale|which|Quale preferisci?|Which do you prefer?
+e|and|Pane e formaggio.|Bread and cheese.
+ma|but|È piccolo ma bello.|It is small but beautiful.
+o|or|Tè o caffè?|Tea or coffee?
+se|if|Se piove, resto.|If it rains, I stay.
+anche|also|Vengo anche io.|I'm coming too.
+non|not|Non capisco.|I don't understand.
+sempre|always|Studio sempre.|I always study.
+mai|never / ever|Non fumo mai.|I never smoke.
+qui|here|Sono qui.|I am here.
+lì|there|Il libro è lì.|The book is there.
+con|with|Vengo con te.|I'm coming with you.
+senza|without|Caffè senza zucchero.|Coffee without sugar.
+per|for / in order to|Questo è per te.|This is for you.
+a|to / at|Vado a Roma.|I'm going to Rome.
+di|of / from|Sono di Londra.|I'm from London.
+da|from / at someone's place|Vengo da Milano.|I come from Milan.
+in|in / to|Vivo in Italia.|I live in Italy.
+su|on|Il libro è sul tavolo.|The book is on the table.
+tra|between / in (time)|Parto tra un'ora.|I'm leaving in an hour.
+prima|before|Arrivo prima di te.|I arrive before you.
+dopo|after|Mangiamo dopo.|We'll eat afterwards.
+molto|very / a lot|Grazie mille, davvero molto.|Thank you very much indeed.
+poco|little / not much|Ho poco tempo.|I have little time.
+
+# phrases: Italian | English
+Buongiorno!|Good morning!
+Buonasera!|Good evening!
+Buonanotte!|Good night!
+Ciao!|Hello! / Bye!
+Arrivederci!|Goodbye!
+A presto!|See you soon!
+Come stai?|How are you?
+Sto bene, grazie.|I'm well, thank you.
+E tu?|And you?
+Come ti chiami?|What's your name?
+Mi chiamo David.|My name is David.
+Piacere di conoscerti.|Nice to meet you.
+Di dove sei?|Where are you from?
+Sono inglese.|I'm English.
+Abito in Svizzera.|I live in Switzerland.
+Parli inglese?|Do you speak English?
+Parlo un po' d'italiano.|I speak a little Italian.
+Non capisco.|I don't understand.
+Puoi ripetere, per favore?|Can you repeat that, please?
+Puoi parlare più lentamente?|Can you speak more slowly?
+Come si dice in italiano?|How do you say it in Italian?
+Che cosa significa?|What does it mean?
+Scusi, dov'è la stazione?|Excuse me, where is the station?
+È lontano da qui?|Is it far from here?
+Giri a sinistra.|Turn left.
+Giri a destra.|Turn right.
+Vada sempre dritto.|Go straight ahead.
+Vorrei un caffè, per favore.|I'd like a coffee, please.
+Un tavolo per due, per favore.|A table for two, please.
+Posso vedere il menù?|May I see the menu?
+Che cosa mi consiglia?|What do you recommend?
+Sono vegetariano.|I'm vegetarian (male speaker).
+Sono vegetariana.|I'm vegetarian (female speaker).
+Il conto, per favore.|The bill, please.
+Posso pagare con la carta?|Can I pay by card?
+Quanto costa?|How much does it cost?
+È troppo caro.|It's too expensive.
+Avete una taglia più grande?|Do you have a larger size?
+Sto solo guardando.|I'm just looking.
+Ho una prenotazione.|I have a reservation.
+Vorrei prenotare una camera.|I'd like to book a room.
+A che ora parte il treno?|What time does the train leave?
+Un biglietto di andata e ritorno, per favore.|A return ticket, please.
+Ho bisogno di aiuto.|I need help.
+Non mi sento bene.|I don't feel well.
+Dov'è la farmacia più vicina?|Where is the nearest pharmacy?
+Mi dispiace.|I'm sorry.
+Non c'è problema.|No problem.
+Grazie mille!|Thank you very much!
+Prego!|You're welcome!

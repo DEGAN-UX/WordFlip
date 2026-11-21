@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const cards=JSON.parse(fs.readFileSync(new URL('../dist/croatian-cards.json',import.meta.url),'utf8'));
+assert.equal(cards.length,587);
+assert.equal(new Set(cards.map(c=>c.id)).size,cards.length);
+for(const card of cards){
+  assert.match(card.id,/^hr-(word|phrase|verb|case)-\d+$/);
+  assert.ok(card.hr&&card.en&&card.exampleHr&&card.exampleEn);
+  assert.ok(['Starter','A1'].includes(card.level));
+}
+assert.ok(cards.slice(0,70).some(c=>c.category==='word')&&cards.slice(0,70).some(c=>c.category==='phrase'),'Mix words with practical phrases from the start');
+assert.ok(cards.find(c=>c.hr==='Želim kavu.'&&c.en===`I'd like a coffee.`),'Full-sentence translation is retained');
+assert.ok(cards.find(c=>c.hr==='u gradu'&&c.en==='in the city'));
+assert.ok(cards.find(c=>c.hr==='u grad'&&c.en==='to Zagreb')===undefined);
+const sandbox={window:{WordFlipEngines:{}}};
+vm.runInNewContext(fs.readFileSync(new URL('../dist/croatian-engine.js',import.meta.url),'utf8'),sandbox);
+const engine=sandbox.window.WordFlipEngines.hr;
+assert.equal(engine.language,'hr-HR');
+assert.equal(engine.unlocked(cards,{}),70);
+assert.equal(engine.storageKey,'wordflip-croatian-progress-v1');
+vm.runInNewContext(fs.readFileSync(new URL('../dist/adaptive-engine.js',import.meta.url),'utf8'),sandbox);
+const practice=sandbox.window.WordFlipAdaptive.createSession({cards,history:{},engine,language:'hr',category:'all',direction:'auto',length:20});
+assert.ok(practice.length>=1&&practice.length<=20,'Automatic respects the first-session new-card cap');
+assert.ok(practice.some(c=>c.category==='word'));
+assert.ok(practice.every(c=>c.progressKey?.endsWith(':hr-en')));
+const family=sandbox.window.WordFlipAdaptive.createSession({cards,history:{},engine,language:'hr',category:'phrase',direction:'hr-en',length:20,phraseTopics:['family']});
+assert.ok(family.length>0&&family.every(c=>c.topic==='family'));
+vm.runInNewContext(fs.readFileSync(new URL('../dist/progress-transfer.js',import.meta.url),'utf8'),sandbox);
+const transfer=sandbox.window.WordFlipTransfer;
+const snapshot={hu:{},it:{},hr:{'hr-word-001:hr-en':{reviews:1,correct:1,last:1000}}};
+const backup=transfer.createBackup(snapshot,transfer.contentLookup({hu:[],it:[],hr:cards}));
+assert.equal(backup.cardContext.hr.length,1);
+assert.equal(transfer.validateBackup(backup).hr['hr-word-001:hr-en'].correct,1);
+const legacy=transfer.validateBackup({format:'wordflip-progress',version:1,progress:{hu:{},it:{}}});
+assert.equal(legacy.hr,undefined,'Old two-language backups remain accepted');
+console.log('Croatian starter content passed:',cards.length,'cards');

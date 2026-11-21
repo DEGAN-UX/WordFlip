@@ -1,0 +1,122 @@
+# category|Hungarian|English|Hungarian example|English example
+pronoun|te|you (singular)|Te hol laksz?|Where do you live?
+pronoun|ő|he / she|Ő nagyon kedves.|He or she is very kind.
+pronoun|ti|you (plural)|Ti honnan jöttök?|Where are you all from?
+pronoun|ők|they|Ők magyarul beszélnek.|They speak Hungarian.
+pronoun|engem|me (object)|Engem vársz?|Are you waiting for me?
+pronoun|téged|you (object, singular)|Téged kereslek.|I'm looking for you.
+pronoun|őt|him / her (object)|Őt ismerem.|I know him or her.
+pronoun|minket|us (object)|Minket hívnak.|They're calling us.
+pronoun|titeket|you (object, plural)|Titeket várunk.|We're waiting for you all.
+pronoun|őket|them (object)|Őket látom.|I see them.
+pronoun|ki|who|Ki van itt?|Who is here?
+pronoun|kicsoda|who (exactly)|Kicsoda az a férfi?|Who is that man?
+pronoun|mit|what (object)|Mit kérsz?|What would you like?
+pronoun|melyik|which one|Melyik a tiéd?|Which one is yours?
+pronoun|milyen|what kind of|Milyen ez a könyv?|What's this book like?
+pronoun|mennyi|how much|Mennyi vizet kérsz?|How much water would you like?
+pronoun|hány|how many|Hány könyved van?|How many books do you have?
+pronoun|valaki|someone|Valaki kopog.|Someone is knocking.
+pronoun|valami|something|Valami történik.|Something is happening.
+pronoun|senki|nobody|Senki sincs itt.|Nobody is here.
+pronoun|semmi|nothing|Semmi baj.|No problem.
+pronoun|mindenki|everyone|Mindenki itt van.|Everyone is here.
+pronoun|ez|this|Ez az én könyvem.|This is my book.
+conjunction|és|and|Kávét és teát kérek.|I'd like coffee and tea.
+conjunction|vagy|or|Teát vagy kávét kérsz?|Would you like tea or coffee?
+conjunction|hogy|that|Tudom, hogy igaz.|I know that it's true.
+conjunction|ha|if|Ha esik, otthon maradok.|If it rains, I'll stay at home.
+conjunction|amikor|when|Örülök, amikor látlak.|I'm happy when I see you.
+conjunction|amíg|while / until|Várok, amíg megérkezel.|I'll wait until you arrive.
+conjunction|bár|although|Bár fáradt vagyok, tanulok.|Although I'm tired, I'm studying.
+conjunction|habár|although|Habár hideg van, sétálunk.|Although it's cold, we're walking.
+conjunction|mivel|because / since|Mivel késő van, indulok.|Since it's late, I'm leaving.
+conjunction|ezért|therefore|Esik, ezért otthon maradok.|It's raining, so I'm staying at home.
+conjunction|tehát|so / therefore|Késő van, tehát indulunk.|It's late, so we're leaving.
+conjunction|viszont|however|Kicsi, viszont kényelmes.|It's small, but comfortable.
+conjunction|hanem|but rather|Nem teát, hanem kávét kérek.|I'd like coffee, not tea.
+conjunction|illetve|and / or rather|Péter, illetve Anna jön.|Péter, or rather Anna, is coming.
+conjunction|pedig|yet / whereas|Én teát kérek, ő pedig kávét.|I'd like tea, whereas he'd like coffee.
+conjunction|miközben|while|Olvasok, miközben várok.|I'm reading while I wait.
+conjunction|miután|after|Miután eszem, elindulok.|After I eat, I'll set off.
+conjunction|mielőtt|before|Mosakodom, mielőtt lefekszem.|I wash before going to bed.
+postposition|alatt|under|A macska az asztal alatt van.|The cat is under the table.
+postposition|felett|above|A lámpa az asztal felett van.|The lamp is above the table.
+postposition|mellett|next to|A bolt az iskola mellett van.|The shop is next to the school.
+postposition|között|between / among|A ház két fa között áll.|The house stands between two trees.
+postposition|előtt|in front of / before|Az autó a ház előtt áll.|The car is parked in front of the house.
+postposition|mögött|behind|A kert a ház mögött van.|The garden is behind the house.
+postposition|után|after|Ebéd után sétálok.|I go for a walk after lunch.
+postposition|nélkül|without|Cukor nélkül kérem.|I'd like it without sugar.
+postposition|miatt|because of|Az eső miatt maradok otthon.|I'm staying home because of the rain.
+postposition|szerint|according to|A térkép szerint közel van.|According to the map, it's close.
+postposition|helyett|instead of|Kávé helyett teát iszom.|I'm drinking tea instead of coffee.
+postposition|ellen|against|A csapat ellen játszunk.|We're playing against the team.
+postposition|felé|towards|A folyó felé megyünk.|We're going towards the river.
+postposition|körül|around|A tó körül sétálunk.|We're walking around the lake.
+postposition|túl|beyond|A hídon túl van a park.|The park is beyond the bridge.
+postposition|keresztül|through / across|Az erdőn keresztül megyünk.|We're going through the forest.
+postposition|óta|since|Hétfő óta itt vagyok.|I've been here since Monday.
+postposition|során|during|Az utazás során sokat tanultam.|I learnt a lot during the journey.
+postposition|közben|during / meanwhile|Ebéd közben beszélgetünk.|We're chatting during lunch.
+postposition|kívül|outside / apart from|A városon kívül lakom.|I live outside the city.
+suffix|-on / -en / -ön|on / on top of|A könyv az asztalon van.|The book is on the table.
+suffix|-tól / -től|from / away from|A barátomtól jövök.|I'm coming from my friend's place.
+suffix|-ig|until / as far as|Ötig dolgozom.|I work until five.
+suffix|-nak / -nek|to / for (dative)|A barátomnak írok.|I'm writing to my friend.
+suffix|-ért|for / in exchange for|A kenyérért fizetek.|I'm paying for the bread.
+suffix|-ként|as / in the role of|Tanárként dolgozik.|He or she works as a teacher.
+suffix|-kor|at (a time)|Hatkor indulunk.|We're leaving at six.
+suffix|-ul / -ül|in a language / as|Magyarul tanulok.|I'm learning in Hungarian.
+suffix|-vá / -vé|into / becoming|A víz jéggé válik.|The water turns into ice.
+suffix|-ság / -ség|abstract-noun ending|A barátság fontos.|Friendship is important.
+suffix|-i|relating to / from a place|Budapesti vagyok.|I'm from Budapest.
+suffix|-tlan / -tlen|without / -less|A munka eredménytelen.|The work is unsuccessful.
+suffix|-hat / -het|can / may|Itt várhatsz.|You can wait here.
+suffix|-ni|verb infinitive ending|Szeretek olvasni.|I like reading.
+suffix|-ás / -és|action-noun ending|Az olvasás jó szokás.|Reading is a good habit.
+suffix|-om / -em / -öm|my (possessive)|Ez a könyvem.|This is my book.
+suffix|-od / -ed / -öd|your (possessive, singular)|Hol van a könyved?|Where is your book?
+suffix|-ja / -je|his / her / its (possessive)|A tanár kutyája kicsi.|The teacher's dog is small.
+suffix|-unk / -ünk|our (possessive)|Ez a házunk.|This is our house.
+suffix|-bb|comparative: -er / more|Ez a ház nagyobb.|This house is bigger.
+phrase|Szia!|Hi!|Szia, Anna!|Hi, Anna!
+phrase|Jó napot kívánok!|Good day!|Jó napot kívánok, uram!|Good day, sir!
+phrase|Jó estét!|Good evening!|Jó estét, hogy van?|Good evening, how are you?
+phrase|Jó éjszakát!|Good night!|Jó éjszakát, aludj jól!|Good night, sleep well!
+phrase|Hogy vagy?|How are you? (informal)|Szia! Hogy vagy?|Hi! How are you?
+phrase|Hogy van?|How are you? (formal)|Jó napot! Hogy van?|Good day! How are you?
+phrase|Jól vagyok.|I'm well.|Köszönöm, jól vagyok.|Thanks, I'm well.
+phrase|És te?|And you? (informal)|Jól vagyok. És te?|I'm well. And you?
+phrase|Örülök, hogy találkoztunk.|Nice to have met you.|Örülök, hogy találkoztunk!|It was nice meeting you!
+phrase|Elnézést!|Excuse me!|Elnézést, segítene?|Excuse me, could you help?
+phrase|Bocsánat!|Sorry!|Bocsánat, elkéstem.|Sorry, I'm late.
+phrase|Semmi baj.|No problem.|Semmi baj, ne aggódj.|No problem, don't worry.
+phrase|Kérem.|Please / Here you are.|Egy teát kérek.|One tea, please.
+phrase|Szívesen.|You're welcome.|Szívesen, örülök, hogy segíthettem.|You're welcome, glad I could help.
+phrase|Nem tudom.|I don't know.|Sajnos nem tudom.|Unfortunately, I don't know.
+phrase|Nem beszélek jól magyarul.|I don't speak Hungarian well.|Bocsánat, nem beszélek jól magyarul.|Sorry, I don't speak Hungarian well.
+phrase|Lassan, kérem.|Slowly, please.|Beszéljen lassan, kérem.|Please speak slowly.
+phrase|Megismételné?|Could you repeat that? (formal)|Elnézést, megismételné?|Excuse me, could you repeat that?
+phrase|Mit jelent ez?|What does this mean?|Mit jelent ez a szó?|What does this word mean?
+phrase|Hogy mondják magyarul?|How do you say it in Hungarian?|Ezt hogy mondják magyarul?|How do you say this in Hungarian?
+phrase|Hol van a mosdó?|Where is the toilet?|Elnézést, hol van a mosdó?|Excuse me, where is the toilet?
+phrase|Merre van a központ?|Which way is the centre?|Merre van a városközpont?|Which way is the city centre?
+phrase|Messze van?|Is it far?|Az állomás messze van?|Is the station far?
+phrase|Közel van.|It's close.|A bolt közel van.|The shop is close.
+phrase|Balra forduljon.|Turn left (formal).|A sarkon balra forduljon.|Turn left at the corner.
+phrase|Jobbra forduljon.|Turn right (formal).|A lámpánál jobbra forduljon.|Turn right at the traffic lights.
+phrase|Egyenesen menjen.|Go straight ahead (formal).|Innen egyenesen menjen.|Go straight ahead from here.
+phrase|Egy jegyet kérek.|One ticket, please.|Budapestre egy jegyet kérek.|One ticket to Budapest, please.
+phrase|Mikor indul?|When does it leave?|Mikor indul a vonat?|When does the train leave?
+phrase|Mikor érkezik?|When does it arrive?|Mikor érkezik a busz?|When does the bus arrive?
+phrase|Van szabad asztal?|Is there a free table?|Két főre van szabad asztal?|Is there a free table for two?
+phrase|Mit ajánl?|What do you recommend? (formal)|Mit ajánl vacsorára?|What do you recommend for dinner?
+phrase|Nagyon finom!|Very delicious!|Ez a leves nagyon finom!|This soup is delicious!
+phrase|Fizetni szeretnék.|I'd like to pay.|Elnézést, fizetni szeretnék.|Excuse me, I'd like to pay.
+phrase|Lehet kártyával fizetni?|Can I pay by card?|Itt lehet kártyával fizetni?|Can I pay by card here?
+phrase|Mennyibe kerül összesen?|How much is it altogether?|Mennyibe kerül összesen a két jegy?|How much are the two tickets altogether?
+phrase|Túl drága.|It's too expensive.|Ez nekem túl drága.|This is too expensive for me.
+phrase|Csak nézelődöm.|I'm just looking.|Köszönöm, csak nézelődöm.|Thanks, I'm just looking.
+phrase|Szeretnék segítséget kérni.|I'd like to ask for help.|Szeretnék egy kis segítséget kérni.|I'd like to ask for a little help.
+phrase|Holnap találkozunk.|See you tomorrow.|Rendben, holnap találkozunk.|All right, see you tomorrow.

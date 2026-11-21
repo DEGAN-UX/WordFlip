@@ -1,0 +1,84 @@
+# adverbs: Italian|English|Italian example|English example
+adesso|now|Partiamo adesso.|We're leaving now.
+ora|now|Ora ho tempo.|I have time now.
+presto|soon / early|Torno presto.|I'll be back soon.
+tardi|late|È troppo tardi.|It's too late.
+spesso|often|Vengo spesso qui.|I often come here.
+raramente|rarely|Mangio raramente carne.|I rarely eat meat.
+di solito|usually|Di solito prendo il treno.|I usually take the train.
+ogni tanto|from time to time|Ogni tanto vado al cinema.|I go to the cinema from time to time.
+normalmente|normally|Normalmente lavoro da casa.|I normally work from home.
+lentamente|slowly|Parla lentamente, per favore.|Speak slowly, please.
+velocemente|quickly|Cammina velocemente.|He walks quickly.
+bene|well|Parli molto bene.|You speak very well.
+male|badly|Oggi dormo male.|I'm sleeping badly today.
+meglio|better|Adesso sto meglio.|I feel better now.
+peggio|worse|Oggi sto peggio.|I feel worse today.
+facilmente|easily|Lo capisco facilmente.|I understand it easily.
+difficilmente|with difficulty / hardly|Difficilmente arriverò in tempo.|I probably won't arrive on time.
+chiaramente|clearly|Spiega chiaramente il problema.|Explain the problem clearly.
+esattamente|exactly|È esattamente quello che voglio.|It's exactly what I want.
+specialmente|especially|Mi piace, specialmente d'estate.|I like it, especially in summer.
+soprattutto|above all / especially|Mi piace soprattutto la musica.|Above all, I like music.
+fortunatamente|fortunately|Fortunatamente siamo arrivati.|Fortunately, we've arrived.
+purtroppo|unfortunately|Purtroppo non posso venire.|Unfortunately, I can't come.
+veramente|really / truly|È veramente interessante.|It's really interesting.
+assolutamente|absolutely|Assolutamente sì.|Absolutely yes.
+naturalmente|naturally / of course|Naturalmente puoi restare.|Of course you can stay.
+francamente|frankly|Francamente, non lo so.|Frankly, I don't know.
+finalmente|finally|Finalmente sei qui!|You're finally here!
+improvvisamente|suddenly|Improvvisamente ha iniziato a piovere.|Suddenly it started raining.
+direttamente|directly|Andiamo direttamente a casa.|Let's go straight home.
+avanti|forward / ahead|Vai avanti.|Go ahead.
+indietro|backwards / back|Torna indietro.|Go back.
+fuori|outside|Aspetto fuori.|I'll wait outside.
+dentro|inside|Vieni dentro.|Come inside.
+sopra|above / upstairs|La camera è sopra.|The room is upstairs.
+sotto|below / underneath|Il gatto è sotto.|The cat is underneath.
+vicino|nearby|Abito vicino.|I live nearby.
+lontano|far away|Abito lontano.|I live far away.
+dappertutto|everywhere|Cerco dappertutto.|I'm looking everywhere.
+ovunque|anywhere / everywhere|Ti seguo ovunque.|I'll follow you anywhere.
+
+# prepositions: Italian|English|Italian example|English example
+di|of / from|Sono di Londra.|I'm from London.
+a|to / at|Vado a scuola.|I'm going to school.
+da|from / at someone's place|Vengo da Roma.|I'm from Rome.
+in|in / to|Abito in Svizzera.|I live in Switzerland.
+con|with|Vengo con te.|I'm coming with you.
+su|on / about|Il libro è su un tavolo.|The book is on a table.
+per|for / in order to|Questo è per te.|This is for you.
+tra|between / in (time)|Parto tra un'ora.|I'm leaving in an hour.
+fra|between / in (time)|Parto fra due giorni.|I'm leaving in two days.
+senza|without|Caffè senza zucchero.|Coffee without sugar.
+sotto|under|Il gatto è sotto il letto.|The cat is under the bed.
+sopra|above / on top of|La lampada è sopra il tavolo.|The lamp is above the table.
+davanti a|in front of|Sono davanti alla stazione.|I'm in front of the station.
+dietro a|behind|La macchina è dietro alla casa.|The car is behind the house.
+accanto a|next to|Mi siedo accanto a te.|I sit next to you.
+vicino a|near|Abito vicino al lago.|I live near the lake.
+lontano da|far from|La scuola è lontana da qui.|The school is far from here.
+prima di|before|Arrivo prima di cena.|I'll arrive before dinner.
+dopo|after|Esco dopo il lavoro.|I go out after work.
+durante|during|Leggo durante il viaggio.|I read during the journey.
+contro|against|Sono contro questa idea.|I'm against this idea.
+verso|towards / around (time)|Cammino verso il centro.|I'm walking towards the centre.
+fino a|up to / until|Aspetto fino alle sei.|I'll wait until six.
+oltre|beyond|Il negozio è oltre il ponte.|The shop is beyond the bridge.
+attraverso|through / across|Camminiamo attraverso il parco.|We walk through the park.
+secondo|according to|Secondo me, è giusto.|In my opinion, it's right.
+al|to the (masculine)|Vado al cinema.|I'm going to the cinema.
+alla|to the (feminine)|Vado alla stazione.|I'm going to the station.
+all'|to the (before a vowel)|Vado all'aeroporto.|I'm going to the airport.
+del|of the (masculine)|Parliamo del film.|We're talking about the film.
+della|of the (feminine)|Parliamo della città.|We're talking about the city.
+dell'|of the (before a vowel)|Parliamo dell'albergo.|We're talking about the hotel.
+nel|in the (masculine)|Sono nel giardino.|I'm in the garden.
+nella|in the (feminine)|Sono nella cucina.|I'm in the kitchen.
+nell'|in the (before a vowel)|Sono nell'ufficio.|I'm in the office.
+sul|on the (masculine)|Il libro è sul tavolo.|The book is on the table.
+sulla|on the (feminine)|Il piatto è sulla sedia.|The plate is on the chair.
+dal|from the (masculine)|Vengo dal mercato.|I'm coming from the market.
+dalla|from the (feminine)|Vengo dalla farmacia.|I'm coming from the pharmacy.
+agli|to the (plural masculine)|Scrivo agli amici.|I'm writing to my friends.
+alle|to the (plural feminine)|Scrivo alle amiche.|I'm writing to my female friends.

@@ -1,0 +1,274 @@
+# article + noun | English
+il traguardo|finish line / goal
+la riunione|meeting
+l'appuntamento|appointment
+il messaggio|message
+l'indirizzo|address
+la password|password
+la ricevuta|receipt
+il rimborso|refund
+lo sconto|discount
+il servizio|service
+la consegna|delivery
+la fila|queue
+il turno|turn
+l'occasione|opportunity
+la conversazione|conversation
+il discorso|speech / discussion
+il consiglio|advice
+la proposta|proposal
+l'accordo|agreement
+il dubbio|doubt
+la risposta giusta|correct answer
+la spiegazione|explanation
+la richiesta|request
+il permesso|permission
+il favore|favour
+il ritardo|delay
+la fretta|hurry
+il traffico|traffic
+il guasto|breakdown / fault
+la coincidenza|connecting train
+
+# infinitive | English
+conversare|converse
+discutere|discuss
+raccontare|tell a story
+descrivere|describe
+consigliare|recommend
+suggerire|suggest
+proporre|propose
+confermare|confirm
+annullare|cancel
+rimandare|postpone
+anticipare|bring forward
+partecipare|participate
+collaborare|collaborate
+condividere|share
+confrontare|compare
+lamentarsi|complain
+scusarsi|apologise
+ringraziare|thank
+salutare|greet
+presentare|introduce
+accordarsi|agree
+convincere|convince
+riconoscere|recognise
+notare|notice
+accorgersi|realise / notice
+immaginare|imagine
+considerare|consider
+supporre|suppose
+preferire|prefer
+avvisare|notify
+informare|inform
+prenotarsi|register / book oneself
+risparmiare|save money
+spendere|spend
+prestare|lend
+restituire|return (an item)
+ritirare|collect / withdraw
+consegnare|deliver
+ordinare|order
+assaggiare|taste
+conservare|keep / preserve
+allenarsi|train / practise
+esercitarsi|practise
+rilassarsi|relax
+preoccuparsi|worry
+
+# adjective (masculine singular) | English
+comodo|comfortable
+scomodo|uncomfortable
+affidabile|reliable
+disponibile|available / helpful
+utile|useful
+inutile|useless
+necessario|necessary
+urgente|urgent
+probabile|probable
+improbabile|unlikely
+chiaro|clear
+confuso|confused
+preciso|precise
+esatto|exact
+corretto|correct
+scorretto|incorrect
+comune|common
+raro|rare
+speciale|special
+particolare|particular
+recente|recent
+moderno|modern
+antico|ancient
+quotidiano|daily
+settimanale|weekly
+mensile|monthly
+annuale|yearly
+personale|personal
+pubblico|public
+privato|private
+locale|local
+internazionale|international
+straniero|foreign
+naturale|natural
+artificiale|artificial
+originale|original
+tradizionale|traditional
+creativo|creative
+curioso|curious
+timido|shy
+socievole|sociable
+generoso|generous
+onesto|honest
+sincero|sincere
+tranquillo|calm
+nervoso|nervous
+preoccupato|worried
+rilassato|relaxed
+affollato|crowded
+silenzioso|quiet
+rumoroso|noisy
+luminoso|bright
+buio|dark
+asciutto|dry
+bagnato|wet
+maturo|ripe / mature
+fritto|fried
+bollito|boiled
+piccante|spicy
+delizioso|delicious
+
+# functional words: custom examples
+allora|well / so / then|Allora, che facciamo?|So, what shall we do?
+comunque|anyway / however|Comunque, grazie.|Anyway, thank you.
+quindi|therefore / so|Piove, quindi resto a casa.|It's raining, so I'm staying at home.
+invece|instead / on the other hand|Io invece preferisco il tè.|I, on the other hand, prefer tea.
+infatti|in fact / indeed|Infatti, hai ragione.|Indeed, you're right.
+magari|perhaps / if only|Magari domani ci vediamo.|Perhaps we'll see each other tomorrow.
+forse|perhaps|Forse arrivo tardi.|Perhaps I'll arrive late.
+probabilmente|probably|Probabilmente viene anche lei.|She'll probably come too.
+certamente|certainly|Certamente, nessun problema.|Certainly, no problem.
+ovviamente|obviously|Ovviamente, puoi venire.|Of course, you can come.
+proprio|really / exactly|È proprio bello.|It's really beautiful.
+appena|just / as soon as|Sono appena arrivato.|I've just arrived (male speaker).
+ancora|still / again|Sei ancora qui?|Are you still here?
+già|already|Ho già mangiato.|I've already eaten.
+soltanto|only|Ho soltanto cinque euro.|I only have five euros.
+quasi|almost|Sono quasi pronto.|I'm almost ready (male speaker).
+insieme|together|Andiamo insieme.|Let's go together.
+subito|immediately|Arrivo subito.|I'll be right there.
+intanto|meanwhile|Intanto preparo il caffè.|Meanwhile I'll prepare the coffee.
+piuttosto|rather|È piuttosto caro.|It's rather expensive.
+abbastanza|quite / enough|È abbastanza grande.|It's big enough.
+troppo|too much|È troppo tardi.|It's too late.
+almeno|at least|Aspetta almeno un minuto.|Wait at least a minute.
+perfino|even|Perfino Marco è venuto.|Even Marco came.
+neanche|not even / either|Neanche io lo so.|I don't know either.
+mentre|while|Leggo mentre aspetto.|I read while I wait.
+finché|as long as / until|Aspetto finché arrivi.|I'll wait until you arrive.
+nonostante|despite|Esco nonostante la pioggia.|I'm going out despite the rain.
+oltre|beyond|Il parco è oltre il ponte.|The park is beyond the bridge.
+verso|towards / about (time)|Partiamo verso le otto.|We're leaving at about eight.
+
+# phrases: everyday conversational Italian | English
+Che piacere vederti!|How lovely to see you!
+Come va la giornata?|How is your day going?
+Che hai fatto oggi?|What have you done today?
+Hai programmi per stasera?|Do you have plans for tonight?
+Che cosa fai nel tempo libero?|What do you do in your free time?
+Di che cosa ti occupi?|What do you do for a living?
+Da quanto tempo vivi qui?|How long have you lived here?
+È la prima volta che vengo qui.|It's my first time here.
+Vengo spesso in Italia.|I often come to Italy.
+Mi piace molto questa città.|I really like this city.
+Che cosa mi consigli di visitare?|What do you recommend I visit?
+Hai qualche consiglio?|Do you have any suggestions?
+Mi puoi fare un favore?|Could you do me a favour?
+Hai un momento?|Do you have a moment?
+Ti disturbo?|Am I disturbing you?
+Non ti preoccupare.|Don't worry.
+Nessun problema.|No problem.
+Non importa.|It doesn't matter.
+Hai ragione.|You're right.
+Non sono d'accordo.|I don't agree.
+Sono d'accordo con te.|I agree with you.
+Dipende dalla situazione.|It depends on the situation.
+Secondo me, è una buona idea.|In my opinion, it's a good idea.
+Che ne pensi?|What do you think?
+Non ne sono sicuro.|I'm not sure (male speaker).
+Fammi pensare un momento.|Let me think for a moment.
+Non lo so ancora.|I don't know yet.
+Non ho capito bene.|I didn't quite understand.
+Puoi spiegarmelo?|Can you explain it to me?
+Mi sembra interessante.|It seems interesting to me.
+Che cosa vuoi dire?|What do you mean?
+Come mai?|How come?
+Davvero?|Really?
+Che bello!|How lovely!
+Che peccato!|What a pity!
+Che sorpresa!|What a surprise!
+Incredibile!|Unbelievable!
+Non ci posso credere.|I can't believe it.
+Sono molto contento.|I'm very happy (male speaker).
+Sono un po' stanco.|I'm a little tired (male speaker).
+Ho dormito male.|I slept badly.
+Ho fame.|I'm hungry.
+Ho sete.|I'm thirsty.
+Ho caldo.|I'm hot.
+Ho freddo.|I'm cold.
+Ho sonno.|I'm sleepy.
+Ho fretta.|I'm in a hurry.
+Ho paura.|I'm afraid.
+Mi fa male la testa.|I have a headache.
+Devo andare.|I have to go.
+Devo scappare.|I have to dash.
+Ci vediamo domani.|See you tomorrow.
+Ci sentiamo più tardi.|We'll speak later.
+Ti faccio sapere.|I'll let you know.
+Scrivimi quando puoi.|Message me when you can.
+Chiamami appena arrivi.|Call me as soon as you arrive.
+Ti mando un messaggio.|I'll send you a message.
+Mi puoi mandare l'indirizzo?|Can you send me the address?
+A che ora ci vediamo?|What time shall we meet?
+Dove ci incontriamo?|Where shall we meet?
+Va bene per te?|Does that work for you?
+Per me va benissimo.|That works perfectly for me.
+Possiamo rimandare?|Can we postpone it?
+Preferirei domani.|I'd prefer tomorrow.
+Facciamo alle sette?|Shall we say seven o'clock?
+Arrivo tra dieci minuti.|I'll be there in ten minutes.
+Scusa il ritardo.|Sorry I'm late.
+Il treno è in ritardo.|The train is delayed.
+Ho perso il treno.|I missed the train.
+Devo cambiare treno?|Do I have to change trains?
+Da quale binario parte?|Which platform does it leave from?
+È questo il treno per Roma?|Is this the train to Rome?
+Quante fermate mancano?|How many stops are left?
+Mi sono perso.|I'm lost (male speaker).
+Mi sono persa.|I'm lost (female speaker).
+Puoi indicarmelo sulla mappa?|Can you show me on the map?
+È possibile andare a piedi?|Is it possible to walk there?
+Quanto tempo ci vuole?|How long does it take?
+È qui vicino?|Is it nearby?
+Posso sedermi qui?|May I sit here?
+Questo posto è libero?|Is this seat free?
+Aspetto qualcuno.|I'm waiting for someone.
+Vorrei qualcosa da bere.|I'd like something to drink.
+Che cosa c'è di buono?|What's good here?
+Qual è il piatto del giorno?|What's today's special?
+Senza cipolla, per favore.|Without onion, please.
+Sono allergico alle noci.|I'm allergic to nuts (male speaker).
+Posso avere un po' d'acqua?|May I have some water?
+Possiamo avere il conto?|Could we have the bill?
+È incluso il servizio?|Is service included?
+Accettate le carte?|Do you accept cards?
+Mi serve una ricevuta.|I need a receipt.
+Posso provarlo?|May I try it on?
+Non è della mia taglia.|It's not my size.
+C'è un altro colore?|Is there another colour?
+Posso cambiarlo?|May I exchange it?
+Vorrei un rimborso.|I'd like a refund.
+È in offerta?|Is it on special offer?
+Grazie per il tuo aiuto.|Thank you for your help.
+È stato un piacere.|It's been a pleasure.

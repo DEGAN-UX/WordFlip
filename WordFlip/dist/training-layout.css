@@ -1,0 +1,62 @@
+/* The training view has a dedicated, viewport-bound layout. */
+html:has(body.training), body.training {height:100%;overflow:hidden}
+body.training main {
+  height:100dvh;
+  min-height:0;
+  padding:calc(env(safe-area-inset-top) + 12px) 18px calc(env(safe-area-inset-bottom) + 12px);
+  overflow:hidden;
+}
+body.training main > .top,
+body.training .intro,
+body.training .pills,
+body.training .bottom,
+body.training .settings {display:none!important}
+body.training #study {display:flex;flex:1;flex-direction:column;min-height:0}
+body.training .progress {flex:0 0 auto;margin:8px 3px 18px;min-height:44px;gap:10px}
+body.training .progress .track {min-width:28px}
+body.training .progress #counter,body.training .progress #due {flex-shrink:0}
+body.training .stage {height:auto;min-height:0;max-height:none;flex:1 1 auto;position:relative}
+body.training .card {height:100%;min-height:0}
+body.training .face {border-radius:21px;padding:53px 22px 39px}
+body.training .face .tag {top:25px;left:25px;font-size:11px}
+body.training .face .hint {bottom:22px}
+body.training .word {font-size:clamp(23px,6vw,39px)}
+.prompt-hint {font-size:14px;color:#a0aca5;font-weight:500;line-height:1.45;margin-top:14px}
+.prompt-hint[hidden] {display:none!important}
+body.training .english {font-size:clamp(24px,6vw,36px)}
+body.training .example {font-size:14px;margin-top:17px;line-height:1.45}
+body.training .speak {width:42px;height:42px;margin-top:15px}
+body.training .actions {flex:0 0 90px;min-height:0;padding-top:14px;align-items:flex-start}
+body.training .actions button {padding:17px 7px;border-radius:15px;font-size:15px}
+body.training .actions:has(.partial) {gap:8px}
+body.training .actions:has(.partial) button {padding:16px 4px;font-size:clamp(11px,3.1vw,14px);white-space:nowrap}
+body.training .actions .partial {background:#e6ece7;color:#335b4c}
+body.training .instruction {padding-top:24px}
+.practice-exit {
+  display:none;
+  flex:0 0 44px;width:44px;height:44px;border:1px solid #e3e8e1;border-radius:50%;
+  background:#fffefa;color:#52665c;font-size:25px;line-height:1;
+  align-items:center;justify-content:center;box-shadow:0 2px 8px #1a392611;
+}
+body.training .practice-exit {display:flex}
+.practice-exit:focus-visible{outline:3px solid #e8a77e;outline-offset:2px}
+.home-launch {
+  display:block;width:100%;padding:19px 14px;border:0;border-radius:17px;
+  background:#193e34;color:#fff;font-size:17px;font-weight:750;margin:25px 0 14px;
+}
+body.training .home-launch {display:none}
+body:not(.training) .stage,
+body:not(.training) .progress,
+body:not(.training) .actions {display:none!important}
+body:not(.training) #study {display:block}
+body:not(.training) .pills {flex-wrap:wrap;overflow:visible}
+body:not(.training) .bottom {margin-top:12px}
+body:not(.training) .intro {margin-top:50px}
+@media(max-height:650px){
+  body.training .progress{margin-top:0;margin-bottom:10px}
+  body.training .actions{flex-basis:74px;padding-top:10px}
+  body.training .actions button{padding:13px 6px}
+  body.training .actions:has(.partial) button{padding:13px 3px}
+  body.training .face{padding-top:42px;padding-bottom:29px}
+  body.training .face .hint{bottom:13px}
+}
