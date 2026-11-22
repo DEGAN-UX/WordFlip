@@ -208,12 +208,17 @@
   document.addEventListener('keydown',event=>{if(event.key==='Escape')dismiss();});
   window.addEventListener('scroll',dismiss,{passive:true});
   window.addEventListener('resize',dismiss,{passive:true});
-  // The language flag returns to the language picker from any activity.
-  langSwitch?.addEventListener('click',()=>{hideHub();hideStories();},false);
-  const updateLanguage=()=>{
-    if(!document.body.classList.contains('language-selected')){
-      hideHub();hideStories();
-    }
-  };
-  new MutationObserver(updateLanguage).observe(document.body,{attributes:true,attributeFilter:['class']});
+  // Keep navigation explicit. Watching and rewriting body classes in a
+  // MutationObserver can create re-entrant updates and freeze navigation.
+  langSwitch?.addEventListener('click',()=>{
+    hideHub();
+    hideStories();
+    document.getElementById('settings').style.display='none';
+  });
+  // Settings must be reachable on the story library and the reader.
+  // Leave the reader in place; the settings panel can open above it.
+  document.getElementById('settingsButton')?.addEventListener('click',()=>{
+    dismiss();
+    scrollTop();
+  });
 })();
