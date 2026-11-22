@@ -8,6 +8,8 @@ const fingerprint=name=>crypto.createHash('sha256').update(fs.readFileSync(path.
 const hashes=Object.fromEntries(assets.map(name=>[name,fingerprint(name)]));
 
 let html=fs.readFileSync(path.join(dist,'index.html'),'utf8');
+// Normalize the previous build stamp so repeated builds remain byte-for-byte stable.
+html=html.replace(/<body(?: data-build-version="[^"]*")?>/,'<body data-build-version="pending">');
 // Boot order matters: language-specific schedulers are registered before app.js.
 if(!html.includes('href="wordflip.css'))html=html.replace('</head>','<link rel="stylesheet" href="wordflip.css"></head>');
 if(!html.includes('src="hungarian-engine.js'))html=html.replace('<script src="app.js', '<script src="hungarian-engine.js"></script><script src="italian-engine.js"></script><script src="app.js');
@@ -35,8 +37,6 @@ for(const name of assets.filter(a=>a!=='cards.json')){
   const escaped=name.replaceAll('.','\\.');
   html=html.replace(new RegExp(`(src|href)="${escaped}(?:\\?v=[a-f0-9]+)?"`,'g'),(_,attribute)=>`${attribute}="${name}?v=${hashes[name]}"`);
 }
-fs.writeFileSync(path.join(dist,'index.html'),html);
-
 // Relative paths work both at a domain root and under /WordFlip/.
 // Cache plain URLs too: manifests and runtime data requests do not use hashes.
 const precache=['./','./index.html','./manifest.webmanifest',...assets.flatMap(name=>[`./${name}`,`./${name}?v=${hashes[name]}`])];
@@ -44,5 +44,7 @@ const template=fs.readFileSync(path.join(import.meta.dirname,'sw.template.js'),'
 const manifest=fs.readFileSync(path.join(dist,'manifest.webmanifest'),'utf8');
 // HTML, manifest and worker-only edits must also offer an update.
 const swHash=crypto.createHash('sha256').update(JSON.stringify(precache)).update(html).update(manifest).update(template).digest('hex').slice(0,12);
+// The visible build ID comes from the actual offline version; no manual bump is needed.
+fs.writeFileSync(path.join(dist,'index.html'),html.replace('data-build-version="pending"',`data-build-version="${swHash.slice(0,6)}"`));
 fs.writeFileSync(path.join(dist,'sw.js'),template.replace('__CACHE_NAME__',swHash).replace('__PRECACHE__',JSON.stringify(precache)));
 console.log(`Built versioned assets: ${swHash}`);
