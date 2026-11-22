@@ -66,3 +66,11 @@ assert.match(reader,/root\.querySelector\('\.story-read-view \.story-back'\)\.on
 assert.match(reader,/listBack\.onclick=showHub/,'Library back button must return to activities');
 assert.doesNotMatch(reader,/root\.querySelector\('\.story-back'\)\.onclick=closeReading/,'Generic selector accidentally binds to library back button');
 console.log('Story back-navigation selectors validated');
+
+assert.doesNotMatch(reader,/new MutationObserver\(updateLanguage\)/,
+  'Navigation must not mutate observed body classes recursively');
+assert.match(reader,/langSwitch\?\.addEventListener\('click'/,
+  'The language switcher must close story screens');
+assert.match(reader,/getElementById\('settingsButton'\)\?\.addEventListener\('click'/,
+  'Settings must remain accessible while reading');
+console.log('Story navigation observer regression validated');
