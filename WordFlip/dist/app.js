@@ -806,8 +806,11 @@
   $('verbMode').onchange=()=>{localStorage.setItem('wordflip-verb-mode',$('verbMode').value);start();};
   $('learningPace').value=['slow','normal','fast'].includes(localStorage.getItem('wordflip-pace'))?localStorage.getItem('wordflip-pace'):'normal';
   $('learningPace').onchange=()=>{localStorage.setItem('wordflip-pace',$('learningPace').value);start();};
-  document.querySelector('.brand').innerHTML='<img class="brand-logo" src="icon-180.png" alt="" aria-hidden="true"><div class="brand-stack"><span class="brand-word">word<span>flip.</span></span><small class="app-version"></small></div>';
-  document.querySelector('.app-version').textContent=`v1.0 · ${document.body.dataset.buildVersion||'dev'}`;
+  document.querySelector('.brand').innerHTML='<img class="brand-logo" src="icon-180.png" alt="" aria-hidden="true"><span class="brand-word">word<span>flip.</span></span>';
+  const versionFooter=document.createElement('footer');
+  versionFooter.className='app-version-footer';
+  versionFooter.textContent='v1.0';
+  document.querySelector('main').append(versionFooter);
   $('settingsButton').innerHTML='<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .35 1.88l-2.87 2.87A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21h-4v-.05A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.88.35l-2.87-2.87A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3v-4h.05A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.35-1.88l2.87-2.87A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3h4v.05A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.88-.35l2.87 2.87A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21v4h-.05A1.7 1.7 0 0 0 19.4 15Z"/></svg>';
   document.title='WordFlip';
   const readDirection=()=>{
