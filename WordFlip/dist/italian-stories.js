@@ -173,7 +173,17 @@
     if(event.target.closest('.language-choice'))showHub();
   });
   practiceButton.onclick=()=>{
-    hideHub();hideStories();document.body.classList.add('training');scrollTop();
+    // Show category pills and the existing "Start practice" button first.
+    // The training-layout module owns starting an actual flashcard session.
+    hideHub();hideStories();
+    document.body.classList.remove('training','progress-view-open');
+    document.body.classList.add('language-selected');
+    study.classList.remove('hidden');
+    const summary=document.getElementById('summary');
+    if(summary)summary.style.display='none';
+    const progress=document.getElementById('learningProgress');
+    if(progress)progress.hidden=true;
+    scrollTop();
   };
   readButton.onclick=showStories;
   // Flashcards also offer a clear return route to the activity choices.
