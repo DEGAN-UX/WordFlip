@@ -38,7 +38,7 @@
   }
   function pronounce(word){
     if(!('speechSynthesis' in window))return;
-    const text=word.textContent.replace(/^[^\\p{L}]+|[^\\p{L}]+$/gu,'').trim();
+    const text=word.textContent.replace(/^[^\p{L}]+|[^\p{L}]+$/gu,'').trim();
     if(!text)return;
     const lang=activeLanguage==='hu'?'hu-HU':'it-IT';
     const utterance=new SpeechSynthesisUtterance(text);
