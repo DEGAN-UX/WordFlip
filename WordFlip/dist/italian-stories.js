@@ -197,7 +197,7 @@
   listBack.className='story-back story-library-back';listBack.textContent='← Back to activities';
   root.querySelector('.story-list-view').prepend(listBack);
   listBack.onclick=showHub;
-  root.querySelector('.story-back').onclick=closeReading;
+  root.querySelector('.story-read-view .story-back').onclick=closeReading;
   root.querySelector('.story-previous').onclick=()=>openStory(currentStory-1);
   root.querySelector('.story-next').onclick=()=>currentStory<stories.length-1?openStory(currentStory+1):closeReading();
   document.addEventListener('pointerdown',event=>{
