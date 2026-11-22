@@ -536,6 +536,8 @@
   $('study').insertAdjacentElement('beforebegin',picker);
   // Keep the language picker accessible from every app view via the flag beside Settings.
   const headerActions=document.createElement('div');headerActions.className='header-actions';
+  // Explicit layout also protects the header if an installed PWA briefly uses an older cached stylesheet.
+  Object.assign(headerActions.style,{display:'flex',flexDirection:'row',alignItems:'center',flexWrap:'nowrap',gap:'9px',flexShrink:'0'});
   const languageSwitch=document.createElement('button');languageSwitch.type='button';
   languageSwitch.className='language-switch';
   $('settingsButton').before(headerActions);
@@ -552,6 +554,9 @@
   };
   const progressButton=document.createElement('button');progressButton.className='progress-open-button';progressButton.type='button';
   progressButton.textContent='Your progress';
+  // Stay in normal document flow, below the header, even before the updated CSS arrives.
+  progressButton.style.display='block';
+  progressButton.style.margin='24px 0 18px auto';
   $('study').insertAdjacentElement('afterbegin',progressButton);
   const progressPage=document.createElement('section');progressPage.id='learningProgress';progressPage.className='learning-progress';
   progressPage.hidden=true;progressPage.innerHTML='<button type="button" class="progress-back">← Back to practice</button><header class="progress-heading"><span class="eyebrow">YOUR LEARNING JOURNEY</span><h1></h1><p>Discover what you have explored and how confidently you remember it.</p></header><div class="progress-category-list"></div><p class="progress-method">Seen counts unique exercises encountered. Recognition and recall represent recent-weighted confidence on tested exercises only. Older reviews are estimated from saved totals and the latest rating. A dash means not yet tested.</p>';
