@@ -31,3 +31,10 @@ body.stories-view-open #study>.progress,body.stories-view-open #study>.stage,bod
 .story-navigation button:disabled{opacity:.35;cursor:default}
 @media(max-width:440px){.italian-stories{padding:9px 0 38px}.story-text{line-height:2.15}.story-choice{min-height:155px}.story-grid{gap:10px}}
 @media(prefers-reduced-motion:reduce){.italian-stories,.story-choice{animation:none;transition:none}}
+
+/* Compact suffix explanations inside the dark tooltip. */
+.story-word-tooltip:has(.story-word-breakdown){min-width:min(220px,calc(100vw - 24px));max-width:min(295px,calc(100vw - 24px));text-align:left}
+.story-word-breakdown{border-top:1px solid #475056;margin-top:9px;padding-top:8px;display:grid;gap:7px}
+.story-word-part{display:flex;align-items:baseline;justify-content:space-between;gap:14px;font-size:12px;line-height:1.4}
+.story-word-part b{color:#90d5ef;font-size:12px;font-weight:700;flex:none}
+.story-word-part span{color:#e0e6e8;text-align:right}
