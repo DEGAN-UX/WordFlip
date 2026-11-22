@@ -534,13 +534,25 @@
   }
   picker.append(languageCards);
   $('study').insertAdjacentElement('beforebegin',picker);
-  const languageBack=document.createElement('button');languageBack.type='button';languageBack.className='language-back';
-  languageBack.textContent='← Change language';
-  $('study').insertAdjacentElement('afterbegin',languageBack);
-  languageBack.onclick=()=>{document.body.classList.remove('language-selected');$('settings').style.display='none';updateLanguageStats();window.scrollTo(0,0);};
+  // Keep the language picker accessible from every app view via the flag beside Settings.
+  const headerActions=document.createElement('div');headerActions.className='header-actions';
+  const languageSwitch=document.createElement('button');languageSwitch.type='button';
+  languageSwitch.className='language-switch';
+  $('settingsButton').before(headerActions);
+  headerActions.append(languageSwitch,$('settingsButton'));
+  languageSwitch.onclick=()=>{
+    stopSpeech();
+    document.body.classList.remove('language-selected','training','progress-view-open');
+    $('study').classList.remove('hidden');
+    $('summary').style.display='none';
+    $('settings').style.display='none';
+    progressPage.hidden=true;
+    updateLanguageStats();
+    window.scrollTo(0,0);
+  };
   const progressButton=document.createElement('button');progressButton.className='progress-open-button';progressButton.type='button';
   progressButton.textContent='Your progress';
-  languageBack.insertAdjacentElement('afterend',progressButton);
+  $('study').insertAdjacentElement('afterbegin',progressButton);
   const progressPage=document.createElement('section');progressPage.id='learningProgress';progressPage.className='learning-progress';
   progressPage.hidden=true;progressPage.innerHTML='<button type="button" class="progress-back">← Back to practice</button><header class="progress-heading"><span class="eyebrow">YOUR LEARNING JOURNEY</span><h1></h1><p>Discover what you have explored and how confidently you remember it.</p></header><div class="progress-category-list"></div><p class="progress-method">Seen counts unique exercises encountered. Recognition and recall represent recent-weighted confidence on tested exercises only. Older reviews are estimated from saved totals and the latest rating. A dash means not yet tested.</p>';
   $('study').insertAdjacentElement('afterend',progressPage);
@@ -789,7 +801,8 @@
   $('verbMode').onchange=()=>{localStorage.setItem('wordflip-verb-mode',$('verbMode').value);start();};
   $('learningPace').value=['slow','normal','fast'].includes(localStorage.getItem('wordflip-pace'))?localStorage.getItem('wordflip-pace'):'normal';
   $('learningPace').onchange=()=>{localStorage.setItem('wordflip-pace',$('learningPace').value);start();};
-  document.querySelector('.brand').innerHTML='<img class="brand-logo" src="icon-180.png" alt="" aria-hidden="true"><span class="brand-word">word<span>flip.</span></span>';
+  document.querySelector('.brand').innerHTML='<img class="brand-logo" src="icon-180.png" alt="" aria-hidden="true"><div class="brand-stack"><span class="brand-word">word<span>flip.</span></span><small class="app-version"></small></div>';
+  document.querySelector('.app-version').textContent=`v1.0 · ${document.body.dataset.buildVersion||'dev'}`;
   $('settingsButton').innerHTML='<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .35 1.88l-2.87 2.87A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21h-4v-.05A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.88.35l-2.87-2.87A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3v-4h.05A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.35-1.88l2.87-2.87A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3h4v.05A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.88-.35l2.87 2.87A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21v4h-.05A1.7 1.7 0 0 0 19.4 15Z"/></svg>';
   document.title='WordFlip';
   const readDirection=()=>{
@@ -811,6 +824,9 @@
   function selectLanguage(code){
     const previousLanguage=language;
     language=code;engine=window.WordFlipEngines[code];history=loadHistory();
+    languageSwitch.textContent=languages[code].flag;
+    languageSwitch.setAttribute('aria-label',`Change language (currently ${languages[code].name})`);
+    languageSwitch.title=`Change language (${languages[code].name})`;
     activePhraseTopics=savedPhraseTopics();activePhraseLevel=localStorage.getItem(phraseLevelsKey())||'all';
     localStorage.setItem('wordflip-active-language',code);
     document.querySelectorAll('.language-choice').forEach(b=>b.classList.toggle('selected',b.dataset.language===code));
