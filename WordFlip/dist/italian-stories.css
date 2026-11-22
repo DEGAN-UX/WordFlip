@@ -38,3 +38,25 @@ body.stories-view-open #study>.progress,body.stories-view-open #study>.stage,bod
 .story-word-part{display:flex;align-items:baseline;justify-content:space-between;gap:14px;font-size:12px;line-height:1.4}
 .story-word-part b{color:#90d5ef;font-size:12px;font-weight:700;flex:none}
 .story-word-part span{color:#e0e6e8;text-align:right}
+
+/* Activity selection and full-screen story navigation (separate from flashcards). */
+.wordflip-activity-home[hidden],.italian-stories[hidden],.activity-stories[hidden]{display:none!important}
+body.story-home-open #study,body.stories-view-open #study{display:none!important}
+body.story-home-open #learningProgress,body.stories-view-open #learningProgress,
+body.story-home-open #summary,body.stories-view-open #summary{display:none!important}
+.wordflip-activity-home{max-width:640px;margin:clamp(32px,8vh,80px) auto 40px;padding:0 4px;animation:story-enter .2s ease}
+.activity-intro{text-align:center;margin:0 auto 33px}
+.activity-intro h1{font-size:clamp(27px,6vw,37px);letter-spacing:-1.1px;line-height:1.15;margin:10px 0 11px;color:#203c30}
+.activity-intro p{font-size:14px;color:#74847a;line-height:1.6;margin:0}
+.activity-actions{display:flex;flex-direction:column;gap:14px;max-width:470px;margin:0 auto}
+.activity-actions button{width:100%;display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:24px 25px;border:1px solid #dbe7dc;border-radius:18px;background:white;color:#203c30;text-align:left;cursor:pointer;box-shadow:0 8px 22px #183d2809;transition:transform .15s ease,box-shadow .15s ease}
+.activity-actions button:hover{transform:translateY(-2px);box-shadow:0 12px 24px #183d2814}
+.activity-actions button:focus-visible{outline:3px solid #40849a;outline-offset:3px}
+.activity-actions .activity-practice{background:#20473a;color:white;border-color:#20473a}
+.activity-actions .activity-practice small{color:#c9dacf}
+.activity-action-title{font-size:20px;line-height:1.2;font-weight:750;display:flex;justify-content:space-between;align-items:center;width:100%}
+.activity-action-title span{font-size:20px;opacity:.75}
+.activity-actions small{font-size:13px;color:#76887c;font-weight:500}
+.italian-stories{margin-top:15px}
+.story-library-back{margin:0 0 22px}
+@media(max-width:450px){.activity-actions button{padding:22px 20px}.wordflip-activity-home{margin-top:36px}}
