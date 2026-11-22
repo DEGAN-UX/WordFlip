@@ -155,9 +155,14 @@ try{
     return fs.readFileSync(path.join(temp,'dist/sw.js'),'utf8');
   };
   let previous=build();
+  const buildStamp=()=>fs.readFileSync(path.join(temp,'dist/index.html'),'utf8').match(/<body data-build-version="([a-f0-9]{6})">/)?.[1];
+  const firstStamp=buildStamp();
+  assert.ok(firstStamp,'the deployed page should show its build version');
   assert.equal(build(),previous,'unchanged builds must have stable versions');
+  assert.equal(buildStamp(),firstStamp,'unchanged builds must retain the same build version');
   fs.appendFileSync(path.join(temp,'dist/index.html'),'\n<!-- changed page -->\n');
   let next=build();assert.notEqual(next,previous);previous=next;
+  assert.notEqual(buildStamp(),firstStamp,'a changed page must display a new build version');
   const manifestPath=path.join(temp,'dist/manifest.webmanifest');
   const changedManifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
   changedManifest.description+=' (updated)';
