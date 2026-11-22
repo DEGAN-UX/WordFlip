@@ -176,6 +176,13 @@
     hideHub();hideStories();document.body.classList.add('training');scrollTop();
   };
   readButton.onclick=showStories;
+  // Flashcards also offer a clear return route to the activity choices.
+  const practiceBack=document.createElement('button');practiceBack.type='button';
+  practiceBack.className='story-back activity-practice-back';practiceBack.textContent='← Activities';
+  study.insertAdjacentElement('afterbegin',practiceBack);
+  practiceBack.onclick=showHub;
+  // The existing results-screen Return to menu button now returns to activities.
+  document.getElementById('returnToMenu')?.addEventListener('click',showHub);
   const listBack=document.createElement('button');listBack.type='button';
   listBack.className='story-back story-library-back';listBack.textContent='← Back to activities';
   root.querySelector('.story-list-view').prepend(listBack);
