@@ -61,3 +61,8 @@ assert.doesNotMatch(practiceHandler[1],/classList\.add\('training'/,'Practice bu
 const trainingLayout=fs.readFileSync(new URL('../dist/training-layout.js',import.meta.url),'utf8');
 assert.match(trainingLayout,/home-launch/,'Category chooser must have a Start practice button');
 console.log('Practice category-first navigation validated');
+
+assert.match(reader,/root\.querySelector\('\.story-read-view \.story-back'\)\.onclick=closeReading/,'Reader back button must target reader screen, not library');
+assert.match(reader,/listBack\.onclick=showHub/,'Library back button must return to activities');
+assert.doesNotMatch(reader,/root\.querySelector\('\.story-back'\)\.onclick=closeReading/,'Generic selector accidentally binds to library back button');
+console.log('Story back-navigation selectors validated');
