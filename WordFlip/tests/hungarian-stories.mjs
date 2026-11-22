@@ -28,3 +28,28 @@ assert.match(reader,/WordFlipHungarianStories/);
 const html=fs.readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
 assert.match(html,/hungarian-stories-data\.js/);
 console.log('Hungarian Stories validated:',stories.length,'stories,',total,'words,',annotated,'morphology explanations; bilingual pronunciation configured');
+
+const italianWindow={};
+vm.runInNewContext(fs.readFileSync(new URL('../dist/italian-stories-data.js',import.meta.url),'utf8'),{window:italianWindow});
+for(const [language,set,opening,closing] of [
+  ['Italian',italianWindow.WordFlipItalianStories,'«','»'],
+  ['Hungarian',stories,'„','”']
+]){
+  let quotations=0;
+  for(const story of set){
+    let balance=0;
+    for(const [word] of story.words){
+      if(word.startsWith(opening)){balance++;quotations++;}
+      if(word.endsWith(closing)){balance--;}
+      assert.ok(balance===0||balance===1,language+' invalid quotation nesting: '+story.title);
+    }
+    assert.equal(balance,0,language+' unclosed quotation: '+story.title);
+  }
+  assert.ok(quotations>=30,language+' dialogue should use quotation marks');
+}
+assert.match(reader,/wordflipActivityHome/);
+assert.match(reader,/activity-practice/);
+assert.match(reader,/activity-stories/);
+assert.match(reader,/story-library-back/);
+assert.doesNotMatch(reader,/className='pill stories-pill'/);
+console.log('Dialogue punctuation and separate activity navigation validated');
