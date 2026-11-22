@@ -1,7 +1,7 @@
 (() => {
   if(!('serviceWorker' in navigator))return;
   let registration,waiting,refreshing=false,pendingReload=false;
-  const hadController=!!navigator.serviceWorker.controller;
+  let hadController=!!navigator.serviceWorker.controller;
   const banner=document.createElement('aside');
   banner.className='update-banner';banner.hidden=true;
   banner.setAttribute('aria-live','polite');
@@ -26,7 +26,7 @@
     waiting.postMessage({type:'SKIP_WAITING'});
   };
   navigator.serviceWorker.addEventListener('controllerchange',()=>{
-    if(!hadController)return; // First-time installation should not interrupt practice.
+    if(!hadController){hadController=true;return;} // First installation must not interrupt practice.
     pendingReload=true;
     present();
   });
@@ -35,7 +35,7 @@
   const study=document.getElementById('study');
   if(study)observe.observe(study,{attributes:true,attributeFilter:['class']});
 
-  navigator.serviceWorker.register('/sw.js').then(reg=>{
+  navigator.serviceWorker.register('./sw.js', {scope:'./', updateViaCache:'none'}).then(reg=>{
     registration=reg;
     inspect();
     reg.addEventListener('updatefound',()=>{

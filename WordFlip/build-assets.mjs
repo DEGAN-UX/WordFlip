@@ -27,21 +27,22 @@ html=html.replace(/<title>[^<]*<\/title>/,'<title>WordFlip</title>');
 if(!html.includes('rel="apple-touch-icon"'))html=html.replace('</head>','<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png"></head>');
 if(!html.includes('apple-mobile-web-app-title'))html=html.replace('</head>','<meta name="apple-mobile-web-app-title" content="WordFlip"></head>');
 if(!html.includes('href="update-manager.css')) html=html.replace('<title>','<link rel="stylesheet" href="update-manager.css"><script src="update-manager.js" defer></script><title>');
-// Private Sites require authentication for individual asset requests. An
-// embedded Apple touch icon lets iOS read the artwork from the authenticated
-// page itself, without a separate request for the icon file.
-const embeddedIcon=`data:image/png;base64,${fs.readFileSync(path.join(dist,'icon-180.png')).toString('base64')}`;
-html=html.replace(/<link rel="apple-touch-icon"[^>]*>/,`<link rel="apple-touch-icon" sizes="180x180" href="${embeddedIcon}">`);
+// Public hosting can serve normal icon files, including on iOS.
+html=html.replace(/<link rel="apple-touch-icon"[^>]*>/,`<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">`);
 html=html.replace(/<link rel="icon"[^>]*>/g,'');
-html=html.replace('</head>',`<link rel="icon" type="image/png" href="${embeddedIcon}"></head>`);
+html=html.replace('</head>',`<link rel="icon" type="image/png" href="icon-192.png"></head>`);
 for(const name of assets.filter(a=>a!=='cards.json')){
   const escaped=name.replaceAll('.','\\.');
   html=html.replace(new RegExp(`(src|href)="${escaped}(?:\\?v=[a-f0-9]+)?"`,'g'),(_,attribute)=>`${attribute}="${name}?v=${hashes[name]}"`);
 }
 fs.writeFileSync(path.join(dist,'index.html'),html);
 
-const precache=['/','/index.html','/manifest.webmanifest','/cards.json','/italian-cards.json','/croatian-cards.json',...assets.map(name=>`/${name}?v=${hashes[name]}`)];
-const swHash=crypto.createHash('sha256').update(JSON.stringify(precache)).digest('hex').slice(0,12);
+// Relative paths work both at a domain root and under /WordFlip/.
+// Cache plain URLs too: manifests and runtime data requests do not use hashes.
+const precache=['./','./index.html','./manifest.webmanifest',...assets.flatMap(name=>[`./${name}`,`./${name}?v=${hashes[name]}`])];
 const template=fs.readFileSync(path.join(import.meta.dirname,'sw.template.js'),'utf8');
-fs.writeFileSync(path.join(dist,'sw.js'),template.replace('__CACHE_NAME__',`wordflip-${swHash}`).replace('__PRECACHE__',JSON.stringify(precache)));
+const manifest=fs.readFileSync(path.join(dist,'manifest.webmanifest'),'utf8');
+// HTML, manifest and worker-only edits must also offer an update.
+const swHash=crypto.createHash('sha256').update(JSON.stringify(precache)).update(html).update(manifest).update(template).digest('hex').slice(0,12);
+fs.writeFileSync(path.join(dist,'sw.js'),template.replace('__CACHE_NAME__',swHash).replace('__PRECACHE__',JSON.stringify(precache)));
 console.log(`Built versioned assets: ${swHash}`);
