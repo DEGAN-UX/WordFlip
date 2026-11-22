@@ -53,3 +53,11 @@ assert.match(reader,/activity-stories/);
 assert.match(reader,/story-library-back/);
 assert.doesNotMatch(reader,/className='pill stories-pill'/);
 console.log('Dialogue punctuation and separate activity navigation validated');
+
+const practiceHandler=reader.match(/practiceButton\.onclick=\(\)=>\{([\s\S]*?)\n  \};/);
+assert.ok(practiceHandler,'Practice button must have its own handler');
+assert.match(practiceHandler[1],/classList\.remove\('training'/,'Practice button should open category choice, not a card');
+assert.doesNotMatch(practiceHandler[1],/classList\.add\('training'/,'Practice button must not directly start a session');
+const trainingLayout=fs.readFileSync(new URL('../dist/training-layout.js',import.meta.url),'utf8');
+assert.match(trainingLayout,/home-launch/,'Category chooser must have a Start practice button');
+console.log('Practice category-first navigation validated');
