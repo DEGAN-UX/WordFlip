@@ -113,7 +113,7 @@ for(const hadController of [false,true]){
     addEventListener:()=>{}
   };
   const document={
-    body:{classList,append:()=>{}},
+    body:{classList,appendChild:()=>{}},
     createElement:()=>{const el={append:()=>{},setAttribute:()=>{}};elements.push(el);return el;},
     getElementById:()=>null,
     addEventListener:()=>{},
