@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const collections={it:window.WordFlipItalianStories||[],hu:window.WordFlipHungarianStories||[]};
+  const collections={it:window.WordFlipItalianStories||[],hu:window.WordFlipHungarianStories||[],de:window.WordFlipGermanStories||[]};
   let stories=collections.it,activeLanguage='it';
   const filters=document.getElementById('filters');
   const study=document.getElementById('study');
@@ -25,11 +25,11 @@
   document.body.append(tooltip);
   let activeWord=null;
   let currentStory=-1;
-  const savedKey=()=>`wordflip-${activeLanguage==='hu'?'hungarian':'italian'}-stories-read-v1`; 
+  const savedKey=()=>`wordflip-${activeLanguage==='hu'?'hungarian':activeLanguage==='de'?'german':'italian'}-stories-read-v1`; 
   function readProgress(){try{return JSON.parse(localStorage.getItem(savedKey())||'[]');}catch{return [];}}
   function saveProgress(id){try{const seen=new Set(readProgress());seen.add(id);localStorage.setItem(savedKey(),JSON.stringify([...seen]));}catch{}}
   function currentLanguage(){return localStorage.getItem('wordflip-active-language');}
-  function isSupported(){return ['it','hu'].includes(currentLanguage());}
+  function isSupported(){return ['it','hu','de'].includes(currentLanguage());}
   function dismiss(){tooltip.hidden=true;activeWord?.classList.remove('story-word-selected');activeWord=null; if('speechSynthesis' in window)window.speechSynthesis.cancel();}
   function position(word){
     const r=word.getBoundingClientRect();
@@ -43,7 +43,7 @@
     if(!('speechSynthesis' in window))return;
     const text=word.textContent.replace(/^[^\p{L}]+|[^\p{L}]+$/gu,'').trim();
     if(!text)return;
-    const lang=activeLanguage==='hu'?'hu-HU':'it-IT';
+    const lang=activeLanguage==='hu'?'hu-HU':activeLanguage==='de'?'de-CH':'it-IT';
     const utterance=new SpeechSynthesisUtterance(text);
     utterance.lang=lang;utterance.rate=.82;
     const voices=window.speechSynthesis.getVoices();
@@ -142,8 +142,8 @@
     document.body.classList.add('language-selected','story-home-open');
     hub.hidden=false;
     const code=currentLanguage();
-    const name=code==='hu'?'Hungarian':code==='it'?'Italian':'Croatian';
-    hub.querySelector('.activity-intro .eyebrow').textContent=(code==='hu'?'🇭🇺':code==='it'?'🇮🇹':'🇭🇷')+' '+name.toUpperCase();
+    const name=code==='hu'?'Hungarian':code==='it'?'Italian':code==='de'?'German':'Croatian';
+    hub.querySelector('.activity-intro .eyebrow').textContent=(code==='hu'?'🇭🇺':code==='it'?'🇮🇹':code==='de'?'🇩🇪':'🇭🇷')+' '+name.toUpperCase();
     readButton.hidden=!isSupported();
     const summary=document.getElementById('summary');if(summary)summary.style.display='none';
     const progress=document.getElementById('learningProgress');if(progress){progress.hidden=true;}
@@ -154,11 +154,11 @@
     activeLanguage=currentLanguage();
     stories=collections[activeLanguage];
     if(!stories?.length)return;
-    const name=activeLanguage==='hu'?'Hungarian':'Italian';
-    root.querySelector('.stories-intro .eyebrow').textContent=(activeLanguage==='hu'?'🇭🇺':'🇮🇹')+' LEARN THROUGH READING';
+    const name=activeLanguage==='hu'?'Hungarian':activeLanguage==='de'?'German':'Italian';
+    root.querySelector('.stories-intro .eyebrow').textContent=(activeLanguage==='hu'?'🇭🇺':activeLanguage==='de'?'🇩🇪':'🇮🇹')+' LEARN THROUGH READING';
     root.querySelector('.stories-intro p').textContent=stories.length+' graded '+name+' stories. Tap a word to hear it and see its English meaning'+(activeLanguage==='hu'?', with grammar breakdowns where useful.':'.');
     root.querySelector('.story-instructions').textContent='Tap a word for its translation and pronunciation'+(activeLanguage==='hu'?' — plus its endings when helpful.':'.');
-    root.querySelector('.story-text').lang=activeLanguage;
+    root.querySelector('.story-text').lang=activeLanguage==='de'?'de-CH':activeLanguage;
     dismiss();
     hideHub();
     document.body.classList.remove('training');
