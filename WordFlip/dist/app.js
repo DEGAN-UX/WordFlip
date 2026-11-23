@@ -768,9 +768,9 @@
     $('phraseDrawerTitle').textContent=`${languages[language].name} phrases`;
     phraseRoot.querySelector('[data-phrase-level="A2"]').hidden=language==='hr';
     phraseRoot.querySelector('[data-phrase-level="all"]').textContent=language==='hr'?'Starter + A1':language==='de'?'A2 + B1':'A1 + A2';
-    phraseRoot.querySelector('[data-phrase-level="A1"]').textContent=language==='de'?'B1':'A1';
-    phraseRoot.querySelector('[data-phrase-level="A1"]').dataset.phraseLevel=language==='de'?'B1':'A1';
-    // German keeps A2/B1 labels; other modules retain A1.
+    const lower=phraseRoot.querySelector('[data-phrase-level="A1"],[data-phrase-level="B1"]');
+    lower.textContent=language==='de'?'B1':'A1';
+    lower.dataset.phraseLevel=language==='de'?'B1':'A1';
     phraseFocus=document.activeElement;draftPhraseTopics=new Set(activePhraseTopics);draftPhraseLevel=activePhraseLevel;
     renderPhraseDrawer();phraseRoot.hidden=false;document.body.classList.add('cheatsheet-drawer-open');
     requestAnimationFrame(()=>phraseRoot.classList.add('open'));
