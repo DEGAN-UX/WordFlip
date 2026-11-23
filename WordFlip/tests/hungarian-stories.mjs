@@ -82,3 +82,7 @@ const corner=fs.readFileSync(new URL('../dist/wordflip.css',import.meta.url),'ut
 assert.match(app,/newCardCorner\.innerHTML='<span>NEW<\/span>'/,'NEW ribbon text has a rotation wrapper');
 assert.match(corner,/\.new-card-corner>span\{[^}]*rotate\(45deg\)/,'NEW ribbon text rotated clockwise');
 console.log('Story tile and NEW corner badge visual markup verified');
+
+assert.match(corner,/\.face\.front\{overflow:hidden\}/,'Ribbon must clip to card radius');
+assert.match(corner,/left:66\.667%;top:33\.333%/,'Ribbon label must sit at triangular centroid');
+assert.match(corner,/transform:translate\(-50%,-50%\) rotate\(45deg\)/,'Ribbon label must remain centred while angled');
