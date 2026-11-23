@@ -104,7 +104,7 @@
         button.append(status);
       }
       button.setAttribute('aria-label',story.title+(visited.has(story.id)?', opened before':'')+'. Open story');
-      button.onclick=()=>openStory(i);grid.append(button);
+      button.onclick=()=>window.WordFlipDrill.run('forward',()=>openStory(i));grid.append(button);
     });
   }
   function openStory(i){
@@ -182,7 +182,7 @@
   document.getElementById('languagePicker')?.addEventListener('click',event=>{
     if(event.target.closest('.language-choice'))showHub();
   });
-  practiceButton.onclick=()=>{
+  practiceButton.onclick=()=>window.WordFlipDrill.run('forward',()=>{
     // Show category pills and the existing "Start practice" button first.
     // The training-layout module owns starting an actual flashcard session.
     hideHub();hideStories();
@@ -194,22 +194,22 @@
     const progress=document.getElementById('learningProgress');
     if(progress)progress.hidden=true;
     scrollTop();
-  };
-  readButton.onclick=showStories;
+  });
+  readButton.onclick=()=>window.WordFlipDrill.run('forward',showStories);
   // Flashcards also offer a clear return route to the activity choices.
   const practiceBack=document.createElement('button');practiceBack.type='button';
   practiceBack.className='story-back activity-practice-back';practiceBack.textContent='← Activities';
   study.insertAdjacentElement('afterbegin',practiceBack);
-  practiceBack.onclick=showHub;
+  practiceBack.onclick=()=>window.WordFlipDrill.run('back',showHub);
   // The existing results-screen Return to menu button now returns to activities.
-  document.getElementById('returnToMenu')?.addEventListener('click',showHub);
+  document.getElementById('returnToMenu')?.addEventListener('click',()=>window.WordFlipDrill.run('back',showHub));
   const listBack=document.createElement('button');listBack.type='button';
   listBack.className='story-back story-library-back';listBack.textContent='← Back to activities';
   root.querySelector('.story-list-view').prepend(listBack);
-  listBack.onclick=showHub;
-  root.querySelector('.story-read-view .story-back').onclick=closeReading;
-  root.querySelector('.story-previous').onclick=()=>openStory(currentStory-1);
-  root.querySelector('.story-next').onclick=()=>currentStory<stories.length-1?openStory(currentStory+1):closeReading();
+  listBack.onclick=()=>window.WordFlipDrill.run('back',showHub);
+  root.querySelector('.story-read-view .story-back').onclick=()=>window.WordFlipDrill.run('back',closeReading);
+  root.querySelector('.story-previous').onclick=()=>window.WordFlipDrill.run('back',()=>openStory(currentStory-1));
+  root.querySelector('.story-next').onclick=()=>window.WordFlipDrill.run(currentStory<stories.length-1?'forward':'back',()=>currentStory<stories.length-1?openStory(currentStory+1):closeReading());
   document.addEventListener('pointerdown',event=>{
     if(tooltip.hidden)return;
     if(event.target.closest('.story-word')===activeWord)return;
