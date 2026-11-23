@@ -39,7 +39,7 @@ for(const story of all){
   let open=0;
   for(const entry of story.words){
     if(entry[0].startsWith('«'))open++;
-    if(entry[0].endsWith('»'))open--;
+    if(entry[0].includes('»'))open--;
     if(open<0||open>1)throw new Error('Unbalanced quotations in '+story.title);
   }
   if(open)throw new Error('Unclosed quotation in '+story.title);
