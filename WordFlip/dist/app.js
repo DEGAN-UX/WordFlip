@@ -533,8 +533,8 @@
   const languageCards=document.createElement('div');languageCards.className='language-cards';
   for(const [code,meta] of Object.entries(languages)){
     const button=document.createElement('button');button.className='language-choice';button.dataset.language=code;
-    button.innerHTML=`<span class="flag" aria-hidden="true">${meta.flag}</span><span class="language-card-copy"><strong>${meta.name}</strong><small id="languageStat-${code}">Your learning space</small></span><span class="language-arrow" aria-hidden="true">↗</span>`;
-    button.onclick=()=>{selectLanguage(code);document.body.classList.add('language-selected');window.scrollTo(0,0);};
+    button.innerHTML=`<span class="flag" aria-hidden="true">${meta.flag}</span><span class="language-card-copy"><strong>${meta.name}</strong><small id="languageStat-${code}">Ready to practise</small></span>`;
+    button.onclick=()=>window.WordFlipDrill.run('forward',()=>{selectLanguage(code);document.body.classList.add('language-selected');window.scrollTo(0,0);});
     languageCards.append(button);
   }
   picker.append(languageCards);
@@ -547,7 +547,7 @@
   languageSwitch.className='language-switch';
   $('settingsButton').before(headerActions);
   headerActions.append(languageSwitch,$('settingsButton'));
-  languageSwitch.onclick=()=>{
+  languageSwitch.onclick=()=>window.WordFlipDrill.run('back',()=>{
     stopSpeech();
     document.body.classList.remove('language-selected','training','progress-view-open');
     $('study').classList.remove('hidden');
@@ -556,7 +556,7 @@
     progressPage.hidden=true;
     updateLanguageStats();
     window.scrollTo(0,0);
-  };
+  });
   const progressButton=document.createElement('button');progressButton.className='progress-open-button';progressButton.type='button';
   progressButton.textContent='Your progress';
   // Stay in normal document flow, below the header, even before the updated CSS arrives.
@@ -566,7 +566,7 @@
   const progressPage=document.createElement('section');progressPage.id='learningProgress';progressPage.className='learning-progress';
   progressPage.hidden=true;progressPage.innerHTML='<button type="button" class="progress-back">← Back to practice</button><header class="progress-heading"><span class="eyebrow">YOUR LEARNING JOURNEY</span><h1></h1><p>Discover what you have explored and how confidently you remember it.</p></header><div class="progress-category-list"></div><p class="progress-method">Seen counts unique exercises encountered. Recognition and recall represent recent-weighted confidence on tested exercises only. Older reviews are estimated from saved totals and the latest rating. A dash means not yet tested.</p>';
   $('study').insertAdjacentElement('afterend',progressPage);
-  const progressBack=()=>{progressPage.hidden=true;document.body.classList.remove('progress-view-open');window.scrollTo(0,0);};
+  const progressBack=()=>window.WordFlipDrill.run('back',()=>{progressPage.hidden=true;document.body.classList.remove('progress-view-open');window.scrollTo(0,0);});
   progressPage.querySelector('.progress-back').onclick=progressBack;
   const progressSections={
     hu:[['word','Words'],['verb','Conjugation'],['phrase','Phrases'],['suffix','Suffixes'],['cheatsheet','Cheatsheet']],
@@ -640,7 +640,7 @@
       }
     }
   }
-  progressButton.onclick=()=>{renderLearningProgress();progressPage.hidden=false;document.body.classList.add('progress-view-open');window.scrollTo(0,0);};
+  progressButton.onclick=()=>window.WordFlipDrill.run('forward',()=>{renderLearningProgress();progressPage.hidden=false;document.body.classList.add('progress-view-open');window.scrollTo(0,0);});
   function practiceWeak(section,topic){
     progressBack();
     if(section==='cheatsheet'){
@@ -848,10 +848,7 @@
     activePhraseTopics=savedPhraseTopics();activePhraseLevel=localStorage.getItem(phraseLevelsKey())||'all';
     localStorage.setItem('wordflip-active-language',code);
     document.querySelectorAll('.language-choice').forEach(b=>b.classList.toggle('selected',b.dataset.language===code));
-    if(previousLanguage!==code){
-      $('study').classList.remove('language-transition');void $('study').offsetWidth;
-      $('study').classList.add('language-transition');
-    }
+    // Horizontal screen transitions are managed by WordFlipDrill.
     document.querySelector('#study .intro .eyebrow').textContent=`YOUR DAILY PRACTICE · ${languages[code].flag} ${languages[code].name.toUpperCase()}`;
     $('speak').setAttribute('aria-label',`Speak ${languages[code].name}`);
     $('speak').title=`Hear ${languages[code].name}`;
