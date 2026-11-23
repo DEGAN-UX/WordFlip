@@ -626,6 +626,7 @@
     window.scrollTo(0,0);
   });
   window.WordFlipNavigateToLanguages=goToLanguages;
+  window.WordFlipCloseCoins=closeCoins;
   const progressButton=document.createElement('button');progressButton.className='progress-open-button';progressButton.type='button';
   progressButton.textContent='Your progress';
   // Stay in normal document flow, below the header, even before the updated CSS arrives.
