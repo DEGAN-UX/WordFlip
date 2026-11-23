@@ -543,12 +543,79 @@
   const headerActions=document.createElement('div');headerActions.className='header-actions';
   // Explicit layout also protects the header if an installed PWA briefly uses an older cached stylesheet.
   Object.assign(headerActions.style,{display:'flex',flexDirection:'row',alignItems:'center',flexWrap:'nowrap',gap:'9px',flexShrink:'0'});
-  const languageSwitch=document.createElement('button');languageSwitch.type='button';
+  // The header uses a stack of overlapping flag coins. Open it to select
+  // another language directly, without passing through the landing page.
+  const languageSwitch=document.createElement('div');
   languageSwitch.className='language-switch';
+  languageSwitch.id='languageSwitcher';
+  const coinTray=document.createElement('div');coinTray.className='language-coin-tray';
+  const coinToggle=document.createElement('button');coinToggle.type='button';
+  coinToggle.className='language-coin-toggle';
+  coinToggle.setAttribute('aria-label','Choose another language');
+  coinToggle.setAttribute('aria-expanded','false');
+  coinToggle.setAttribute('aria-controls','languageCoinTray');
+  coinTray.id='languageCoinTray';
+  const coinButtons=new Map();
+  for(const [code,meta] of Object.entries(languages)){
+    const coin=document.createElement('button');coin.type='button';
+    coin.className='language-coin';coin.dataset.language=code;
+    coin.textContent=meta.flag;coin.title=meta.name;
+    coin.setAttribute('aria-label','Switch to '+meta.name);
+    coin.setAttribute('tabindex','-1');
+    coinTray.append(coin);coinButtons.set(code,coin);
+    coin.onclick=event=>{
+      event.stopPropagation();
+      closeCoins();
+      if(code===language)return;
+      window.WordFlipDrill.run('forward',()=>{
+        stopSpeech();
+        selectLanguage(code);
+        document.body.classList.add('language-selected');
+        window.WordFlipShowHub?.();
+        $('settings').style.display='none';
+        window.scrollTo(0,0);
+      });
+    };
+  }
+  languageSwitch.append(coinTray,coinToggle);
   $('settingsButton').before(headerActions);
   headerActions.append(languageSwitch,$('settingsButton'));
-  languageSwitch.onclick=()=>window.WordFlipDrill.run('back',()=>{
-    window.WordFlipHideStoryViews?.();
+  function arrangeCoins(){
+    const ordered=[...Object.keys(languages).filter(code=>code!==language),language];
+    ordered.forEach((code,i)=>{
+      const coin=coinButtons.get(code);
+      coin.style.setProperty('--coin-depth',String(ordered.length-1-i));
+      coin.style.zIndex=String(i+1);
+      coin.setAttribute('aria-current',code===language?'true':'false');
+    });
+  }
+  function closeCoins(){
+    languageSwitch.classList.remove('is-open');
+    coinToggle.setAttribute('aria-expanded','false');
+    coinToggle.setAttribute('aria-label','Choose another language');
+    for(const coin of coinButtons.values())coin.tabIndex=-1;
+  }
+  function openCoins(){
+    if(!document.body.classList.contains('language-selected'))return;
+    languageSwitch.classList.add('is-open');
+    coinToggle.setAttribute('aria-expanded','true');
+    coinToggle.setAttribute('aria-label','Close language choices');
+    for(const coin of coinButtons.values())coin.tabIndex=0;
+  }
+  coinToggle.onclick=event=>{
+    event.stopPropagation();
+    if(languageSwitch.classList.contains('is-open'))closeCoins();else openCoins();
+  };
+  document.addEventListener('pointerdown',event=>{
+    if(!languageSwitch.contains(event.target))closeCoins();
+  });
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape'&&languageSwitch.classList.contains('is-open')){
+      closeCoins();coinToggle.focus();
+    }
+  });
+  const goToLanguages=()=>window.WordFlipDrill.run('back',()=>{
+    closeCoins();window.WordFlipHideStoryViews?.();
     stopSpeech();
     document.body.classList.remove('language-selected','training','progress-view-open');
     $('study').classList.remove('hidden');
@@ -558,6 +625,7 @@
     updateLanguageStats();
     window.scrollTo(0,0);
   });
+  window.WordFlipNavigateToLanguages=goToLanguages;
   const progressButton=document.createElement('button');progressButton.className='progress-open-button';progressButton.type='button';
   progressButton.textContent='Your progress';
   // Stay in normal document flow, below the header, even before the updated CSS arrives.
@@ -843,9 +911,8 @@
   function selectLanguage(code){
     const previousLanguage=language;
     language=code;engine=window.WordFlipEngines[code];history=loadHistory();
-    languageSwitch.textContent=languages[code].flag;
-    languageSwitch.setAttribute('aria-label',`Change language (currently ${languages[code].name})`);
-    languageSwitch.title=`Change language (${languages[code].name})`;
+    arrangeCoins();
+    closeCoins();
     activePhraseTopics=savedPhraseTopics();activePhraseLevel=localStorage.getItem(phraseLevelsKey())||'all';
     localStorage.setItem('wordflip-active-language',code);
     document.querySelectorAll('.language-choice').forEach(b=>b.classList.toggle('selected',b.dataset.language===code));
