@@ -93,8 +93,18 @@
       const top=document.createElement('span');top.className='story-choice-top';top.textContent='STORY '+String(i+1).padStart(2,'0')+' · '+(story.level||'pre-A1')+' · '+(story.topic||'Everyday life');
       const title=document.createElement('strong');title.textContent=story.title;
       const en=document.createElement('span');en.className='story-choice-subtitle';en.textContent=story.subtitle;
-      const status=document.createElement('span');status.className='story-choice-status';status.textContent=visited.has(story.id)?'Read again ↗':'Read story ↗';
-      button.append(top,title,en,status);button.onclick=()=>openStory(i);grid.append(button);
+      button.append(top,title,en);
+      if(visited.has(story.id)){
+        const status=document.createElement('span');
+        status.className='story-choice-read-icon';
+        status.setAttribute('aria-label','Previously opened');
+        status.setAttribute('title','Previously opened');
+        status.setAttribute('aria-hidden','true');
+        status.innerHTML='<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5c-2.8-2-5.7-2.3-9-1.5v13c3.4-.8 6.4-.5 9 1.5 2.6-2 5.6-2.3 9-1.5V5c-3.3-.8-6.2-.5-9 1.5Z"/><path d="M12 6.5v13"/></svg>';
+        button.append(status);
+      }
+      button.setAttribute('aria-label',story.title+(visited.has(story.id)?', opened before':'')+'. Open story');
+      button.onclick=()=>openStory(i);grid.append(button);
     });
   }
   function openStory(i){
