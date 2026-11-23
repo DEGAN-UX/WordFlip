@@ -178,10 +178,10 @@
     root.querySelector('.story-list-view').hidden=false;
     renderList();scrollTop();
   }
-  // Language choices open the activity hub instead of starting in flashcards.
-  document.getElementById('languagePicker')?.addEventListener('click',event=>{
-    if(event.target.closest('.language-choice'))showHub();
-  });
+  // Language selection and its hub are one atomic drill-down navigation.
+  window.WordFlipShowHub=showHub;
+  window.WordFlipHideStoryViews=()=>{hideHub();hideStories();};
+
   practiceButton.onclick=()=>window.WordFlipDrill.run('forward',()=>{
     // Show category pills and the existing "Start practice" button first.
     // The training-layout module owns starting an actual flashcard session.
@@ -202,7 +202,8 @@
   study.insertAdjacentElement('afterbegin',practiceBack);
   practiceBack.onclick=()=>window.WordFlipDrill.run('back',showHub);
   // The existing results-screen Return to menu button now returns to activities.
-  document.getElementById('returnToMenu')?.addEventListener('click',()=>window.WordFlipDrill.run('back',showHub));
+  const resultsBack=document.getElementById('returnToMenu');
+  if(resultsBack)resultsBack.onclick=()=>window.WordFlipDrill.run('back',showHub);
   const listBack=document.createElement('button');listBack.type='button';
   listBack.className='story-back story-library-back';listBack.textContent='← Back to activities';
   root.querySelector('.story-list-view').prepend(listBack);
@@ -220,11 +221,7 @@
   window.addEventListener('resize',dismiss,{passive:true});
   // Keep navigation explicit. Watching and rewriting body classes in a
   // MutationObserver can create re-entrant updates and freeze navigation.
-  langSwitch?.addEventListener('click',()=>{
-    hideHub();
-    hideStories();
-    document.getElementById('settings').style.display='none';
-  });
+  // The app's language switch invokes WordFlipHideStoryViews within its transition.
   // Settings must be reachable on the story library and the reader.
   // Leave the reader in place; the settings panel can open above it.
   document.getElementById('settingsButton')?.addEventListener('click',()=>{
