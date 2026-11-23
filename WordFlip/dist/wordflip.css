@@ -81,7 +81,8 @@ body.training .language-header{display:none}
 .learning-milestone.visible{opacity:1;transform:translate(-50%,0)}
 .new-content-toast{position:fixed;z-index:1140;top:calc(env(safe-area-inset-top,0px) + 84px);left:50%;max-width:calc(100vw - 36px);width:max-content;padding:12px 19px;border-radius:18px;background:#e8f2fa;border:1px solid #c1dae9;box-shadow:0 8px 23px #284e671a;color:#315f7b;font-size:14px;font-weight:750;text-align:center;white-space:pre-line;opacity:0;pointer-events:none;transform:translate(-50%,-9px);transition:opacity 220ms ease,transform 260ms ease}
 .new-content-toast.visible{opacity:1;transform:translate(-50%,0)}
-.new-card-corner{position:absolute;right:0;top:0;width:79px;height:79px;overflow:hidden;border-radius:0 25px 0 0;pointer-events:none;z-index:2;color:#234e72;font-size:12px;font-weight:800;letter-spacing:.06em;display:flex;align-items:flex-start;justify-content:flex-end;padding:17px 5px 0 0;box-sizing:border-box;transform:translateZ(1px)}
+.new-card-corner{position:absolute;right:1px;top:1px;width:79px;height:79px;overflow:hidden;border-radius:0 24px 0 0;pointer-events:none;z-index:2;color:#234e72;font-size:15px;font-weight:800;letter-spacing:.06em;display:flex;align-items:flex-start;justify-content:flex-end;padding:0;box-sizing:border-box;transform:translateZ(1px)}
+.new-card-corner>span{position:absolute;top:21px;right:1px;transform:rotate(45deg);transform-origin:center;white-space:nowrap;line-height:1.1;z-index:1}
 .new-card-corner::before{content:'';position:absolute;inset:0;background:#c6e2f6;clip-path:polygon(0 0,100% 0,100% 100%);z-index:-1}
 .new-card-corner{writing-mode:horizontal-tb;text-align:center}
 .new-card-corner[hidden]{display:none}
