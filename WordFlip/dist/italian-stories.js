@@ -90,7 +90,7 @@
     const visited=new Set(readProgress());
     stories.forEach((story,i)=>{
       const button=document.createElement('button');button.type='button';button.className='story-choice';
-      const top=document.createElement('span');top.className='story-choice-top';top.textContent='STORY '+String(i+1).padStart(2,'0')+' · EASY READING';
+      const top=document.createElement('span');top.className='story-choice-top';top.textContent='STORY '+String(i+1).padStart(2,'0')+' · '+(story.level||'pre-A1')+' · '+(story.topic||'Everyday life');
       const title=document.createElement('strong');title.textContent=story.title;
       const en=document.createElement('span');en.className='story-choice-subtitle';en.textContent=story.subtitle;
       const status=document.createElement('span');status.className='story-choice-status';status.textContent=visited.has(story.id)?'Read again ↗':'Read story ↗';
@@ -102,7 +102,7 @@
     dismiss();currentStory=i;
     root.querySelector('.story-list-view').hidden=true;
     root.querySelector('.story-read-view').hidden=false;
-    root.querySelector('.story-kicker').textContent='STORY '+String(i+1).padStart(2,'0')+' OF '+stories.length+' · BEGINNER';
+    root.querySelector('.story-kicker').textContent='STORY '+String(i+1).padStart(2,'0')+' OF '+stories.length+' · '+(story.level||'pre-A1');
     root.querySelector('.story-heading').textContent=story.title;
     root.querySelector('.story-subheading').textContent=story.subtitle;
     const article=root.querySelector('.story-text');article.replaceChildren();
@@ -156,7 +156,7 @@
     if(!stories?.length)return;
     const name=activeLanguage==='hu'?'Hungarian':'Italian';
     root.querySelector('.stories-intro .eyebrow').textContent=(activeLanguage==='hu'?'🇭🇺':'🇮🇹')+' LEARN THROUGH READING';
-    root.querySelector('.stories-intro p').textContent='Ten easy '+name+' stories. Tap a word to hear it and see its English meaning'+(activeLanguage==='hu'?', with grammar breakdowns where useful.':'.');
+    root.querySelector('.stories-intro p').textContent=stories.length+' graded '+name+' stories. Tap a word to hear it and see its English meaning'+(activeLanguage==='hu'?', with grammar breakdowns where useful.':'.');
     root.querySelector('.story-instructions').textContent='Tap a word for its translation and pronunciation'+(activeLanguage==='hu'?' — plus its endings when helpful.':'.');
     root.querySelector('.story-text').lang=activeLanguage;
     dismiss();
