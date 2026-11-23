@@ -30,7 +30,7 @@
   const cardHint=$('frontText').parentElement.querySelector('.hint');
   const newCardCorner=document.createElement('span');
   newCardCorner.className='new-card-corner';
-  newCardCorner.textContent='NEW';
+  newCardCorner.innerHTML='<span>NEW</span>';
   newCardCorner.setAttribute('aria-label','First time seeing this card');
   newCardCorner.hidden=true;
   $('frontText').parentElement.append(newCardCorner);
