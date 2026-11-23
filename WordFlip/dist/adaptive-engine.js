@@ -3,7 +3,8 @@ window.WordFlipAdaptive = (() => {
   const weights = {
     hu: {word:0.35,phrase:0.25,verb:0.25,suffix:0.15},
     it: {word:0.34,phrase:0.27,verb:0.23,description:0.09,preposition:0.07},
-    hr: {word:0.48,phrase:0.36,verb:0.11,case:0.05}
+    hr: {word:0.48,phrase:0.36,verb:0.11,case:0.05},
+    de: {word:0.25,verb:0.17,phrase:0.18,case:0.16,article:0.12,order:0.12}
   };
   const paceLimits={slow:3,normal:6,fast:10};
   const progress=(history,id,language,reverse)=>history[`${id}:${reverse?'en-'+language:language+'-en'}`]||{};
@@ -32,6 +33,7 @@ window.WordFlipAdaptive = (() => {
     return card.category;
   };
   function pickDirection(card,history,language,choice){
+    if(language==='de'&&['case','article','order'].includes(card.category))return false;
     if(choice==='hu-en')return false;
     if(choice==='en-hu')return true;
     const recognition=progress(history,card.id,language,false);
@@ -52,7 +54,7 @@ window.WordFlipAdaptive = (() => {
     const unlocked=engine.unlocked(cards,history);
     const pool=cards.filter(c=>{
       if(language==='it'&&c.category==='article')return false;
-      if((language==='it'||language==='hr')&&category==='phrase'&&c.category==='phrase'){
+      if((language==='it'||language==='hr'||language==='de')&&category==='phrase'&&c.category==='phrase'){
         if(phraseTopics&&phraseTopics.length&&!phraseTopics.includes(c.topic||'everyday'))return false;
         if(phraseLevel!=='all'&&c.level!==phraseLevel)return false;
       }
@@ -80,7 +82,7 @@ window.WordFlipAdaptive = (() => {
       const support=verbStage?!!selected.needsSupport||verbStage==='guided'&&!!history[verbKey(card.id,'production')]?.needsSupport||verbStage==='recognition'&&!!history[verbKey(card.id,'guided')]?.needsSupport:direction==='auto'&&!reverse&&!!recall.needsSupport;
       const due=support||(!selected.reviews&&!isNew)||!!selected.reviews&&(selected.due||0)<=now;
       const difficulty=(selected.reviews||0)>0?Math.max(0,1-(selected.correct||0)/(selected.reviews||1)):0;
-      const reason=verbStage?({recognition:'Verb recognition',guided:'Guided conjugation',production:'Active verb production'})[verbStage]:isNew?'New vocabulary':support?'Recognition support':reverse?'Active recall':due?'Review due':'Recognition';
+      const reason=verbStage?({recognition:'Verb recognition',guided:'Guided conjugation',production:'Active verb production'})[verbStage]:language==='de'&&['case','article','order'].includes(card.category)?'Grammar practice':isNew?'New vocabulary':support?'Recognition support':reverse?'Active recall':due?'Review due':'Recognition';
       return {...card,reverse,verbStage,progressKey,learningReason:reason,isNew,isDue:due,difficulty,learningGroup:group(card,language),review:selected,withinUnlock:(card.priority||0)<=unlocked};
     });
     // Explicit focus modes remain available; automatic enforces a new-card cap.
