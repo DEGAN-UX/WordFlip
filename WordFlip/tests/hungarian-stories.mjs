@@ -54,7 +54,7 @@ assert.match(reader,/story-library-back/);
 assert.doesNotMatch(reader,/className='pill stories-pill'/);
 console.log('Dialogue punctuation and separate activity navigation validated');
 
-const practiceHandler=reader.match(/practiceButton\.onclick=\(\)=>\{([\s\S]*?)\n  \};/);
+const practiceHandler=reader.match(/practiceButton\.onclick=\(\)=>window\.WordFlipDrill\.run\('forward',\(\)=>\{([\s\S]*?)\n  \}\);/);
 assert.ok(practiceHandler,'Practice button must have its own handler');
 assert.match(practiceHandler[1],/classList\.remove\('training'/,'Practice button should open category choice, not a card');
 assert.doesNotMatch(practiceHandler[1],/classList\.add\('training'/,'Practice button must not directly start a session');
@@ -62,14 +62,14 @@ const trainingLayout=fs.readFileSync(new URL('../dist/training-layout.js',import
 assert.match(trainingLayout,/home-launch/,'Category chooser must have a Start practice button');
 console.log('Practice category-first navigation validated');
 
-assert.match(reader,/root\.querySelector\('\.story-read-view \.story-back'\)\.onclick=closeReading/,'Reader back button must target reader screen, not library');
-assert.match(reader,/listBack\.onclick=showHub/,'Library back button must return to activities');
+assert.match(reader,/root\.querySelector\('\.story-read-view \.story-back'\)\.onclick=\(\)=>window\.WordFlipDrill\.run\('back',closeReading\)/,'Reader back button must target reader screen, not library');
+assert.match(reader,/listBack\.onclick=\(\)=>window\.WordFlipDrill\.run\('back',showHub\)/,'Library back button must return to activities');
 assert.doesNotMatch(reader,/root\.querySelector\('\.story-back'\)\.onclick=closeReading/,'Generic selector accidentally binds to library back button');
 console.log('Story back-navigation selectors validated');
 
 assert.doesNotMatch(reader,/new MutationObserver\(updateLanguage\)/,
   'Navigation must not mutate observed body classes recursively');
-assert.match(reader,/langSwitch\?\.addEventListener\('click'/,
+assert.match(reader,/window\.WordFlipHideStoryViews=/,
   'The language switcher must close story screens');
 assert.match(reader,/getElementById\('settingsButton'\)\?\.addEventListener\('click'/,
   'Settings must remain accessible while reading');
