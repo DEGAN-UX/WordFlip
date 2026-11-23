@@ -40,7 +40,7 @@ for(const [language,set,opening,closing] of [
     let balance=0;
     for(const [word] of story.words){
       if(word.startsWith(opening)){balance++;quotations++;}
-      if(word.endsWith(closing)){balance--;}
+      if(word.includes(closing)){balance--;}
       assert.ok(balance===0||balance===1,language+' invalid quotation nesting: '+story.title);
     }
     assert.equal(balance,0,language+' unclosed quotation: '+story.title);
