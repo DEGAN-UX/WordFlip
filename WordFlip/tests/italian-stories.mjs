@@ -25,7 +25,7 @@ assert.match(html,/italian-stories\.js/);
 assert.match(html,/italian-stories\.css/);
 console.log('Italian Stories validated:',stories.length,'stories,',stories.reduce((sum,s)=>sum+s.words.length,0),'tappable words');
 
-assert.deepEqual(stories.slice(10,13).map(s=>s.level),['pre-A1','pre-A1','pre-A1']);
+assert.equal(stories.slice(10,13).map(s=>s.level).join(','),'pre-A1,pre-A1,pre-A1');
 assert.equal(stories[39].level,'A2');
 assert.match(fs.readFileSync(new URL('../dist/italian-stories.js',import.meta.url),'utf8'),/story\.level/);
 console.log('Italian reading progression validated: pre-A1 through A2');
