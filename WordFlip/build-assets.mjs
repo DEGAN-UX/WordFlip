@@ -3,7 +3,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 
 const dist=path.join(import.meta.dirname,'dist');
-const assets=['italian-stories.js','italian-stories-data.js','hungarian-stories-data.js','italian-stories.css','app.js','pool-announcements.js','adaptive-engine.js','progress-stats.js','progress-transfer.js','verb-presentation.js','first-win.js','cheatsheet-data.js','cheatsheet-engine.js','training-layout.js','update-manager.js','mobile-fix.css','training-layout.css','update-manager.css','wordflip.css','hungarian-engine.js','italian-engine.js','croatian-engine.js','cards.json','italian-cards.json','croatian-cards.json','icon-180.png','icon-192.png','icon-512.png'];
+const assets=['italian-stories.js','italian-stories-data.js','hungarian-stories-data.js','german-stories-data.js','italian-stories.css','app.js','pool-announcements.js','adaptive-engine.js','progress-stats.js','progress-transfer.js','verb-presentation.js','first-win.js','cheatsheet-data.js','cheatsheet-engine.js','training-layout.js','update-manager.js','mobile-fix.css','training-layout.css','update-manager.css','wordflip.css','hungarian-engine.js','italian-engine.js','croatian-engine.js','german-engine.js','cards.json','italian-cards.json','croatian-cards.json','german-cards.json','icon-180.png','icon-192.png','icon-512.png'];
 const fingerprint=name=>crypto.createHash('sha256').update(fs.readFileSync(path.join(dist,name))).digest('hex').slice(0,12);
 const hashes=Object.fromEntries(assets.map(name=>[name,fingerprint(name)]));
 
