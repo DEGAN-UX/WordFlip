@@ -175,3 +175,24 @@ body.cheatsheet-drawer-open{overflow:hidden}
 .language-arrow{display:none}
 .language-welcome h1{font-size:clamp(27px,6.5vw,36px)}
 @media(max-width:360px){.language-cards{gap:9px}.language-choice{padding:14px 12px;min-height:112px;gap:7px}.language-choice .flag{font-size:26px}.language-choice strong{font-size:16px}.language-choice small{font-size:10px}}
+
+/* Language switcher: four coin-like overlapping flags. The chosen flag is
+   fully visible in front, the other three show their edges to its left. */
+.language-switch{position:relative;display:block;flex:0 0 91px;width:91px;height:49px;padding:0;border:0;background:transparent;border-radius:0;overflow:visible;isolation:isolate;z-index:80}
+body:not(.language-selected) .language-switch{display:none}
+.language-coin-tray{position:absolute;top:0;right:0;width:220px;height:49px;pointer-events:none}
+.language-coin{position:absolute;right:calc(var(--coin-depth) * 12px);top:0;display:grid;place-items:center;width:49px;height:49px;padding:0;border:1.5px solid #d8ded7;border-radius:50%;background:#fff;font-size:26px;line-height:1;box-shadow:0 2px 6px #253a3519;transform:translateY(0);transition:right 245ms cubic-bezier(.22,.76,.22,1),transform 245ms cubic-bezier(.22,.76,.22,1),box-shadow 245ms ease;white-space:nowrap}
+.language-coin[aria-current="true"]{border-color:#b0c5b9;box-shadow:0 3px 9px #153c3024}
+.language-coin-toggle{position:absolute;top:0;right:0;width:90px;height:49px;z-index:7;cursor:pointer;border:0;background:transparent;border-radius:999px}
+.language-coin-toggle:focus-visible{outline:3px solid #e8a77e;outline-offset:4px}
+.language-switch.is-open{z-index:120}
+.language-switch.is-open .language-coin-tray{pointer-events:auto}
+.language-switch.is-open .language-coin{right:calc(var(--coin-depth) * 54px);transform:translateY(60px);box-shadow:0 8px 18px #203c3028}
+.language-switch.is-open .language-coin:focus-visible{outline:3px solid #e8a77e;outline-offset:3px}
+.language-switch.is-open .language-coin:hover{background:#f4f8f5}
+.language-switch.is-open .language-coin-toggle{background:transparent}
+/* Parent navigation is now available by right swipe rather than visible arrows.
+   Retain the controls in the DOM so swipe and keyboard-back can share handlers. */
+.story-back,.activity-practice-back,.story-library-back,.progress-back,
+.practice-exit,.summary #returnToMenu{display:none!important}
+@media(prefers-reduced-motion:reduce){.language-coin{transition:none!important}}
