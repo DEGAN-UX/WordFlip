@@ -1,7 +1,7 @@
 // Portable, versioned progress backups and concise learning reports.
 // Metadata is descriptive only: it must never replace the app's card bank.
 window.WordFlipTransfer=(()=>{
-  const codes=['hu','it','hr'];
+  const codes=['hu','it','hr','de'];
   const forbidden=new Set(['__proto__','prototype','constructor']);
   function validateRecords(records,code){
     if(!records||typeof records!=='object'||Array.isArray(records))throw Error(`${code} progress has an invalid structure.`);
@@ -21,11 +21,11 @@ window.WordFlipTransfer=(()=>{
     return data.progress;
   }
   function contentLookup(banks,cheatsheetRecords=[]){
-    const lookup={hu:new Map(),it:new Map(),hr:new Map()};
+    const lookup={hu:new Map(),it:new Map(),hr:new Map(),de:new Map()};
     for(const code of codes)for(const card of banks[code]||[]){
       lookup[code].set(card.id,{id:card.id,category:card.category,source:card[code],english:card.en,
         partOfSpeech:card.partOfSpeech||undefined,level:card.level||undefined,
-        example:card[`example${code==='hu'?'Hu':code==='it'?'It':'Hr'}`]||undefined,exampleEnglish:card.exampleEn||undefined});
+        example:card[`example${code==='hu'?'Hu':code==='it'?'It':code==='hr'?'Hr':'De'}`]||undefined,exampleEnglish:card.exampleEn||undefined});
     }
     for(const record of cheatsheetRecords)lookup.hu.set(record.patternId,{id:record.patternId,category:`cheatsheet / ${record.category}`,
       source:record.form,english:record.english,stem:record.stem,suffix:record.suffix,meaning:record.meaning});
@@ -33,7 +33,7 @@ window.WordFlipTransfer=(()=>{
   }
   function idFromKey(key){
     if(key.startsWith('cheatsheet:'))return key.slice('cheatsheet:'.length).replace(/:(recognition|recall|application)$/,'');
-    return key.replace(/:(hu-en|en-hu|it-en|en-it|hr-en|en-hr|hu-recognition|hu-guided|hu-production)$/,'');
+    return key.replace(/:(hu-en|en-hu|it-en|en-it|hr-en|en-hr|de-en|en-de|hu-recognition|hu-guided|hu-production)$/,'');
   }
   function metadata(progress,lookup){
     return Object.fromEntries(codes.map(code=>[code,[...new Set(Object.keys(progress[code]||{}).map(idFromKey))]
@@ -71,7 +71,7 @@ window.WordFlipTransfer=(()=>{
     codes.forEach(code=>validateRecords(progress[code]||{},code));
     const lines=[`WordFlip learning report — ${exportedAt}`,'Generated from your local learning history. Ratings are self-assessments, not exam scores.'];
     for(const code of codes){
-      const records=progress[code]||{};const s=stats(records);const label=code==='hu'?'Hungarian':code==='it'?'Italian':'Croatian';
+      const records=progress[code]||{};const s=stats(records);const label=code==='hu'?'Hungarian':code==='it'?'Italian':code==='de'?'German':'Croatian';
       lines.push('',`${label}: ${s.uniqueCards} cards encountered · ${s.reviews} reviews · ${s.correct} knew it · ${s.recognised} recognised · ${s.misses} review again`);
       const grouped={};
       for(const [key,record] of Object.entries(records)){
