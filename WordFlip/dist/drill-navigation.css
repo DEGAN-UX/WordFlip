@@ -1,0 +1,21 @@
+/* Drill-down: old page goes left, child enters from right.
+   Reverse direction for an explicit Back action. */
+@keyframes wf-page-old-forward{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+@keyframes wf-page-new-forward{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@keyframes wf-page-old-back{from{transform:translateX(0)}to{transform:translateX(100%)}}
+@keyframes wf-page-new-back{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+html[data-drill-direction]::view-transition-old(root),
+html[data-drill-direction]::view-transition-new(root){
+  animation-duration:260ms;
+  animation-timing-function:cubic-bezier(.45,0,.18,1);
+  animation-fill-mode:both;
+}
+html[data-drill-direction="forward"]::view-transition-old(root){animation-name:wf-page-old-forward}
+html[data-drill-direction="forward"]::view-transition-new(root){animation-name:wf-page-new-forward}
+html[data-drill-direction="back"]::view-transition-old(root){animation-name:wf-page-old-back}
+html[data-drill-direction="back"]::view-transition-new(root){animation-name:wf-page-new-back}
+html,body{overflow-x:clip}
+@media(prefers-reduced-motion:reduce){
+ html[data-drill-direction]::view-transition-old(root),
+ html[data-drill-direction]::view-transition-new(root){animation-duration:0.01ms}
+}
