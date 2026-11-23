@@ -42,7 +42,7 @@
     if(summary && getComputedStyle(summary).display!=='none' && !summary.hidden)
       return document.getElementById('returnToMenu');
     if(body.classList.contains('story-home-open'))
-      return document.querySelector('.language-switch');
+      return null; // Activity hub returns to languages through its explicit handler.
     if(body.classList.contains('language-selected'))
       return document.querySelector('.activity-practice-back');
     return null; // Language picker is the root page.
@@ -50,10 +50,17 @@
 
   function swipeBack(){
     if(transitioning)return false;
+    const coins=document.getElementById('languageSwitcher');
+    if(coins?.classList.contains('is-open')){
+      window.WordFlipCloseCoins?.();return true;
+    }
     const settings=document.getElementById('settings');
     if(settings && getComputedStyle(settings).display!=='none'){
       const button=document.getElementById('settingsButton');
       if(button){button.click();return true;}
+    }
+    if(document.body.classList.contains('story-home-open')){
+      window.WordFlipNavigateToLanguages?.();return true;
     }
     const back=backTarget();
     if(!back||back.disabled)return false;
