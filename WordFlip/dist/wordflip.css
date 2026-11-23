@@ -196,3 +196,7 @@ body:not(.language-selected) .language-switch{display:none}
 .story-back,.activity-practice-back,.story-library-back,.progress-back,
 .practice-exit,.summary #returnToMenu{display:none!important}
 @media(prefers-reduced-motion:reduce){.language-coin{transition:none!important}}
+
+/* The app icon and wordmark are one accessible Home control. */
+button.brand{appearance:none;-webkit-appearance:none;border:0;background:transparent;color:inherit;padding:0;margin:0;font:inherit;cursor:pointer;text-align:left;max-width:100%;-webkit-tap-highlight-color:transparent}
+button.brand:focus-visible{outline:3px solid #e8a77e;outline-offset:5px;border-radius:9px}
