@@ -74,3 +74,11 @@ assert.match(reader,/langSwitch\?\.addEventListener\('click'/,
 assert.match(reader,/getElementById\('settingsButton'\)\?\.addEventListener\('click'/,
   'Settings must remain accessible while reading');
 console.log('Story navigation observer regression validated');
+
+assert.doesNotMatch(reader,/Read again ↗|Read story ↗/,'Story tiles no longer show action text');
+assert.match(reader,/story-choice-read-icon/,'Visited story shows open-book status icon');
+const app=fs.readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+const corner=fs.readFileSync(new URL('../dist/wordflip.css',import.meta.url),'utf8');
+assert.match(app,/newCardCorner\.innerHTML='<span>NEW<\/span>'/,'NEW ribbon text has a rotation wrapper');
+assert.match(corner,/\.new-card-corner>span\{[^}]*rotate\(45deg\)/,'NEW ribbon text rotated clockwise');
+console.log('Story tile and NEW corner badge visual markup verified');
