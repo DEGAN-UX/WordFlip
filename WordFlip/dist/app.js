@@ -461,7 +461,7 @@
   backupSection.innerHTML='<h3>Your learning history</h3><p>Back up all three languages, restore on another device, or share a readable learning report.</p><div class="backup-actions"><button type="button" id="exportProgress">↓ Export backup</button><button type="button" id="importProgress">↑ Import backup</button><button type="button" id="exportReport">↓ Learning report</button></div><input id="progressFile" type="file" accept=".json,application/json" hidden><p id="backupStatus" class="backup-status" role="status" aria-live="polite"></p>';
   $('reset').insertAdjacentElement('beforebegin',backupSection);
   const status=(message,error=false)=>{const node=$('backupStatus');node.textContent=message;node.classList.toggle('error',error);};
-  const storageKeys={hu:window.WordFlipEngines.hu.storageKey,it:window.WordFlipEngines.it.storageKey,hr:window.WordFlipEngines.hr.storageKey};
+  const storageKeys={hu:window.WordFlipEngines.hu.storageKey,it:window.WordFlipEngines.it.storageKey,hr:window.WordFlipEngines.hr.storageKey,de:window.WordFlipEngines.de.storageKey};
   const readStored=(code)=>{
     const raw=localStorage.getItem(storageKeys[code]);
     if(!raw)return {};
@@ -470,7 +470,7 @@
     return value;
   };
   const transfer=window.WordFlipTransfer;
-  const progressSnapshot=()=>({hu:readStored('hu'),it:readStored('it'),hr:readStored('hr')});
+  const progressSnapshot=()=>({hu:readStored('hu'),it:readStored('it'),hr:readStored('hr'),de:readStored('de')});
   const context=async()=>{
     const banks={};
     for(const code of Object.keys(languages)){
