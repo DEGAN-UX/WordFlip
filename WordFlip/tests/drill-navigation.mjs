@@ -28,5 +28,5 @@ assert.match(reader,/WordFlipDrill\.run\('back',closeReading\)/);
 assert.match(training,/WordFlipDrill\.run\('forward'/);
 assert.match(training,/WordFlipDrill\.run\('back'/);
 assert.ok(html.indexOf('src="drill-navigation.js"')<html.indexOf('src="app.js'),'Navigation engine must load before app');
-assert.match(html,/href="drill-navigation\.css"/);
+assert.match(html,/href="drill-navigation\.css(?:\?v=[a-f0-9]+)?"/);
 console.log('Compact language tiles and bidirectional drill navigation assets verified.');
