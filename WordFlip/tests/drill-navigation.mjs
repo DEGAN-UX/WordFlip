@@ -57,3 +57,9 @@ assert.match(layout,/\.language-switch\.is-open \.language-coin/);
 assert.match(layout,/\.story-back,\.activity-practice-back/);
 assert.match(layout,/\.practice-exit,\.summary #returnToMenu\{display:none!important\}/);
 console.log('Coin switcher, direct selection and swipe-only back navigation verified.');
+
+assert.match(html,/<button type="button" class="brand" id="wordflipHome"/,'Icon and title must share a Home button');
+assert.match(app,/getElementById\('wordflipHome'\)\.onclick=/,'Home button must be wired');
+assert.match(app,/goToLanguages\(\);\n  \};/,'Home button returns to language landing page');
+assert.match(layout,/button\.brand:focus-visible/,'Home button must be keyboard accessible');
+console.log('WordFlip icon and wordmark navigate home.');
