@@ -534,7 +534,7 @@
   for(const [code,meta] of Object.entries(languages)){
     const button=document.createElement('button');button.className='language-choice';button.dataset.language=code;
     button.innerHTML=`<span class="flag" aria-hidden="true">${meta.flag}</span><span class="language-card-copy"><strong>${meta.name}</strong><small id="languageStat-${code}">Ready to practise</small></span>`;
-    button.onclick=()=>window.WordFlipDrill.run('forward',()=>{selectLanguage(code);document.body.classList.add('language-selected');window.scrollTo(0,0);});
+    button.onclick=()=>window.WordFlipDrill.run('forward',()=>{selectLanguage(code);document.body.classList.add('language-selected');window.WordFlipShowHub?.();window.scrollTo(0,0);});
     languageCards.append(button);
   }
   picker.append(languageCards);
@@ -548,6 +548,7 @@
   $('settingsButton').before(headerActions);
   headerActions.append(languageSwitch,$('settingsButton'));
   languageSwitch.onclick=()=>window.WordFlipDrill.run('back',()=>{
+    window.WordFlipHideStoryViews?.();
     stopSpeech();
     document.body.classList.remove('language-selected','training','progress-view-open');
     $('study').classList.remove('hidden');
