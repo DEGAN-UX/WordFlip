@@ -1,9 +1,9 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const names = {word:'WORD',suffix:'SUFFIX',verb:'PRESENT TENSE',phrase:'PHRASE',article:'ARTICLES & GENDER',preposition:'PREPOSITION',case:'CROATIAN CASE'};
-  const languages={hu:{name:'Hungarian',flag:'🇭🇺',code:'HU',data:'cards.json'},it:{name:'Italian',flag:'🇮🇹',code:'IT',data:'italian-cards.json'},hr:{name:'Croatian',flag:'🇭🇷',code:'HR',data:'croatian-cards.json'}};
-  let language=['hu','it','hr'].includes(localStorage.getItem('wordflip-active-language'))?localStorage.getItem('wordflip-active-language'):'hu';
+  const names = {word:'WORD',suffix:'SUFFIX',verb:'PRESENT TENSE',phrase:'PHRASE',article:'ARTICLES & GENDER',preposition:'PREPOSITION',case:'CASE PRACTICE',order:'WORD ORDER'};
+  const languages={hu:{name:'Hungarian',flag:'🇭🇺',code:'HU',data:'cards.json'},it:{name:'Italian',flag:'🇮🇹',code:'IT',data:'italian-cards.json'},hr:{name:'Croatian',flag:'🇭🇷',code:'HR',data:'croatian-cards.json'},de:{name:'German',flag:'🇩🇪',code:'DE',data:'german-cards.json'}};
+  let language=['hu','it','hr','de'].includes(localStorage.getItem('wordflip-active-language'))?localStorage.getItem('wordflip-active-language'):'hu';
   let engine=window.WordFlipEngines[language];
   const pronouns = {
     'én':'I','te':'you (singular)','ő':'he / she / it',
@@ -19,8 +19,8 @@
   $('frontText').insertAdjacentElement('afterend',promptHint);
   let cards=[], category='all', queue=[], index=0, knew=0, recognised=0, missed=0, flipped=false, correctRun=0, bestRun=0;
   const phraseTopics=[['everyday','Everyday conversation'],['family','Family & friends'],['food','Food & restaurants'],['shopping','Shopping'],['travel','Getting around & travel'],['social','Small talk & socialising'],['celebrations','Celebrations & holidays'],['help','Problems & practical help']];
-  const phraseSettingsKey=()=>`wordflip-${language==='hr'?'croatian':'italian'}-phrase-topics-v1`;
-  const phraseLevelsKey=()=>`wordflip-${language==='hr'?'croatian':'italian'}-phrase-level-v1`;
+  const phraseSettingsKey=()=>`wordflip-${language==='hr'?'croatian':language==='de'?'german':'italian'}-phrase-topics-v1`;
+  const phraseLevelsKey=()=>`wordflip-${language==='hr'?'croatian':language==='de'?'german':'italian'}-phrase-level-v1`;
   const savedPhraseTopics=()=>{try{const values=JSON.parse(localStorage.getItem(phraseSettingsKey()));return Array.isArray(values)&&values.length?values.filter(t=>phraseTopics.some(([id])=>id===t)):phraseTopics.map(([id])=>id);}catch{return phraseTopics.map(([id])=>id);}};
   let activePhraseTopics=savedPhraseTopics();
   let activePhraseLevel=localStorage.getItem(phraseLevelsKey())||'all';
@@ -188,6 +188,11 @@
       $('backText').textContent=c.reverse?italianForm:englishForm;
       promptHint.textContent=`${c.infinitive} · present tense`;
       promptHint.hidden=false;
+    }else if(language==='de'&&['case','article','order'].includes(c.category)){
+      $('frontText').textContent=c.prompt;
+      $('backText').textContent=c.answer;
+      promptHint.textContent=c.category==='order'?'Complete the sentence':c.category==='case'?'Choose the correct form':'Article or adjective ending';
+      promptHint.hidden=false;
     }else if(language==='hu'&&c.category==='verb'){
       const displayed=window.WordFlipVerbPresentation.present(c,c.verbStage);
       $('frontText').textContent=displayed.front;
@@ -202,12 +207,12 @@
     const note=$('wordflipNote');
     note.textContent=language!=='hu'&&(c.gender||c.note)?[c.gender,c.note].filter(Boolean).join(' · '):'';
     note.hidden=!note.textContent;
-    const heading=c.category==='word'&&c.partOfSpeech?c.partOfSpeech.toUpperCase():names[c.category];
+    const heading=c.category==='word'&&c.partOfSpeech?c.partOfSpeech.toUpperCase():(language==='de'&&c.category==='verb'?'VERBS':names[c.category]);
     $('frontTag').textContent=language==='hu'&&c.category==='verb'?
       ({recognition:'PRESENT TENSE · HU → EN',guided:'PRESENT TENSE · GUIDED CONJUGATION',production:'PRESENT TENSE · EN → HU'}[c.verbStage]||heading):
       heading+(c.reverse?` · EN → ${languages[language].code}`:` · ${languages[language].code} → EN`);
     $('example').replaceChildren();
-    const strong=document.createElement('strong');strong.textContent=c.exampleIt||c.exampleHu||c.exampleHr;
+    const strong=document.createElement('strong');strong.textContent=c.exampleIt||c.exampleHu||c.exampleHr||c.spoken;
     const em=document.createElement('em');em.textContent=c.exampleEn;
     $('example').append(strong,em);
     $('counter').textContent=`${index+1} / ${queue.length}`;
@@ -371,7 +376,7 @@
     event?.stopPropagation();if(!('speechSynthesis'in window)||!queue[index])return;
     const c=queue[index];stopSpeech();
     const spoken=language==='it'&&c.category==='verb'?`${c.italianPronoun==='lui / lei'?'lui':c.italianPronoun} ${c.form}`:
-      language==='hu'&&c.category==='verb'?window.WordFlipVerbPresentation.present(c,c.verbStage).spoken:c[language];
+      language==='hu'&&c.category==='verb'?window.WordFlipVerbPresentation.present(c,c.verbStage).spoken:c.spoken||c[language];
     // Paired suffixes are two pronunciation units, not one hyphenated word.
     // A real 500 ms gap is more reliable than punctuation, which TTS engines interpret differently.
     const paired=/^\s*-[^\s/]+\s*\/\s*-[^\s/]+\s*$/.test(spoken);
@@ -566,7 +571,8 @@
   const progressSections={
     hu:[['word','Words'],['verb','Conjugation'],['phrase','Phrases'],['suffix','Suffixes'],['cheatsheet','Cheatsheet']],
     it:[['word','Words'],['verb','Conjugation'],['phrase','Phrases'],['description','Adjectives / Adverbs'],['preposition','Prepositions']],
-    hr:[['word','Words'],['phrase','Phrases'],['verb','Conjugation'],['case','Cases']]
+    hr:[['word','Words'],['phrase','Phrases'],['verb','Conjugation'],['case','Cases']],
+    de:[['word','Vocabulary'],['verb','Verbs'],['phrase','Expressions'],['case','Cases'],['article','Articles & endings'],['order','Word order']]
   };
   const sectionCards=(section,topic)=>{
     if(section==='cheatsheet')return [];
@@ -663,7 +669,9 @@
   const adjectiveFilter=document.createElement('button');adjectiveFilter.className='pill';adjectiveFilter.dataset.category='description';adjectiveFilter.textContent='Adjectives / Adverbs';
   const prepositionFilter=document.createElement('button');prepositionFilter.className='pill';prepositionFilter.dataset.category='preposition';prepositionFilter.textContent='Prepositions';
   const caseFilter=document.createElement('button');caseFilter.className='pill';caseFilter.dataset.category='case';caseFilter.textContent='Cases';
-  $('filters').append(adjectiveFilter,prepositionFilter,caseFilter);
+  const articleFilter=document.createElement('button');articleFilter.className='pill';articleFilter.dataset.category='article';articleFilter.textContent='Articles & endings';
+  const orderFilter=document.createElement('button');orderFilter.className='pill';orderFilter.dataset.category='order';orderFilter.textContent='Word order';
+  $('filters').append(adjectiveFilter,prepositionFilter,caseFilter,articleFilter,orderFilter);
   const cheatsheetPill=document.createElement('button');cheatsheetPill.className='pill cheatsheet-pill';
   cheatsheetPill.type='button';cheatsheetPill.dataset.category='cheatsheet';
   $('filters').append(cheatsheetPill);
@@ -759,8 +767,10 @@
   function openPhraseDrawer(){
     $('phraseDrawerTitle').textContent=`${languages[language].name} phrases`;
     phraseRoot.querySelector('[data-phrase-level="A2"]').hidden=language==='hr';
-    phraseRoot.querySelector('[data-phrase-level="all"]').textContent=language==='hr'?'Starter + A1':'A1 + A2';
-    phraseRoot.querySelector('[data-phrase-level="A1"]').textContent='A1';
+    phraseRoot.querySelector('[data-phrase-level="all"]').textContent=language==='hr'?'Starter + A1':language==='de'?'A2 + B1':'A1 + A2';
+    phraseRoot.querySelector('[data-phrase-level="A1"]').textContent=language==='de'?'B1':'A1';
+    phraseRoot.querySelector('[data-phrase-level="A1"]').dataset.phraseLevel=language==='de'?'B1':'A1';
+    // German keeps A2/B1 labels; other modules retain A1.
     phraseFocus=document.activeElement;draftPhraseTopics=new Set(activePhraseTopics);draftPhraseLevel=activePhraseLevel;
     renderPhraseDrawer();phraseRoot.hidden=false;document.body.classList.add('cheatsheet-drawer-open');
     requestAnimationFrame(()=>phraseRoot.classList.add('open'));
@@ -846,7 +856,7 @@
     $('speak').setAttribute('aria-label',`Speak ${languages[code].name}`);
     $('speak').title=`Hear ${languages[code].name}`;
     document.querySelector('[data-category="suffix"]').hidden=code!=='hu';
-    adjectiveFilter.hidden=code!=='it';prepositionFilter.hidden=code!=='it';caseFilter.hidden=code!=='hr';
+    adjectiveFilter.hidden=code!=='it';prepositionFilter.hidden=code!=='it';caseFilter.hidden=code!=='hr'&&code!=='de';articleFilter.hidden=code!=='de';orderFilter.hidden=code!=='de';
     cheatsheetPill.hidden=code!=='hu';
     updatePhrasePill();
     category='all';document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active',p.dataset.category==='all'));
