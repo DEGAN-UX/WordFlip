@@ -4,13 +4,15 @@ import vm from 'node:vm';
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync(new URL('../dist/italian-stories-data.js',import.meta.url),'utf8'),context);
 const stories=context.window.WordFlipItalianStories;
-assert.equal(stories.length,10,'Italian Stories must contain ten stories');
+assert.equal(stories.length,40,'Italian Stories must contain forty stories');
 const ids=new Set();
 for(const story of stories){
   assert.ok(!ids.has(story.id),'Each story needs a unique id');
   ids.add(story.id);
   assert.ok(story.title&&story.subtitle);
-  assert.ok(story.words.length>=100,'Each story should offer several minutes of beginner reading');
+  assert.ok(story.words.length>=100,'Each story should provide supported beginner reading');
+  assert.equal(story.id,ids.size,'Story IDs must be consecutive and preserve progress IDs');
+  assert.ok(story.level,'Story must display difficulty');
   for(const entry of story.words){
     assert.equal(entry.length,2);
     assert.ok(entry[0].trim(),'No empty Italian words');
@@ -22,3 +24,8 @@ assert.match(html,/italian-stories-data\.js/);
 assert.match(html,/italian-stories\.js/);
 assert.match(html,/italian-stories\.css/);
 console.log('Italian Stories validated:',stories.length,'stories,',stories.reduce((sum,s)=>sum+s.words.length,0),'tappable words');
+
+assert.deepEqual(stories.slice(10,13).map(s=>s.level),['pre-A1','pre-A1','pre-A1']);
+assert.equal(stories[39].level,'A2');
+assert.match(fs.readFileSync(new URL('../dist/italian-stories.js',import.meta.url),'utf8'),/story\.level/);
+console.log('Italian reading progression validated: pre-A1 through A2');
