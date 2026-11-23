@@ -626,6 +626,16 @@
     window.scrollTo(0,0);
   });
   window.WordFlipNavigateToLanguages=goToLanguages;
+  // Both the logo and the wordmark return home from any child screen.
+  // Reuse the same reset and back transition as the existing home navigation.
+  document.getElementById('wordflipHome').onclick=()=>{
+    if(!document.body.classList.contains('language-selected') &&
+       !document.body.classList.contains('training') &&
+       !document.body.classList.contains('progress-view-open') &&
+       !document.body.classList.contains('stories-view-open') &&
+       !document.body.classList.contains('story-home-open'))return;
+    goToLanguages();
+  };
   window.WordFlipCloseCoins=closeCoins;
   const progressButton=document.createElement('button');progressButton.className='progress-open-button';progressButton.type='button';
   progressButton.textContent='Your progress';
