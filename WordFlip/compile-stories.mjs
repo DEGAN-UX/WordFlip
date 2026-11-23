@@ -13,7 +13,7 @@ for(const filename of ['content/italian-stories-expansion-a.js','content/italian
 const extra=[...context.window.WordFlipItalianStoryExpansionA,...context.window.WordFlipItalianStoryExpansionB];
 if(base.length!==10||extra.length!==30)throw new Error('Expected 10 original and 30 additional stories');
 
-const normalize=w=>w.replace(/^[^\\p{L}\\p{N}]+|[^\\p{L}\\p{N}]+$/gu,'').toLowerCase();
+const normalize=w=>w.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu,'').toLowerCase();
 const originals={};
 for(const story of base)for(const entry of story.words){
   const key=normalize(entry[0]);
@@ -23,7 +23,7 @@ const lexicon={...originals,...custom};
 const missing=new Set();
 const compiled=extra.map((story,i)=>{
   if(story.id!==i+11)throw new Error('Story ID progression is incorrect: '+story.id);
-  const words=story.text.trim().split(/\\s+/u).map(token=>{
+  const words=story.text.trim().split(/\s+/u).map(token=>{
     const gloss=lexicon[normalize(token)];
     if(!gloss){missing.add(normalize(token));return [token,''];}
     return [token,gloss];
@@ -44,5 +44,5 @@ for(const story of all){
   }
   if(open)throw new Error('Unclosed quotation in '+story.title);
 }
-fs.writeFileSync(path.join(root,'dist/italian-stories-data.js'),'window.WordFlipItalianStories='+JSON.stringify(all)+';\\n'.replace('\\\\n','\\n'));
+fs.writeFileSync(path.join(root,'dist/italian-stories-data.js'),'window.WordFlipItalianStories='+JSON.stringify(all)+';'+String.fromCharCode(10));
 console.log('Compiled',all.length,'Italian stories,',all.reduce((n,s)=>n+s.words.length,0),'tappable words');
