@@ -579,7 +579,11 @@
   for(const [code,meta] of Object.entries(languages)){
     const button=document.createElement('button');button.className='language-choice';button.dataset.language=code;
     button.innerHTML=`<span class="flag" aria-hidden="true">${meta.flag}</span><span class="language-card-copy"><strong>${meta.name}</strong><small id="languageStat-${code}">Ready to practise</small></span>`;
-    button.onclick=()=>window.WordFlipDrill.run('forward',()=>{selectLanguage(code);document.body.classList.add('language-selected');window.WordFlipShowHub?.();window.scrollTo(0,0);});
+    button.onclick=()=>window.WordFlipDrill.run('forward',()=>{
+      selectLanguage(code);document.body.classList.add('language-selected');
+      activeFooterSection='practice';window.WordFlipOpenPractice?.();
+      updateFooterSelection();window.scrollTo(0,0);
+    });
     languageCards.append(button);
   }
   picker.append(languageCards);
@@ -646,7 +650,8 @@
       window.WordFlipDrill.run('forward',()=>{
         stopSpeech();selectLanguage(code);
         document.body.classList.add('language-selected');
-        window.WordFlipShowHub?.();
+        activeFooterSection='practice';window.WordFlipOpenPractice?.();
+        updateFooterSelection();
         if(document.body.classList.contains('settings-view-open')){
           document.body.classList.remove('settings-view-open');settingsOrigin=null;
           $('settingsButton').setAttribute('aria-expanded','false');
@@ -705,6 +710,8 @@
     closeCoins();window.WordFlipHideStoryViews?.();
     stopSpeech();
     document.body.classList.remove('language-selected','training','progress-view-open');
+    storiesEmpty.hidden=true;activeFooterSection='practice';
+    updateFooterSelection();
     $('study').classList.remove('hidden');
     $('summary').style.display='none';
     $('settings').style.display='none';
