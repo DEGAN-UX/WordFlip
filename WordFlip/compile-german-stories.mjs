@@ -34,7 +34,7 @@ if(fs.existsSync(distUrl)){
 }
 const stories=[...first,...rest,...extensions31to50];
 if(stories.length!==50||new Set(stories.map(s=>s.id)).size!==50)throw Error('German story count must be 50 unique stories');
-const allowedLevels=new Set(['A2','A2+','B1','B1+','B2']);
+const allowedLevels=new Set(['A2','A2+','B1','B1+','B2-','B2']);
 for(const [i,story] of stories.entries()){
   if(story.id!==i+1)throw Error('German story IDs must be consecutive');
   if(!allowedLevels.has(story.level))throw Error('Unexpected CEFR difficulty at story '+story.id);
