@@ -400,3 +400,30 @@ body.language-selected:not(.training) #study>.progress-open-button{display:none!
 }
 body.language-selected main{padding-bottom:calc(env(safe-area-inset-bottom) + 92px)}
 body.settings-view-open main{padding-bottom:calc(env(safe-area-inset-bottom) + 92px)}
+
+/* Four peers replace Learn. Header Home returns to the language picker. */
+.top .language-switch,
+.language-switch{display:none!important}
+.wordflip-header-home{
+  appearance:none;-webkit-appearance:none;
+  display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;
+  color:#456154;background:#fff;border:1px solid #d8ded7;
+  border-radius:50%;cursor:pointer;
+}
+.wordflip-header-home:focus-visible{outline:3px solid #e8a77e;outline-offset:3px}
+body:not(.language-selected):not(.settings-view-open) .wordflip-header-home{display:none!important}
+body.settings-view-open .wordflip-header-home{display:grid!important}
+#wordflipFooterNav{grid-template-columns:repeat(4,minmax(0,1fr))}
+.wordflip-footer-tab{font-size:11px}
+body.settings-view-open #wordflipStoriesEmpty{display:none!important}
+#wordflipStoriesEmpty[hidden]{display:none!important}
+.wordflip-stories-empty{
+  max-width:520px;margin:35px auto 0;padding:25px 23px;
+  background:#fff;border:1px solid #dfe7df;border-radius:20px;
+}
+.wordflip-stories-empty h1{font-size:30px;letter-spacing:-1px;margin:10px 0}
+.wordflip-stories-empty p{font-size:15px;color:#77877d;line-height:1.6;margin:0}
+body.progress-view-open .wordflip-stories-empty{display:none!important}
+body.stories-view-open:has(.story-read-view:not([hidden])) #wordflipFooterNav{display:none!important}
+body.stories-view-open:has(.story-read-view:not([hidden])) .wordflip-back-row{display:flex!important}
+body.language-selected:not(.settings-view-open):not(.progress-view-open) #study>.progress-open-button{display:none!important}
