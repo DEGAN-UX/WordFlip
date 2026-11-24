@@ -104,3 +104,9 @@ body.grammar-inspector-open{overflow:hidden}
 /* Tooltip owns its tap targets; the underlying story must not intercept them. */
 .story-word-tooltip button{pointer-events:auto;position:relative;z-index:1;touch-action:manipulation}
 .grammar-inspector-sheet{z-index:3500}
+
+
+/* Contextual grammar examples and readable label/value rows on small phones. */
+.grammar-inspector-story-example{margin:9px 0 18px;padding:13px 14px;background:#eef3ed;border-radius:12px;color:#385347;font-size:14px;line-height:1.65}
+.grammar-inspector-story-example strong{background:#d4e9d8;color:#174c33;padding:1px 3px;border-radius:4px}
+.grammar-inspector-form>span:last-child{color:#263f32;text-align:right;font-weight:650;max-width:67%;overflow-wrap:anywhere}
