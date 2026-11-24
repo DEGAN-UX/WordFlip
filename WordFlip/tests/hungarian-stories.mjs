@@ -104,3 +104,14 @@ assert.match(reader,/grammar-inspector-sheet/,'Expandable Grammar Inspector shou
 assert.match(reader,/grammar-inspector-paradigm/,'Grammar Inspector should present actual conjugations');
 assert.match(reader,/readLabel\.textContent='Read'/,'Read status must include a visible label');
 console.log('150 graded stories validated across Italian, Hungarian and German, with Grammar Inspector.');
+
+const readerCSS=fs.readFileSync(new URL('../dist/italian-stories.css',import.meta.url),'utf8');
+assert.match(readerCSS,/\.story-word-tooltip\{[^}]*pointer-events:auto;/,
+  'Tooltips must intercept touches rather than passing them through to the story');
+assert.match(reader,/if\(tooltip\.contains\(event\.target\)\)return;/,
+  'Outside tap handling must preserve taps on tooltip controls');
+assert.match(reader,/more\.onclick=event=>\{event\.stopPropagation\(\);openInspector\(word,parts\);\}/,
+  'Grammar Inspector button must receive a click and open details');
+assert.match(readerCSS,/\.grammar-inspector-sheet\{z-index:3500\}/,
+  'Expanded grammar bottom sheet must stack above the tooltip');
+console.log('Touch event hit testing for tooltip and Grammar Inspector covered.');
