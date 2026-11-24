@@ -179,6 +179,9 @@
     renderList();scrollTop();
   }
   // Language selection and its hub are one atomic drill-down navigation.
+  window.WordFlipOpenPractice=()=>practiceButton.click();
+  window.WordFlipOpenStories=()=>readButton.click();
+  window.WordFlipStoriesAvailable=()=>isSupported();
   window.WordFlipShowHub=showHub;
   window.WordFlipHideStoryViews=()=>{hideHub();hideStories();};
 
