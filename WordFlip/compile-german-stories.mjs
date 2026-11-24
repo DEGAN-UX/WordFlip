@@ -23,9 +23,18 @@ for(const [filename,global] of files){
   if(batch.length!==6)throw Error('Expected six stories in '+filename);
   rest.push(...batch);
 }
-const stories=[...first,...rest];
-if(stories.length!==30)throw Error('German story count must be 30');
-const levelFor=i=>i<12?'B1':i<18?'B1+':i<24?'B2-':'B2';
+// Retain stories 31–50 from the checked-in collection when recompiling the
+// original 30 curated German stories. Build output must never shrink the corpus.
+const distUrl=new URL('./dist/german-stories-data.js',import.meta.url);
+let extensions31to50=[];
+if(fs.existsSync(distUrl)){
+  const content=fs.readFileSync(distUrl,'utf8');
+  const match=content.match(/^window\\.WordFlipGermanStories=(.*);\\s*$/s);
+  if(match)extensions31to50=JSON.parse(match[1]).filter(item=>item.id>=31).sort((a,b)=>a.id-b.id);
+}
+const stories=[...first,...rest,...extensions31to50];
+if(stories.length!==50||new Set(stories.map(s=>s.id)).size!==50)throw Error('German story count must be 50 unique stories');
+const levelFor=i=>i<12?'B1':i<18?'B1+':i<24?'B2-':i<30?'B2':i<36?'B1+':'B2';
 for(const [i,story] of stories.entries()){
   if(story.id!==i+1)throw Error('German story IDs must be consecutive');
   if(story.level!==levelFor(i))throw Error('Unexpected CEFR difficulty at story '+story.id);
