@@ -155,6 +155,18 @@
     };
     element.textContent='0';requestAnimationFrame(tick);
   }
+  // Keep this tiny presentation preference separate from the learning history.
+  // Each language remembers the card that opened its previous session.
+  function shuffleSelectedQueue(){
+    const key='wordflip-last-first-card-v1-'+language;
+    let previous=null;
+    try{previous=localStorage.getItem(key);}catch{}
+    queue=window.WordFlipAdaptive.shuffleSession(queue,previous);
+    const first=queue[0]?.id??queue[0]?.record?.id;
+    if(first!=null){
+      try{localStorage.setItem(key,String(first));}catch{}
+    }
+  }
   function start(){
     queue=language==='hu'&&category==='cheatsheet'?cheatsheet.createSession(history,cheatsheet.enabled(),Number($('length').value)):
       window.WordFlipAdaptive.createSession({
@@ -162,6 +174,7 @@
       length:Number($('length').value),pace:$('learningPace').value,verbMode:$('verbMode').value,
       phraseTopics:activePhraseTopics,phraseLevel:activePhraseLevel
     });
+    shuffleSelectedQueue();
     index=0;knew=0;recognised=0;missed=0;correctRun=0;bestRun=0;
     $('study').classList.remove('hidden');$('summary').style.display='none';show();
     announceNewContent(queue);
@@ -740,6 +753,7 @@
       queue=window.WordFlipAdaptive.createSession({cards:weakest.length?weakest:pool,history,engine,language,
         category:section,direction:'mixed',length:Number($('length').value),verbMode:'auto'});
     }
+    shuffleSelectedQueue();
     document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active',p.dataset.category===category));
     index=0;knew=0;recognised=0;missed=0;correctRun=0;bestRun=0;
     $('study').classList.remove('hidden');$('summary').style.display='none';show();
