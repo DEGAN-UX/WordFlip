@@ -747,7 +747,13 @@
   const progressPage=document.createElement('section');progressPage.id='learningProgress';progressPage.className='learning-progress';
   progressPage.hidden=true;progressPage.innerHTML='<button type="button" class="progress-back">← Back to practice</button><header class="progress-heading"><span class="eyebrow">YOUR LEARNING JOURNEY</span><h1></h1><p>Discover what you have explored and how confidently you remember it.</p></header><div class="progress-category-list"></div><p class="progress-method">Seen counts unique exercises encountered. Recognition and recall represent recent-weighted confidence on tested exercises only. Older reviews are estimated from saved totals and the latest rating. A dash means not yet tested.</p>';
   $('study').insertAdjacentElement('afterend',progressPage);
-  const progressBack=()=>window.WordFlipDrill.run('back',()=>{progressPage.hidden=true;document.body.classList.remove('progress-view-open');updateFooterSelection();window.scrollTo(0,0);});
+  const progressBack=()=>window.WordFlipDrill.run('back',()=>{
+    progressPage.hidden=true;document.body.classList.remove('progress-view-open');
+    if(activeFooterSection==='stories'&&window.WordFlipStoriesAvailable?.())window.WordFlipOpenStories?.();
+    else if(activeFooterSection==='stories')storiesEmpty.hidden=false;
+    else window.WordFlipOpenPractice?.();
+    updateFooterSelection();window.scrollTo(0,0);
+  });
   progressPage.querySelector('.progress-back').onclick=progressBack;
   const progressSections={
     hu:[['word','Words'],['verb','Conjugation'],['phrase','Phrases'],['suffix','Suffixes'],['cheatsheet','Cheatsheet']],
@@ -870,6 +876,7 @@
     document.body.classList.remove('story-home-open');
     $('settings').style.display='none';
   }
+  window.WordFlipGoToPractice=()=>footerTabs.get('practice').click();
   footerTabs.get('practice').onclick=()=>{
     if(activeFooterSection==='practice'&&!document.body.classList.contains('progress-view-open')&&!document.body.classList.contains('settings-view-open'))return;
     clearPeerView();
