@@ -54,7 +54,7 @@ assert.match(reader,/story-library-back/);
 assert.doesNotMatch(reader,/className='pill stories-pill'/);
 console.log('Dialogue punctuation and separate activity navigation validated');
 
-const practiceHandler=reader.match(/practiceButton\.onclick=\(\)=>window\.WordFlipDrill\.run\('forward',\(\)=>\{([\s\S]*?)\n  \}\);/);
+const practiceHandler=reader.match(/function showPractice\(\)\{([\s\S]*?)\n  \}/);
 assert.ok(practiceHandler,'Practice button must have its own handler');
 assert.match(practiceHandler[1],/classList\.remove\('training'/,'Practice button should open category choice, not a card');
 assert.doesNotMatch(practiceHandler[1],/classList\.add\('training'/,'Practice button must not directly start a session');
@@ -63,7 +63,7 @@ assert.match(trainingLayout,/home-launch/,'Category chooser must have a Start pr
 console.log('Practice category-first navigation validated');
 
 assert.match(reader,/root\.querySelector\('\.story-read-view \.story-back'\)\.onclick=\(\)=>window\.WordFlipDrill\.run\('back',closeReading\)/,'Reader back button must target reader screen, not library');
-assert.match(reader,/listBack\.onclick=\(\)=>window\.WordFlipDrill\.run\('back',showHub\)/,'Library back button must return to activities');
+assert.match(reader,/listBack\.onclick=\(\)=>window\.WordFlipDrill\.run\('back',\(\)=>window\.WordFlipGoToPractice\?\.\(\)\)/,'Library Back returns to Practice');
 assert.doesNotMatch(reader,/root\.querySelector\('\.story-back'\)\.onclick=closeReading/,'Generic selector accidentally binds to library back button');
 console.log('Story back-navigation selectors validated');
 
