@@ -136,6 +136,29 @@ window.WordFlipAdaptive = (() => {
     }
     return selected;
   }
+  // Selection stays adaptive; only the presentation order is random.
+  // A Fisher-Yates shuffle avoids the bias of sort(() => Math.random() - .5).
+  // Keep the preceding session's first card out of the first position when
+  // another card is available (including Hungarian cheatsheet questions).
+  const sessionCardId=card=>card?.id??card?.record?.id??null;
+  function shuffleSession(cards,previousFirstId=null,random=Math.random){
+    const ordered=cards.slice();
+    for(let i=ordered.length-1;i>0;i--){
+      const j=Math.min(i,Math.max(0,Math.floor(random()*(i+1))));
+      [ordered[i],ordered[j]]=[ordered[j],ordered[i]];
+    }
+    if(ordered.length>1&&previousFirstId!==null&&sessionCardId(ordered[0])===previousFirstId){
+      const alternatives=[];
+      for(let i=1;i<ordered.length;i++){
+        if(sessionCardId(ordered[i])!==previousFirstId)alternatives.push(i);
+      }
+      if(alternatives.length){
+        const j=alternatives[Math.min(alternatives.length-1,Math.max(0,Math.floor(random()*alternatives.length)))];
+        [ordered[0],ordered[j]]=[ordered[j],ordered[0]];
+      }
+    }
+    return ordered;
+  }
   function updatedRecallSupport({history,card,language,reverse,rating,now}){
     const recallKey=`${card.id}:en-${language}`;
     const recall=history[recallKey];
@@ -162,5 +185,5 @@ window.WordFlipAdaptive = (() => {
       }
     }
   }
-  return {createSession,pickDirection,hungarianVerbStage,updatedRecallSupport,updatedVerbSupport};
+  return {createSession,shuffleSession,pickDirection,hungarianVerbStage,updatedRecallSupport,updatedVerbSupport};
 })();
