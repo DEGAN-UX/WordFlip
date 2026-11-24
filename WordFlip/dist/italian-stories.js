@@ -164,6 +164,40 @@
   ];
   for(const row of italianVerbs)addVerb('it',...row);
   for(const row of germanVerbs)addVerb('de',...row);
+  // Verified irregular forms only; avoid claiming a past-tense reading when
+  // the same surface spelling also occurs in another person or construction.
+  const verbExtras={
+    de:{
+      'sein':{formsExtra:[['Präteritum','war'],['Partizip II','gewesen'],['Perfekt','ist gewesen']]},
+      'haben':{formsExtra:[['Präteritum','hatte'],['Partizip II','gehabt'],['Perfekt','hat gehabt']]},
+      'werden':{formsExtra:[['Präteritum','wurde'],['Partizip II','geworden'],['Perfekt','ist geworden']]},
+      'gehen':{formsExtra:[['Präteritum','ging'],['Partizip II','gegangen'],['Perfekt','ist gegangen']]},
+      'kommen':{formsExtra:[['Präteritum','kam'],['Partizip II','gekommen'],['Perfekt','ist gekommen']]},
+      'nehmen':{formsExtra:[['Präteritum','nahm'],['Partizip II','genommen']]},
+      'geben':{formsExtra:[['Präteritum','gab'],['Partizip II','gegeben']]},
+      'sehen':{formsExtra:[['Präteritum','sah'],['Partizip II','gesehen']]},
+      'sprechen':{formsExtra:[['Präteritum','sprach'],['Partizip II','gesprochen']]},
+      'essen':{formsExtra:[['Präteritum','ass'],['Partizip II','gegessen']]},
+      'fahren':{formsExtra:[['Präteritum','fuhr'],['Partizip II','gefahren']],note:'Perfekt can use ist (movement) or hat (driving a vehicle as an activity).'},
+      'wissen':{formsExtra:[['Präteritum','wusste'],['Partizip II','gewusst']]}
+    },
+    it:{
+      'essere':{formsExtra:[['Passato prossimo','sono stato / stata'],['Participio passato','stato / stata']]},
+      'avere':{formsExtra:[['Passato prossimo','ho avuto'],['Participio passato','avuto']]},
+      'andare':{formsExtra:[['Passato prossimo','sono andato / andata'],['Participio passato','andato / andata']]},
+      'fare':{formsExtra:[['Passato prossimo','ho fatto'],['Participio passato','fatto']]},
+      'dire':{formsExtra:[['Passato prossimo','ho detto'],['Participio passato','detto']]},
+      'venire':{formsExtra:[['Passato prossimo','sono venuto / venuta'],['Participio passato','venuto / venuta']]},
+      'bere':{formsExtra:[['Passato prossimo','ho bevuto'],['Participio passato','bevuto']]},
+      'leggere':{formsExtra:[['Passato prossimo','ho letto'],['Participio passato','letto']]}
+    }
+  };
+  for(const [lang,items] of Object.entries(verbExtras)){
+    for(const [inf,extra] of Object.entries(items)){
+      const record=grammarIndex[lang].get(inf);
+      if(record)Object.assign(record,extra);
+    }
+  }
   // Curated high-frequency noun, adjective and preposition facts.
   const grammarFacts={
     it:[
@@ -329,9 +363,16 @@
         body.append(note);
       }
     }
-    if(data.type!=='Verb'&&Array.isArray(data.forms)){
-      // Structured forms for nouns, adjectives and prepositions.
-      // (These entries use the same accessible form-row component.)
+    if(data.type==='Verb'&&data.formsExtra?.length){
+      const title=document.createElement('h3');title.textContent='Other useful forms';body.append(title);
+      const table=document.createElement('div');table.className='grammar-inspector-paradigm';
+      for(const [label,value] of data.formsExtra){
+        const row=document.createElement('div');row.className='grammar-inspector-form';
+        const name=document.createElement('span');name.textContent=label;
+        const form=document.createElement('span');form.textContent=value;
+        row.append(name,form);table.append(row);
+      }
+      body.append(table);
     }
     if(data.parts){
       const table=document.createElement('div');table.className='grammar-inspector-paradigm';
