@@ -55,7 +55,7 @@ assert.match(app,/window\.WordFlipNavigateToLanguages=goToLanguages/);
 assert.match(app,/coin\.onclick=event=>/);
 assert.match(layout,/\.language-switch\.is-open \.language-coin/);
 assert.match(layout,/\.story-back,\.activity-practice-back/);
-assert.match(layout,/\.practice-exit,\.summary #returnToMenu\{display:none!important\}/);
+assert.doesNotMatch(layout,/\.practice-exit,\.summary #returnToMenu\{display:none!important\}/,'Training exit must remain visible');
 console.log('Coin switcher, direct selection and swipe-only back navigation verified.');
 
 assert.match(html,/<button type="button" class="brand" id="wordflipHome"/,'Icon and title must share a Home button');
@@ -69,3 +69,11 @@ assert.match(app,/backButton\.onclick=\(\)=>window\.WordFlipDrill\.swipeBack\(\)
 assert.match(layout,/\.wordflip-back-button\{/,'Visible Back button must be styled');
 assert.match(layout,/body:not\(\.language-selected\) \.wordflip-back-button\{display:none\}/,'Root language picker must not show Back');
 console.log('Header Back button shares the existing swipe-back navigation.');
+
+assert.match(app,/insertBefore\(backButton,document\.getElementById\('wordflipHome'\)\)/,
+  'Back must be placed outside overlapping language-flag controls');
+assert.match(layout,/\.top>\.wordflip-back-button\{position:relative;z-index:2/,
+  'Back must stay visible beside the title');
+assert.match(training,/body\.training \.practice-exit \{display:flex\}/,
+  'Practice view must show its own Back control');
+console.log('Back controls visible in header and flashcard training.');
