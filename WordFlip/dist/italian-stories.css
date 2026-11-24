@@ -25,7 +25,7 @@ body.stories-view-open #study>.progress,body.stories-view-open #study>.stage,bod
 .story-text p{margin:0 0 21px}
 .story-word{color:inherit;display:inline;padding:2px 1px;border:0;background:transparent;border-radius:3px;font:inherit;line-height:inherit;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent}
 .story-word:hover,.story-word-selected{background:#e6f1f5;color:#1d597b}
-.story-word-tooltip{position:fixed;z-index:3000;max-width:min(260px,calc(100vw - 24px));min-width:125px;pointer-events:none;padding:11px 16px 10px;border-radius:11px;background:#202528;box-shadow:0 8px 28px #10181935;color:#fff;text-align:center}
+.story-word-tooltip{position:fixed;z-index:3000;max-width:min(260px,calc(100vw - 24px));min-width:125px;pointer-events:auto;touch-action:manipulation;padding:11px 16px 10px;border-radius:11px;background:#202528;box-shadow:0 8px 28px #10181935;color:#fff;text-align:center}
 .story-word-tooltip strong{display:block;font-size:15px;font-weight:680;line-height:1.35;word-break:normal}
 .story-word-tooltip small{display:block;color:#aab6b5;font-size:11px;margin-top:4px}
 .story-navigation{border-top:1px solid #e1e7e1;padding-top:23px;display:flex;justify-content:space-between;gap:12px;margin-top:25px}
@@ -100,3 +100,7 @@ body.story-home-open #summary,body.stories-view-open #summary{display:none!impor
 .grammar-inspector-form button:focus-visible,.grammar-inspector-close:focus-visible,.story-word-inspect:focus-visible{outline:3px solid #e8a77e;outline-offset:3px}
 body.grammar-inspector-open{overflow:hidden}
 @media(min-width:680px){.grammar-inspector-panel{margin-bottom:20px;border-radius:24px;max-height:80dvh}}
+
+/* Tooltip owns its tap targets; the underlying story must not intercept them. */
+.story-word-tooltip button{pointer-events:auto;position:relative;z-index:1;touch-action:manipulation}
+.grammar-inspector-sheet{z-index:3500}
