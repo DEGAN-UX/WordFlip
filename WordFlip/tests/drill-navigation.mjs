@@ -20,7 +20,7 @@ assert.match(css,/cubic-bezier\(\.45,0,\.18,1\)/);
 assert.match(layout,/\.language-cards\{display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
 assert.match(app,/WordFlipDrill\.run\('forward'/);
 assert.match(app,/WordFlipDrill\.run\('back'/);
-assert.match(app,/WordFlipShowHub\?\.\(\)/);
+assert.match(app,/WordFlipOpenPractice\?\.\(\)/);
 assert.match(reader,/window\.WordFlipShowHub=showHub/);
 assert.match(reader,/window\.WordFlipHideStoryViews/);
 assert.match(reader,/WordFlipDrill\.run\('forward',showStories\)/);
@@ -123,11 +123,12 @@ assert.match(layout,/\.top \.language-switch\{flex:0 0 49px;width:49px;height:49
 console.log('Header uses one current-language flag while the overlay retains all four options.');
 
 assert.match(app,/footerNav\.id='wordflipFooterNav'/,'Footer navigation must exist');
-assert.match(app,/\['learn','Learn'\],\['progress','Progress'\],\['settings','Settings'\]/,
-  'Footer has Learn, Progress and Settings');
+assert.match(app,/\['practice','Practice'\],\['stories','Stories'\],\['progress','Progress'\],\['settings','Settings'\]/,
+  'Footer has Practice, Stories, Progress and Settings');
 assert.match(app,/footerTabs\.get\('settings'\)\.onclick=/,'Settings footer button works');
 assert.match(app,/footerTabs\.get\('progress'\)\.onclick=/,'Progress footer button works');
-assert.match(app,/footerTabs\.get\('learn'\)\.onclick=/,'Learn footer button works');
+assert.match(app,/footerTabs\.get\('practice'\)\.onclick=/,'Practice footer button works');
+assert.match(app,/footerTabs\.get\('stories'\)\.onclick=/,'Stories footer button works');
 assert.match(app,/if\(id===active\)button\.setAttribute\('aria-current','page'\)/,'Active section is indicated');
 assert.match(layout,/#settingsButton\{display:none!important\}/,'Settings is no longer prominent in top navigation');
 assert.match(layout,/#wordflipFooterNav\{[\s\S]*?position:fixed;left:50%;bottom:0;/,
@@ -136,4 +137,22 @@ assert.match(layout,/body\.training #wordflipFooterNav\{display:none!important\}
   'Footer does not obstruct full-screen training');
 assert.match(layout,/body\.settings-view-open #wordflipFooterNav\{display:grid!important\}/,
   'Footer remains present on Settings');
-console.log('Three-section footer, instant Settings and per-language Progress verified.');
+console.log('Four-section footer, instant navigation and per-language Progress verified.');
+
+assert.match(app,/homeIcon\.id='wordflipHeaderHome'/,
+  'A Home icon must replace the header flag');
+assert.match(app,/homeIcon\.onclick=goToLanguages/,
+  'Home icon returns to language-selection screen');
+assert.match(layout,/\.top \.language-switch,\s*\.language-switch\{display:none!important\}/,
+  'Language flag must be absent from the header');
+assert.match(layout,/#wordflipFooterNav\{grid-template-columns:repeat\(4,minmax\(0,1fr\)\)\}/,
+  'Footer must have four equal destinations');
+assert.match(app,/WordFlipStoriesAvailable\?\.\(\)/,
+  'Stories destination checks current language availability');
+assert.match(app,/storiesEmpty\.hidden=false/,
+  'Unavailable story libraries show a useful empty state');
+assert.match(reader,/window\.WordFlipOpenPractice=\(\)=>showPractice\(\)/,
+  'Practice peer switches without a slide transition');
+assert.match(reader,/window\.WordFlipOpenStories=\(\)=>showStories\(\)/,
+  'Stories peer switches without a slide transition');
+console.log('Home icon, four instant footer destinations and Croatian Stories empty state verified.');
