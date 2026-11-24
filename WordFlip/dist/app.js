@@ -615,6 +615,13 @@
   backRow.className='wordflip-back-row';backRow.append(backButton);
   document.querySelector('main > .top').insertAdjacentElement('afterend',backRow);
   headerActions.append(languageSwitch,$('settingsButton'));
+  const homeIcon=document.createElement('button');
+  homeIcon.type='button';homeIcon.id='wordflipHeaderHome';
+  homeIcon.className='wordflip-header-home';
+  homeIcon.setAttribute('aria-label','Home — choose language');
+  homeIcon.title='Choose language';
+  homeIcon.innerHTML='<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10h-6v-6H9v6H3z"/></svg>';
+  headerActions.append(homeIcon);
 
   const languageOverlay=document.createElement('div');
   languageOverlay.id='wordflipLanguageOverlay';
@@ -707,6 +714,7 @@
     });
   };
   window.WordFlipNavigateToLanguages=goToLanguages;
+  homeIcon.onclick=goToLanguages;
   // Both the logo and the wordmark return home from any child screen.
   // Reuse the same reset and back transition as the existing home navigation.
   document.getElementById('wordflipHome').onclick=()=>{
@@ -819,42 +827,66 @@
   footerNav.setAttribute('aria-label','Main navigation');
   const footerTabs=new Map();
   const footerIcons={
-    learn:'<path d="M3 6.5c3-1.5 6-1.5 9 .5 3-2 6-2 9-.5v12c-3-1.5-6-1.5-9 .5-3-2-6-2-9-.5z"/><path d="M12 7v12"/>',
+    practice:'<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9h10M7 13h6"/>',
+    stories:'<path d="M3 6.5c3-1.5 6-1.5 9 .5 3-2 6-2 9-.5v12c-3-1.5-6-1.5-9 .5-3-2-6-2-9-.5z"/><path d="M12 7v12"/>',
     progress:'<path d="M4 19V11m6 8V6m6 13v-9m4 9V4"/>',
-    settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06-2 2-.06-.06A1.65 1.65 0 0 0 16 18.5l-.1.04-.4 2.46h-3l-.4-2.46-.1-.04a1.65 1.65 0 0 0-1.73.32l-.06.06-2-2 .06-.06A1.65 1.65 0 0 0 8.6 15l-.04-.1L6 14.5v-3l2.56-.4.04-.1a1.65 1.65 0 0 0-.33-1.82l-.06-.06 2-2 .06.06A1.65 1.65 0 0 0 12 7.5l.1-.04.4-2.46h3l.4 2.46.1.04a1.65 1.65 0 0 0 1.73-.32l.06-.06 2 2-.06.06A1.65 1.65 0 0 0 19.4 11l.04.1 2.56.4v3l-2.56.4z"/>'
+    settings:'<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.2-1.7l2-1.4-2-3.4-2.3 1A7 7 0 0 0 14 5.1L13.7 3h-4L9.4 5.1A7 7 0 0 0 7 6.5l-2.3-1-2 3.4 2 1.4a7 7 0 0 0 0 3.4l-2 1.4 2 3.4 2.3-1A7 7 0 0 0 9.4 19l.3 2h4l.3-2a7 7 0 0 0 2.5-1.5l2.3 1 2-3.4-2-1.4A7 7 0 0 0 19 12z"/>'
   };
-  for(const [id,label] of [['learn','Learn'],['progress','Progress'],['settings','Settings']]){
+  for(const [id,label] of [['practice','Practice'],['stories','Stories'],['progress','Progress'],['settings','Settings']]){
     const button=document.createElement('button');button.type='button';
     button.className='wordflip-footer-tab';button.dataset.footerTab=id;
     button.innerHTML='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+footerIcons[id]+'</svg><span>'+label+'</span>';
     footerNav.append(button);footerTabs.set(id,button);
   }
   document.querySelector('main').append(footerNav);
+  const storiesEmpty=document.createElement('section');
+  storiesEmpty.id='wordflipStoriesEmpty';
+  storiesEmpty.className='wordflip-stories-empty';
+  storiesEmpty.hidden=true;
+  storiesEmpty.innerHTML='<span class="eyebrow">READING PRACTICE</span><h1>Stories</h1><p>Graded stories for this language are coming soon. You can continue practising vocabulary and grammar in the meantime.</p>';
+  footerNav.before(storiesEmpty);
+  let activeFooterSection='practice';
   function updateFooterSelection(){
     const body=document.body;
     const active=body.classList.contains('settings-view-open')?'settings':
-      body.classList.contains('progress-view-open')?'progress':'learn';
+      body.classList.contains('progress-view-open')?'progress':activeFooterSection;
     for(const [id,button] of footerTabs){
       if(id===active)button.setAttribute('aria-current','page');
       else button.removeAttribute('aria-current');
     }
   }
-  footerTabs.get('learn').onclick=()=>{
+  function clearPeerView(){
     if(document.body.classList.contains('settings-view-open'))closeSettings();
-    if(document.body.classList.contains('progress-view-open')){
-      progressPage.hidden=true;document.body.classList.remove('progress-view-open');
-    }
-    window.WordFlipShowHub?.();
+    document.body.classList.remove('progress-view-open');
+    progressPage.hidden=true;
+    storiesEmpty.hidden=true;
+    document.body.classList.remove('story-home-open');
+    $('settings').style.display='none';
+  }
+  footerTabs.get('practice').onclick=()=>{
+    if(activeFooterSection==='practice'&&!document.body.classList.contains('progress-view-open')&&!document.body.classList.contains('settings-view-open'))return;
+    clearPeerView();
+    activeFooterSection='practice';
+    window.WordFlipOpenPractice?.();
+    updateFooterSelection();window.scrollTo(0,0);
+  };
+  footerTabs.get('stories').onclick=()=>{
+    if(activeFooterSection==='stories'&&!document.body.classList.contains('progress-view-open')&&!document.body.classList.contains('settings-view-open'))return;
+    clearPeerView();activeFooterSection='stories';
+    if(window.WordFlipStoriesAvailable?.())window.WordFlipOpenStories?.();
+    else{window.WordFlipHideStoryViews?.();storiesEmpty.hidden=false;$('study').classList.add('hidden');}
     updateFooterSelection();window.scrollTo(0,0);
   };
   footerTabs.get('progress').onclick=()=>{
-    if(document.body.classList.contains('settings-view-open'))closeSettings();
-    if(document.body.classList.contains('progress-view-open'))return;
-    progressButton.click();
+    if(document.body.classList.contains('progress-view-open')&&!document.body.classList.contains('settings-view-open'))return;
+    clearPeerView();
+    if(activeFooterSection==='stories')window.WordFlipHideStoryViews?.();
+    renderLearningProgress();progressPage.hidden=false;
+    document.body.classList.add('progress-view-open');
+    updateFooterSelection();window.scrollTo(0,0);
   };
   footerTabs.get('settings').onclick=()=>{
     if(document.body.classList.contains('settings-view-open'))return;
-    // Keep the underlying section intact: Back returns to Progress or Learn.
     openSettings();
   };
   updateFooterSelection();
@@ -1084,5 +1116,8 @@
     }).catch(()=>{if(language===code){$('frontText').textContent='Unable to load cards';$('frontTag').textContent='TRY RELOADING';}});
   }
   selectLanguage(language);
+  // The language picker remains the app root; after choosing a language,
+  // enter the Practice section directly instead of the obsolete activity hub.
+  // Footer navigation tracks the active peer section.
   // Service-worker registration and safe updates are managed by update-manager.js.
 })();
