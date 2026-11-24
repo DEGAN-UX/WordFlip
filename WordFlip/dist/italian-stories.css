@@ -86,7 +86,6 @@ body.story-home-open #summary,body.stories-view-open #summary{display:none!impor
 .grammar-inspector-handle{width:38px;height:5px;background:#cbd9d0;border-radius:99px;margin:0 auto 20px}
 .grammar-inspector-head{display:flex;justify-content:space-between;gap:14px;align-items:start}
 .grammar-inspector-head h2{font-size:28px;letter-spacing:-.8px;line-height:1.2;margin:8px 0 15px}
-.grammar-inspector-close{display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;background:#fff;border:1px solid #dce5df;border-radius:50%;font-size:26px;color:#395a48}
 .grammar-inspector-type{font-size:12px;text-transform:uppercase;letter-spacing:1.3px;font-weight:750;color:#668675;margin:0 0 6px}
 .grammar-inspector-lemma{font-size:17px;font-weight:650;color:#233e31;margin:0 0 22px}
 .grammar-inspector-body h3{font-size:14px;letter-spacing:.1px;font-weight:760;margin:0 0 10px}
@@ -97,7 +96,7 @@ body.story-home-open #summary,body.stories-view-open #summary{display:none!impor
 .grammar-inspector-form.is-selected{background:#e3f1e7;border-color:#95bea4}
 .grammar-inspector-form.is-selected button{color:#145c3b}
 .grammar-inspector-context{margin:14px 0 0;font-size:12px;color:#76877c;line-height:1.6}
-.grammar-inspector-form button:focus-visible,.grammar-inspector-close:focus-visible,.story-word-inspect:focus-visible{outline:3px solid #e8a77e;outline-offset:3px}
+.grammar-inspector-form button:focus-visible,.story-word-inspect:focus-visible{outline:3px solid #e8a77e;outline-offset:3px}
 body.grammar-inspector-open{overflow:hidden}
 @media(min-width:680px){.grammar-inspector-panel{margin-bottom:20px;border-radius:24px;max-height:80dvh}}
 
@@ -110,3 +109,32 @@ body.grammar-inspector-open{overflow:hidden}
 .grammar-inspector-story-example{margin:9px 0 18px;padding:13px 14px;background:#eef3ed;border-radius:12px;color:#385347;font-size:14px;line-height:1.65}
 .grammar-inspector-story-example strong{background:#d4e9d8;color:#174c33;padding:1px 3px;border-radius:4px}
 .grammar-inspector-form>span:last-child{color:#263f32;text-align:right;font-weight:650;max-width:67%;overflow-wrap:anywhere}
+
+/* iOS-style Grammar Inspector bottom sheet: scrolling is not dismissal. */
+.grammar-inspector-sheet .grammar-inspector-backdrop{
+  opacity:0;transition:opacity 280ms ease;
+}
+.grammar-inspector-sheet .grammar-inspector-panel{
+  transform:translate3d(0,calc(100% + 24px),0);
+  transition:transform 330ms cubic-bezier(.22,1,.36,1);
+  will-change:transform;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+}
+.grammar-inspector-sheet.is-open .grammar-inspector-backdrop{opacity:1}
+.grammar-inspector-sheet.is-open .grammar-inspector-panel{transform:translate3d(0,0,0)}
+.grammar-inspector-sheet.is-dragging .grammar-inspector-panel{
+  transform:translate3d(0,var(--sheet-drag,0px),0);
+  transition:none;
+}
+.grammar-inspector-sheet.is-closing .grammar-inspector-panel{
+  transform:translate3d(0,calc(100% + 24px),0);
+  transition:transform 300ms cubic-bezier(.4,0,1,1);
+}
+.grammar-inspector-sheet.is-closing .grammar-inspector-backdrop{opacity:0}
+.grammar-inspector-handle{touch-action:pan-y;cursor:grab}
+.grammar-inspector-sheet.is-dragging .grammar-inspector-handle{cursor:grabbing}
+@media(prefers-reduced-motion:reduce){
+  .grammar-inspector-sheet .grammar-inspector-backdrop,
+  .grammar-inspector-sheet .grammar-inspector-panel{transition:none!important}
+}
