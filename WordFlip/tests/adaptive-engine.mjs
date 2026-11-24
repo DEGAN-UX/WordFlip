@@ -61,3 +61,32 @@ assert.equal(guided[0].verbStage,'guided','focused manual practice can select a 
 const original={ 'v1:hu-en':{reviews:3,correct:2,streak:2,due:0}};
 assert.equal(adaptive.hungarianVerbStage(huVerb,original,'auto'),'guided','legacy conjugation success is not treated as productive mastery');
 console.log('Adaptive selection passed: recognition, recall, support, pacing, categories and focus');
+
+// Presentation order is randomised only after adaptive selection.
+const sourceCards=Array.from({length:12},(_,i)=>({id:'shuffle-'+i,category:'word'}));
+const originalIds=sourceCards.map(c=>c.id);
+const seededRandom=seed=>()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+const firstOrder=adaptive.shuffleSession(sourceCards,null,seededRandom(1));
+const secondOrder=adaptive.shuffleSession(sourceCards,firstOrder[0].id,seededRandom(2));
+const thirdOrder=adaptive.shuffleSession(sourceCards,secondOrder[0].id,seededRandom(3));
+for(const shuffled of [firstOrder,secondOrder,thirdOrder]){
+  assert.equal(shuffled.length,sourceCards.length,'Shuffling must not drop or add cards');
+  assert.equal(new Set(shuffled.map(c=>c.id)).size,sourceCards.length,'Shuffling must preserve unique cards');
+  assert.deepEqual(shuffled.map(c=>c.id).sort(),originalIds.slice().sort(),'Selection remains unchanged');
+}
+assert.deepEqual(sourceCards.map(c=>c.id),originalIds,'Shuffling cannot modify scheduler output');
+assert.notDeepEqual(firstOrder.map(c=>c.id),secondOrder.map(c=>c.id),'Fresh sessions should not repeat a fixed order');
+assert.notEqual(secondOrder[0].id,firstOrder[0].id,'Second session must start with a different card');
+assert.notEqual(thirdOrder[0].id,secondOrder[0].id,'Third session must start with a different card');
+assert.deepEqual(adaptive.shuffleSession([],null,seededRandom(1)),[],'No cards should remain empty');
+assert.equal(adaptive.shuffleSession([sourceCards[0]],sourceCards[0].id,seededRandom(1))[0],sourceCards[0],
+  'Single-card sessions must still work');
+const quizCards=[{record:{id:'q1'},type:'recognition'},{record:{id:'q2'},type:'recall'},{record:{id:'q3'},type:'application'}];
+const shuffledQuiz=adaptive.shuffleSession(quizCards,'q2',()=>0);
+assert.notEqual(shuffledQuiz[0].record.id,'q2','Cheatsheet sessions also avoid repeated first cards');
+assert.equal(new Set(shuffledQuiz).size,3,'Cheatsheet question variants must remain intact');
+const appSource=fs.readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+assert.match(appSource,/function shuffleSelectedQueue\(\)/,'All sessions must use the presentation shuffle');
+assert.equal((appSource.match(/    shuffleSelectedQueue\(\);/g)||[]).length,2,
+  'Both normal and progress-derived practice sessions must shuffle');
+console.log('Session shuffling: adaptive selection preserved, independent orders, no repeated starting card.');
