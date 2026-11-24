@@ -440,24 +440,26 @@
     const body=document.body;
     settingsOrigin={training:body.classList.contains('training'),scrollY:window.scrollY};
     closeCoinsIfAvailable();
-    window.WordFlipDrill.run('forward',()=>{
+    {
       if(settingsOrigin.training)body.classList.remove('training');
       body.classList.add('settings-view-open');
       $('settings').style.display='block';
       $('settingsButton').setAttribute('aria-expanded','true');
+      updateFooterSelection();
       window.scrollTo(0,0);
-    });
+    }
   }
   function closeSettings(){
     if(!document.body.classList.contains('settings-view-open'))return;
-    window.WordFlipDrill.run('back',()=>{
+    {
       document.body.classList.remove('settings-view-open');
       $('settings').style.display='none';
       $('settingsButton').setAttribute('aria-expanded','false');
       if(settingsOrigin?.training)document.body.classList.add('training');
       window.scrollTo(0,settingsOrigin?.scrollY||0);
       settingsOrigin=null;
-    });
+      updateFooterSelection();
+    }
   }
   function closeCoinsIfAvailable(){window.WordFlipCloseCoins?.();}
   window.WordFlipCloseSettings=closeSettings;
@@ -804,7 +806,60 @@
       }
     }
   }
-  progressButton.onclick=()=>window.WordFlipDrill.run('forward',()=>{renderLearningProgress();progressPage.hidden=false;document.body.classList.add('progress-view-open');window.scrollTo(0,0);});
+  progressButton.onclick=()=>{
+    renderLearningProgress();progressPage.hidden=false;
+    document.body.classList.remove('settings-view-open');
+    $('settings').style.display='none';
+    document.body.classList.add('progress-view-open');
+    updateFooterSelection();window.scrollTo(0,0);
+  };
+  // App-wide bottom navigation. These are peer sections, so do not animate.
+  const footerNav=document.createElement('nav');
+  footerNav.id='wordflipFooterNav';footerNav.className='wordflip-footer-nav';
+  footerNav.setAttribute('aria-label','Main navigation');
+  const footerTabs=new Map();
+  const footerIcons={
+    learn:'<path d="M3 6.5c3-1.5 6-1.5 9 .5 3-2 6-2 9-.5v12c-3-1.5-6-1.5-9 .5-3-2-6-2-9-.5z"/><path d="M12 7v12"/>',
+    progress:'<path d="M4 19V11m6 8V6m6 13v-9m4 9V4"/>',
+    settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06-2 2-.06-.06A1.65 1.65 0 0 0 16 18.5l-.1.04-.4 2.46h-3l-.4-2.46-.1-.04a1.65 1.65 0 0 0-1.73.32l-.06.06-2-2 .06-.06A1.65 1.65 0 0 0 8.6 15l-.04-.1L6 14.5v-3l2.56-.4.04-.1a1.65 1.65 0 0 0-.33-1.82l-.06-.06 2-2 .06.06A1.65 1.65 0 0 0 12 7.5l.1-.04.4-2.46h3l.4 2.46.1.04a1.65 1.65 0 0 0 1.73-.32l.06-.06 2 2-.06.06A1.65 1.65 0 0 0 19.4 11l.04.1 2.56.4v3l-2.56.4z"/>'
+  };
+  for(const [id,label] of [['learn','Learn'],['progress','Progress'],['settings','Settings']]){
+    const button=document.createElement('button');button.type='button';
+    button.className='wordflip-footer-tab';button.dataset.footerTab=id;
+    button.innerHTML='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+footerIcons[id]+'</svg><span>'+label+'</span>';
+    footerNav.append(button);footerTabs.set(id,button);
+  }
+  document.querySelector('main').append(footerNav);
+  function updateFooterSelection(){
+    const body=document.body;
+    const active=body.classList.contains('settings-view-open')?'settings':
+      body.classList.contains('progress-view-open')?'progress':'learn';
+    for(const [id,button] of footerTabs){
+      if(id===active)button.setAttribute('aria-current','page');
+      else button.removeAttribute('aria-current');
+    }
+  }
+  footerTabs.get('learn').onclick=()=>{
+    if(document.body.classList.contains('settings-view-open'))closeSettings();
+    if(document.body.classList.contains('progress-view-open')){
+      progressPage.hidden=true;document.body.classList.remove('progress-view-open');
+    }
+    window.WordFlipShowHub?.();
+    updateFooterSelection();window.scrollTo(0,0);
+  };
+  footerTabs.get('progress').onclick=()=>{
+    if(document.body.classList.contains('settings-view-open'))closeSettings();
+    if(document.body.classList.contains('progress-view-open'))return;
+    progressButton.click();
+  };
+  footerTabs.get('settings').onclick=()=>{
+    if(document.body.classList.contains('settings-view-open'))return;
+    if(document.body.classList.contains('progress-view-open')){
+      progressPage.hidden=true;document.body.classList.remove('progress-view-open');
+    }
+    openSettings();
+  };
+  updateFooterSelection();
   function practiceWeak(section,topic){
     progressBack();
     if(section==='cheatsheet'){
