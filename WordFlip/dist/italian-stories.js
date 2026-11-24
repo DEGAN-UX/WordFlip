@@ -454,7 +454,10 @@
   root.querySelector('.story-previous').onclick=()=>window.WordFlipDrill.run('back',()=>openStory(currentStory-1));
   root.querySelector('.story-next').onclick=()=>window.WordFlipDrill.run(currentStory<stories.length-1?'forward':'back',()=>currentStory<stories.length-1?openStory(currentStory+1):closeReading());
   document.addEventListener('pointerdown',event=>{
-    if(tooltip.hidden)return;
+    // Interacting with the tooltip (especially its Grammar details button)
+    // must not dismiss it before the ensuing click event is dispatched.
+    if(!inspectorSheet.hidden||tooltip.hidden)return;
+    if(tooltip.contains(event.target))return;
     if(event.target.closest('.story-word')===activeWord)return;
     dismiss();
   });
