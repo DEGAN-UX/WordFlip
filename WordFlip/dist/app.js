@@ -597,12 +597,10 @@
   coinToggle.setAttribute('aria-haspopup','dialog');
   coinToggle.setAttribute('aria-expanded','false');
   coinToggle.setAttribute('aria-controls','wordflipLanguageOverlay');
-  const coinButtons=new Map();
-  for(const [code,meta] of Object.entries(languages)){
-    const coin=document.createElement('span');coin.className='language-coin';
-    coin.textContent=meta.flag;coin.setAttribute('aria-hidden','true');
-    coinTray.append(coin);coinButtons.set(code,coin);
-  }
+  const currentFlag=document.createElement('span');
+  currentFlag.className='language-coin';
+  currentFlag.setAttribute('aria-hidden','true');
+  coinTray.append(currentFlag);
   languageSwitch.append(coinTray,coinToggle);
   $('settingsButton').before(headerActions);
   const backButton=document.createElement('button');
@@ -651,16 +649,14 @@
     overlayOptions.append(choice);overlayCards.set(code,choice);
   }
   function arrangeCoins(){
-    const ordered=[...Object.keys(languages).filter(code=>code!==language),language];
-    ordered.forEach((code,i)=>{
-      const coin=coinButtons.get(code);
-      coin.style.setProperty('--coin-depth',String(ordered.length-1-i));
-      coin.style.zIndex=String(i+1);
-      const card=overlayCards.get(code),selected=code===language;
+    currentFlag.textContent=languages[language].flag;
+    coinToggle.setAttribute('aria-label','Current language: '+languages[language].name+'. Choose language');
+    for(const [code,card] of overlayCards){
+      const selected=code===language;
       card.classList.toggle('is-current',selected);
       card.setAttribute('aria-current',selected?'true':'false');
       card.querySelector('.language-overlay-current').textContent=selected?'Current':'';
-    });
+    }
   }
   function closeCoins(){
     if(languageOverlay.hidden)return;
