@@ -600,9 +600,12 @@
   backButton.setAttribute('aria-label','Back to previous page');
   backButton.title='Back';
   backButton.onclick=()=>window.WordFlipDrill.swipeBack();
-  // Keep Back outside the flag tray's overlapping stacking context.
-  // Placing it beside the wordmark also makes it visible on narrow iPhones.
-  document.querySelector('main > .top').insertBefore(backButton,document.getElementById('wordflipHome'));
+  // Parent navigation belongs below the complete brand/flags/settings header,
+  // not inside it. Keep it independently positioned across mobile widths.
+  const backRow=document.createElement('div');
+  backRow.className='wordflip-back-row';
+  backRow.append(backButton);
+  document.querySelector('main > .top').insertAdjacentElement('afterend',backRow);
   headerActions.append(languageSwitch,$('settingsButton'));
   function arrangeCoins(){
     const ordered=[...Object.keys(languages).filter(code=>code!==language),language];
