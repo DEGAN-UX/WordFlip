@@ -34,15 +34,21 @@ assert(continued.some(c=>c.id==='c39'),'previously studied cards must survive a 
 for(const language of ['it','hu']){
   const prefix=language==='it'?'it':'hu';
   const bank=Array.from({length:30},(_,i)=>({id:`${prefix}${i}`,priority:i+1,category:'word'}));
-  const learned=Object.fromEntries(bank.slice(0,5).map(c=>[`${c.id}:${language}-en`,{reviews:3,correct:3,streak:3,due:999999,lastReviewed:900}]));
+  const learned=Object.fromEntries(bank.slice(0,5).flatMap(c=>[
+    [`${c.id}:${language}-en`,{reviews:3,correct:3,streak:3,due:999999,last:900}],
+    [`${c.id}:en-${language}`,{reviews:3,correct:3,streak:3,due:999999,last:900}]
+  ]));
   const more=adaptive.createSession({cards:bank,history:learned,engine:{unlocked:()=>5},language,category:'all',direction:'auto',length:12,now:1000});
   assert(more.some(c=>c.isNew&&c.priority>5),`${language}: automatic unlocks new vocabulary after reaching the boundary`);
   assert(more.filter(c=>c.isNew).length<=6,`${language}: normal pace still caps new material`);
   assert(more.every(c=>c.priority<=23),`${language}: the next vocabulary batch is priority-ordered`);
   const exhausted=bank.slice(0,5);
   const refreshed=adaptive.createSession({cards:exhausted,history:learned,engine:{unlocked:()=>5},language,category:'all',direction:'auto',length:5,now:1000});
-  assert.equal(refreshed.length,5,`${language}: nothing due still offers reinforcement`);
-  assert(refreshed.every(c=>!c.isNew),`${language}: reinforcement reuses studied cards`);
+  assert.equal(refreshed.length,0,`${language}: future-due cards must rest during normal sessions`);
+  const extra=adaptive.createSession({cards:exhausted,history:learned,engine:{unlocked:()=>5},
+    language,category:'all',direction:'auto',length:5,extraOnly:true,now:1000});
+  assert.equal(extra.length,5,`${language}: optional extra practice offers familiar material`);
+  assert(extra.every(c=>!c.isNew&&!c.isDue),`${language}: extra practice only uses studied, non-due cards`);
 }
 const huVerb={id:'v1',category:'verb',priority:31,hu:'menni · én · present',en:'megyek — I go',exampleHu:'Munkába megyek.',exampleEn:"I'm going to work."};
 const huHistory={};
@@ -90,3 +96,14 @@ assert.match(appSource,/function shuffleSelectedQueue\(\)/,'All sessions must us
 assert.equal((appSource.match(/    shuffleSelectedQueue\(\);/g)||[]).length,2,
   'Both normal and progress-derived practice sessions must shuffle');
 console.log('Session shuffling: adaptive selection preserved, independent orders, no repeated starting card.');
+
+const promoted=[{id:'promoted',priority:1,category:'word'}];
+const promotedHistory={'promoted:it-en':{reviews:2,correct:2,streak:2,due:999999},
+  'promoted:en-it':{reviews:0,due:999999}};
+const promotedNormal=adaptive.createSession({cards:promoted,history:promotedHistory,
+  engine:{unlocked:()=>1},language:'it',category:'all',direction:'auto',length:10,now:1000});
+assert.equal(promotedNormal.length,0,'A future-due promoted recall direction must not be presented early');
+const promotedExtra=adaptive.createSession({cards:promoted,history:promotedHistory,
+  engine:{unlocked:()=>1},language:'it',category:'all',direction:'auto',length:10,extraOnly:true,now:1000});
+assert.equal(promotedExtra.length,1,'Optional extra practice can include a promoted direction');
+console.log('Strict due dates, new-card limits and opt-in extra reinforcement passed.');
