@@ -169,9 +169,9 @@
   }
   function start(extraOnly=false){
     extraOnly=extraOnly===true; // Event handlers may pass a click/change event.
-    queue=language==='hu'&&category==='cheatsheet'?cheatsheet.createSession(history,cheatsheet.enabled(),Number($('length').value)):
+    queue=!extraOnly&&language==='hu'&&category==='cheatsheet'?cheatsheet.createSession(history,cheatsheet.enabled(),Number($('length').value)):
       window.WordFlipAdaptive.createSession({
-      cards,history,engine,language,category,direction:$('direction').value,
+      cards,history,engine,language,category:extraOnly?'all':category,direction:extraOnly?'auto':$('direction').value,
       length:Number($('length').value),pace:$('learningPace').value,verbMode:$('verbMode').value,
       phraseTopics:activePhraseTopics,phraseLevel:activePhraseLevel,extraOnly
     });
