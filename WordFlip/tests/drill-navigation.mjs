@@ -94,7 +94,7 @@ assert.match(source('training-layout.css'),/body\.training \.practice-exit \{dis
 console.log('Back controls visible in header and flashcard training.');
 
 assert.match(app,/function openSettings\(\)/,'Settings opens as a child page');
-assert.match(app,/window\.WordFlipDrill\.run\('forward',\(\)=>\{/,'Settings must use the forward transition');
+assert.doesNotMatch(app.slice(app.indexOf('function openSettings()'),app.indexOf('function closeSettings()')),/WordFlipDrill\.run/,'Footer Settings must switch instantly');
 assert.match(app,/function closeSettings\(\)/,'Settings has a return action');
 assert.match(app,/window\.WordFlipCloseSettings=closeSettings/,'The navigation engine can close Settings');
 assert.match(app,/settingsOrigin=\{training:body\.classList\.contains\('training'\),scrollY:window\.scrollY\}/,
@@ -121,3 +121,19 @@ assert.doesNotMatch(app,/coinButtons=new Map\(\)/,
 assert.match(layout,/\.top \.language-switch\{flex:0 0 49px;width:49px;height:49px\}/,
   'Current-language button is a single 49px circle');
 console.log('Header uses one current-language flag while the overlay retains all four options.');
+
+assert.match(app,/footerNav\.id='wordflipFooterNav'/,'Footer navigation must exist');
+assert.match(app,/\['learn','Learn'\],\['progress','Progress'\],\['settings','Settings'\]/,
+  'Footer has Learn, Progress and Settings');
+assert.match(app,/footerTabs\.get\('settings'\)\.onclick=/,'Settings footer button works');
+assert.match(app,/footerTabs\.get\('progress'\)\.onclick=/,'Progress footer button works');
+assert.match(app,/footerTabs\.get\('learn'\)\.onclick=/,'Learn footer button works');
+assert.match(app,/if\(id===active\)button\.setAttribute\('aria-current','page'\)/,'Active section is indicated');
+assert.match(layout,/#settingsButton\{display:none!important\}/,'Settings is no longer prominent in top navigation');
+assert.match(layout,/#wordflipFooterNav\{[\s\S]*?position:fixed;left:50%;bottom:0;/,
+  'Footer is fixed to the bottom of the screen');
+assert.match(layout,/body\.training #wordflipFooterNav\{display:none!important\}/,
+  'Footer does not obstruct full-screen training');
+assert.match(layout,/body\.settings-view-open #wordflipFooterNav\{display:grid!important\}/,
+  'Footer remains present on Settings');
+console.log('Three-section footer, instant Settings and per-language Progress verified.');
