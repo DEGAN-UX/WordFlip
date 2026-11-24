@@ -592,7 +592,15 @@
   }
   languageSwitch.append(coinTray,coinToggle);
   $('settingsButton').before(headerActions);
-  headerActions.append(languageSwitch,$('settingsButton'));
+  const backButton=document.createElement('button');
+  backButton.type='button';
+  backButton.id='wordflipBack';
+  backButton.className='wordflip-back-button';
+  backButton.textContent='←';
+  backButton.setAttribute('aria-label','Back to previous page');
+  backButton.title='Back';
+  backButton.onclick=()=>window.WordFlipDrill.swipeBack();
+  headerActions.append(backButton,languageSwitch,$('settingsButton'));
   function arrangeCoins(){
     const ordered=[...Object.keys(languages).filter(code=>code!==language),language];
     ordered.forEach((code,i)=>{
