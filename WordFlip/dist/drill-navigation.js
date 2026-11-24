@@ -50,14 +50,13 @@
 
   function swipeBack(){
     if(transitioning)return false;
+    // Settings is its own child page: the gesture returns to the exact parent.
+    if(document.body.classList.contains('settings-view-open')){
+      window.WordFlipCloseSettings?.();return true;
+    }
     const coins=document.getElementById('languageSwitcher');
     if(coins?.classList.contains('is-open')){
       window.WordFlipCloseCoins?.();return true;
-    }
-    const settings=document.getElementById('settings');
-    if(settings && getComputedStyle(settings).display!=='none'){
-      const button=document.getElementById('settingsButton');
-      if(button){button.click();return true;}
     }
     if(document.body.classList.contains('story-home-open')){
       window.WordFlipNavigateToLanguages?.();return true;
