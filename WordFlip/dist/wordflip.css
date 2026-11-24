@@ -243,3 +243,40 @@ button.brand{font-family:inherit;font-weight:780;letter-spacing:-1.2px;font-size
 button.brand .brand-word{font-weight:780;letter-spacing:-1.2px}
 @media(max-width:395px){button.brand{font-size:23px}}
 @media(max-width:350px){button.brand{font-size:21px}}
+
+/* Settings is a dedicated drill-down page, never an overlay over learning UI. */
+body.settings-view-open main > :not(.top):not(.wordflip-back-row):not(#settings){display:none!important}
+body.settings-view-open .wordflip-back-row{display:flex!important;margin:16px 0 0}
+body.settings-view-open .wordflip-back-button{display:grid!important}
+body.settings-view-open .language-switch{display:none!important}
+body.settings-view-open #settingsButton{display:none!important}
+body.settings-view-open #settings{
+  display:block!important;width:100%;max-width:620px;margin:17px auto 35px;
+  padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;
+}
+.settings-page-heading{margin:15px 0 29px}
+.settings-page-heading h1{font-size:clamp(30px,7vw,39px);line-height:1.13;letter-spacing:-1.2px;margin:10px 0 8px;color:#193e34}
+.settings-page-heading p{font-size:14px;line-height:1.55;color:#77877d;margin:0}
+body.settings-view-open #settings>label,
+body.settings-view-open #settings>.backup-section,
+body.settings-view-open #settings>.settings-group{
+  display:block;background:#fff;border:1px solid #e1e6df;
+  border-radius:16px;padding:16px;margin:0 0 12px;
+}
+body.settings-view-open #settings>label{font-size:14px;font-weight:650}
+body.settings-view-open #settings select{font-size:15px}
+body.settings-view-open #settings>.small{margin:15px 0}
+body.settings-view-open #settings button:focus-visible{outline:3px solid #e8a77e;outline-offset:3px}
+/* Same 49px circular frame as each flag coin. */
+#settingsButton.icon{
+  box-sizing:border-box;appearance:none;-webkit-appearance:none;
+  display:grid;place-items:center;flex:0 0 49px;
+  width:49px;height:49px;min-width:49px;min-height:49px;
+  padding:0;border:1.5px solid #d8ded7;border-radius:50%;
+  background:#fff;box-shadow:0 2px 6px #253a3519;
+}
+#settingsButton.icon svg{width:25px;height:25px}
+@media(max-width:395px){
+  .top #settingsButton.icon{flex:0 0 49px;width:49px;height:49px;min-width:49px;min-height:49px}
+  .top .language-switch{flex-basis:83px;width:83px}
+}
