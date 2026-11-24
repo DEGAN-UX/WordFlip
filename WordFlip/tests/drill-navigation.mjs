@@ -74,6 +74,6 @@ assert.match(app,/insertBefore\(backButton,document\.getElementById\('wordflipHo
   'Back must be placed outside overlapping language-flag controls');
 assert.match(layout,/\.top>\.wordflip-back-button\{position:relative;z-index:2/,
   'Back must stay visible beside the title');
-assert.match(training,/body\.training \.practice-exit \{display:flex\}/,
+assert.match(source('training-layout.css'),/body\.training \.practice-exit \{display:flex\}/,
   'Practice view must show its own Back control');
 console.log('Back controls visible in header and flashcard training.');
