@@ -50,13 +50,22 @@ console.log('Right-swipe gestures use the active screen back control and preserv
 assert.match(app,/id='languageSwitcher'/);
 assert.match(app,/className='language-coin-tray'/);
 assert.match(app,/className='language-coin-toggle'/);
-assert.match(app,/Switch to '\+meta\.name/);
+assert.match(app,/languageOverlay\.id='wordflipLanguageOverlay'/);
+assert.match(app,/role="dialog" aria-modal="true"/);
+assert.match(app,/className='language-overlay-card'/);
+assert.match(app,/choice\.querySelector\('\.language-overlay-name'\)\.textContent=meta\.name/);
+assert.match(app,/card\.classList\.toggle\('is-current',selected\)/);
+assert.match(app,/overlayClose\.onclick=closeCoins/);
+assert.match(app,/languageOverlay\.querySelector\('\.language-overlay-backdrop'\)\.onclick=closeCoins/);
+assert.match(app,/if\(event\.key==='Escape'\)/);
 assert.match(app,/window\.WordFlipNavigateToLanguages=goToLanguages/);
-assert.match(app,/coin\.onclick=event=>/);
-assert.match(layout,/\.language-switch\.is-open \.language-coin/);
+assert.match(app,/choice\.onclick=\(\)=>/);
+assert.match(layout,/\.language-overlay-card\{/);
+assert.match(layout,/\.language-overlay\[hidden\]\{display:none!important\}/);
+assert.match(layout,/\.language-switch\.is-open \.language-coin,/);
 assert.match(layout,/\.story-back,\.activity-practice-back/);
 assert.doesNotMatch(layout,/\.practice-exit,\.summary #returnToMenu\{display:none!important\}/,'Training exit must remain visible');
-console.log('Coin switcher, direct selection and swipe-only back navigation verified.');
+console.log('Language switcher opens labelled card overlay, supports dismissal and keeps flags stationary.');
 
 assert.match(html,/<button type="button" class="brand" id="wordflipHome"/,'Icon and title must share a Home button');
 assert.match(app,/getElementById\('wordflipHome'\)\.onclick=/,'Home button must be wired');
