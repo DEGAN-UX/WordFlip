@@ -1,4 +1,4 @@
-.update-banner{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 22px);transform:translateX(-50%);z-index:50;width:min(440px,calc(100vw - 32px));background:#193e34;color:white;border-radius:17px;box-shadow:0 12px 35px #163a3055;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px}
+.update-banner{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom, 0px) + 96px);transform:translateX(-50%);z-index:1300;width:min(440px,calc(100vw - 32px));background:#193e34;color:white;border-radius:17px;box-shadow:0 12px 35px #163a3055;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px}
 .update-banner[hidden]{display:none!important}
 .update-banner strong{display:block;margin-bottom:3px;font-size:14px}
 .update-banner button{flex:0 0 auto;border:0;border-radius:12px;background:#fff;color:#193e34;padding:12px 14px;font-size:13px;font-weight:750}
