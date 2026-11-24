@@ -191,10 +191,10 @@ body:not(.language-selected) .language-switch{display:none}
 .language-switch.is-open .language-coin:focus-visible{outline:3px solid #e8a77e;outline-offset:3px}
 .language-switch.is-open .language-coin:hover{background:#f4f8f5}
 .language-switch.is-open .language-coin-toggle{background:transparent}
-/* Parent navigation is now available by right swipe rather than visible arrows.
-   Retain the controls in the DOM so swipe and keyboard-back can share handlers. */
+/* Header Back button provides parent navigation; keep the older controls
+   for the shared swipe handlers, but never hide the training screen's exit. */
 .story-back,.activity-practice-back,.story-library-back,.progress-back,
-.practice-exit,.summary #returnToMenu{display:none!important}
+.summary #returnToMenu{display:none!important}
 @media(prefers-reduced-motion:reduce){.language-coin{transition:none!important}}
 
 /* The app icon and wordmark are one accessible Home control. */
@@ -216,4 +216,23 @@ body:not(.language-selected) .wordflip-back-button{display:none}
 @media(max-width:375px){
   .header-actions{gap:5px!important}
   .wordflip-back-button{flex-basis:33px;width:33px;height:39px}
+}
+
+/* The Back control lives before the wordmark, outside the flag flyout.
+   This prevents the overlapping coins from obscuring the navigation affordance. */
+.top{gap:7px}
+.top>.wordflip-back-button{position:relative;z-index:2;flex-shrink:0}
+@media(max-width:395px){
+  .top{gap:5px}
+  .top .brand-logo{width:27px;height:27px;flex-basis:27px}
+  .top .brand{gap:5px;font-size:21px;min-width:0}
+  .top .language-switch{flex-basis:78px;width:78px}
+  .top #settingsButton{width:39px;height:39px;flex-shrink:0}
+  .top .header-actions{gap:5px!important}
+}
+@media(max-width:350px){
+  .top .brand{font-size:18px}
+  .top .brand-logo{width:24px;height:24px;flex-basis:24px}
+  .top .language-switch{flex-basis:69px;width:69px}
+  .top .wordflip-back-button{width:32px;flex-basis:32px}
 }
