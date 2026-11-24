@@ -111,3 +111,13 @@ assert.match(layout,/#settingsButton\.icon\{/,'Settings circle has an explicit s
 assert.match(layout,/width:49px;height:49px;min-width:49px;min-height:49px/,
   'Settings and flag coins have matching 49px frames');
 console.log('Settings drill-down, reverse navigation and equal circular header controls verified.');
+
+assert.match(app,/currentFlag\.textContent=languages\[language\]\.flag/,
+  'Header shows the current language, not all four flags');
+assert.match(app,/coinTray\.append\(currentFlag\)/,
+  'Only one flag is added to the header');
+assert.doesNotMatch(app,/coinButtons=new Map\(\)/,
+  'No legacy four-flag stack remains');
+assert.match(layout,/\.top \.language-switch\{flex:0 0 49px;width:49px;height:49px\}/,
+  'Current-language button is a single 49px circle');
+console.log('Header uses one current-language flag while the overlay retains all four options.');
