@@ -204,14 +204,14 @@
   const practiceBack=document.createElement('button');practiceBack.type='button';
   practiceBack.className='story-back activity-practice-back';practiceBack.textContent='← Activities';
   study.insertAdjacentElement('afterbegin',practiceBack);
-  practiceBack.onclick=()=>window.WordFlipDrill.run('back',showHub);
+  practiceBack.onclick=()=>window.WordFlipNavigateToLanguages?.();
   // The existing results-screen Return to menu button now returns to activities.
   const resultsBack=document.getElementById('returnToMenu');
-  if(resultsBack)resultsBack.onclick=()=>window.WordFlipDrill.run('back',showHub);
+  if(resultsBack)resultsBack.onclick=()=>window.WordFlipDrill.run('back',showPractice);
   const listBack=document.createElement('button');listBack.type='button';
-  listBack.className='story-back story-library-back';listBack.textContent='← Back to activities';
+  listBack.className='story-back story-library-back';listBack.textContent='← Back to practice';
   root.querySelector('.story-list-view').prepend(listBack);
-  listBack.onclick=()=>window.WordFlipDrill.run('back',showHub);
+  listBack.onclick=()=>window.WordFlipDrill.run('back',()=>window.WordFlipGoToPractice?.());
   root.querySelector('.story-read-view .story-back').onclick=()=>window.WordFlipDrill.run('back',closeReading);
   root.querySelector('.story-previous').onclick=()=>window.WordFlipDrill.run('back',()=>openStory(currentStory-1));
   root.querySelector('.story-next').onclick=()=>window.WordFlipDrill.run(currentStory<stories.length-1?'forward':'back',()=>currentStory<stories.length-1?openStory(currentStory+1):closeReading());
