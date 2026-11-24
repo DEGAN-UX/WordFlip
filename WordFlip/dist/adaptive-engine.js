@@ -49,7 +49,7 @@ window.WordFlipAdaptive = (() => {
     if((recognition.correct||0)>=1&&(card.priority||0)%4===0)return true;
     return false;
   }
-  function createSession({cards,history,engine,language,category,direction,length,verbMode='auto',pace='normal',phraseTopics=null,phraseLevel='all',now=Date.now()}){
+  function createSession({cards,history,engine,language,category,direction,length,verbMode='auto',pace='normal',phraseTopics=null,phraseLevel='all',extraOnly=false,now=Date.now()}){
     const automatic=category==='all'&&direction==='auto';
     const unlocked=engine.unlocked(cards,history);
     const pool=cards.filter(c=>{
@@ -85,6 +85,13 @@ window.WordFlipAdaptive = (() => {
       const reason=verbStage?({recognition:'Verb recognition',guided:'Guided conjugation',production:'Active verb production'})[verbStage]:language==='de'&&['case','article','order'].includes(card.category)?'Grammar practice':isNew?'New vocabulary':support?'Recognition support':reverse?'Active recall':due?'Review due':'Recognition';
       return {...card,reverse,verbStage,progressKey,learningReason:reason,isNew,isDue:due,difficulty,learningGroup:group(card,language),review:selected,withinUnlock:(card.priority||0)<=unlocked};
     });
+    // Optional extra practice uses only already-studied, NOT-YET-DUE cards.
+    // It never sneaks into an ordinary automatic session.
+    if(extraOnly){
+      return candidates.filter(c=>!c.isNew&&!c.isDue).sort((a,b)=>
+        b.difficulty-a.difficulty||(a.review.last||0)-(b.review.last||0)
+      ).slice(0,length);
+    }
     // Explicit focus modes remain available; automatic enforces a new-card cap.
     if(!automatic){
       candidates.sort((a,b)=>Number(b.isDue)-Number(a.isDue)||Number(a.isNew)-Number(b.isNew)||
@@ -116,11 +123,8 @@ window.WordFlipAdaptive = (() => {
           .sort((a,b)=>(a.priority||0)-(b.priority||0));
         available=next.slice(0,Math.max(12,newLimit*3));
       }
-      if(!available.length){
-        // No review is due and no fresh material can be introduced: keep
-        // practising the weakest or least recently seen material instead.
-        available=remaining.filter(c=>!c.isNew);
-      }
+      // Respect future due dates. A normal session can be shorter than
+      // requested (or empty) when there are no due reviews/new cards.
       if(!available.length)break;
       // Overdue first. Among comparable cards, favour underrepresented skills.
       available.sort((a,b)=>{
