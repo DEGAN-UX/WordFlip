@@ -140,3 +140,11 @@ assert.match(reader,/contextWords\.slice\(from,to\)/,'Story context must come fr
 assert.match(reader,/data\.type==='Verb'/,'Verb paradigms must retain pronunciation buttons');
 assert.match(reader,/-ban\/-ben marks location inside something/,'Hungarian location suffixes need contextual explanations');
 console.log('Expanded Grammar Inspector learning content verified');
+
+assert.doesNotMatch(reader,/class="grammar-inspector-close"/,'Bottom sheet must not show a redundant close button');
+assert.match(reader,/inspectorPanel\.addEventListener\('touchmove'/,'Bottom sheet must support vertical gestures');
+assert.match(reader,/if\(dy>95\)closeInspector\(\)/,'Only a deliberate downward drag dismisses the sheet');
+assert.match(reader,/if\(inspectorSheet\.hidden\)dismiss\(\)/,'Reader scroll must not close an open inspector');
+assert.match(readerCSS,/\.grammar-inspector-sheet\.is-closing \.grammar-inspector-panel/,'Bottom sheet exit must animate');
+assert.match(readerCSS,/\.grammar-inspector-sheet\.is-open \.grammar-inspector-panel/,'Bottom sheet entrance must animate');
+console.log('Grammar Inspector bottom-sheet navigation and animation checks passed');
