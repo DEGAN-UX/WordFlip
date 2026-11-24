@@ -80,7 +80,10 @@ window.WordFlipAdaptive = (() => {
       const verbStudied=verbStage&&['recognition','guided','production'].some(s=>history[verbKey(card.id,s)]?.reviews);
       const isNew=verbStage?!(verbStudied||recognition.reviews||recall.reviews):!(recognition.reviews||recall.reviews);
       const support=verbStage?!!selected.needsSupport||verbStage==='guided'&&!!history[verbKey(card.id,'production')]?.needsSupport||verbStage==='recognition'&&!!history[verbKey(card.id,'guided')]?.needsSupport:direction==='auto'&&!reverse&&!!recall.needsSupport;
-      const due=support||(!selected.reviews&&!isNew)||!!selected.reviews&&(selected.due||0)<=now;
+      // A newly promoted direction may already have a future due date.
+      // Do not pull it forward simply because it has zero completed reviews.
+      const due=support||(!selected.reviews&&!isNew&&(!selected.due||selected.due<=now))||
+        !!selected.reviews&&(selected.due||0)<=now;
       const difficulty=(selected.reviews||0)>0?Math.max(0,1-(selected.correct||0)/(selected.reviews||1)):0;
       const reason=verbStage?({recognition:'Verb recognition',guided:'Guided conjugation',production:'Active verb production'})[verbStage]:language==='de'&&['case','article','order'].includes(card.category)?'Grammar practice':isNew?'New vocabulary':support?'Recognition support':reverse?'Active recall':due?'Review due':'Recognition';
       return {...card,reverse,verbStage,progressKey,learningReason:reason,isNew,isDue:due,difficulty,learningGroup:group(card,language),review:selected,withinUnlock:(card.priority||0)<=unlocked};
