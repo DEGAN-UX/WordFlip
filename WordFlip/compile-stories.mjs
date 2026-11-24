@@ -40,7 +40,7 @@ const existingDist=path.join(root,'dist/italian-stories-data.js');
 let extensions=[];
 if(fs.existsSync(existingDist)){
   const data=read('dist/italian-stories-data.js');
-  const match=data.match(/^window\\.WordFlipItalianStories=(.*);\\s*$/s);
+  const match=data.match(/^window\.WordFlipItalianStories=(.*);\s*$/s);
   if(match){
     const current=JSON.parse(match[1]);
     extensions=current.filter(story=>story.id>=41).sort((a,b)=>a.id-b.id);
