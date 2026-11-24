@@ -192,7 +192,7 @@
       ['klein','Adjective','klein','small','Comparative: kleiner · superlative: am kleinsten'],
       ['mit','Preposition','mit','with','Requires the dative case: mit dem Freund.'],
       ['für','Preposition','für','for','Requires the accusative case: für den Freund.'],
-      ['wegen','Preposition','wegen','because of','Usually takes the genitive in formal written German.']
+      ['wegen','Preposition','wegen','because of','Wegen expresses a reason, not a destination. In standard written German it normally governs the genitive: wegen des Wetters (because of the weather), wegen der Arbeit (because of work). Colloquial speech also commonly uses the dative: wegen dem Wetter. Swiss Standard German follows the written genitive convention.']
     ]
   };
   for(const [lang,rows] of Object.entries(grammarFacts))for(const [surface,type,lemma,meaning,note] of rows){
@@ -213,6 +213,7 @@
   inspectorSheet.innerHTML='<div class="grammar-inspector-backdrop"></div><section class="grammar-inspector-panel" role="dialog" aria-modal="true" aria-labelledby="grammarInspectorHeading"><div class="grammar-inspector-handle" aria-hidden="true"></div><header class="grammar-inspector-head"><div><span class="eyebrow">WORD IN CONTEXT</span><h2 id="grammarInspectorHeading"></h2></div><button type="button" class="grammar-inspector-close" aria-label="Close grammar details">×</button></header><div class="grammar-inspector-body"></div></section>';
   document.body.append(inspectorSheet);
   const closeInspector=()=>{
+    inspectorSelection=null;
     inspectorSheet.hidden=true;
     document.body.classList.remove('grammar-inspector-open');
     if(activeWord){activeWord.focus({preventScroll:true});}
@@ -226,8 +227,14 @@
     utterance.lang=activeLanguage==='de'?'de-CH':activeLanguage==='hu'?'hu-HU':'it-IT';
     utterance.rate=.83;window.speechSynthesis.speak(utterance);
   }
-  function openInspector(word,parts){
-    const data=inspectorData(word,parts);if(!data)return;
+  // A word selection is an immutable snapshot: a previously opened drawer
+  // must never provide content for a subsequently selected word.
+  let inspectorSelection=null;
+  function openInspector(selection){
+    if(!selection||selection.word!==activeWord||!selection.data)return;
+    const {word,data,language}=selection;
+    if(language!==activeLanguage)return;
+    inspectorSelection=selection;
     tooltip.hidden=true;
     const form=keyForGrammar(word.textContent);
     inspectorSheet.querySelector('h2').textContent=word.textContent.replace(/^[^\\p{L}]+|[^\\p{L}]+$/gu,'');
@@ -236,6 +243,17 @@
     const lemma=document.createElement('p');lemma.className='grammar-inspector-lemma';
     lemma.textContent=data.lemma+' · '+data.meaning;
     body.append(type,lemma);
+    // Show meaningful contextual guidance, not merely the same word translation.
+    if(activeLanguage==='de'&&form==='wegen'){
+      const heading=document.createElement('h3');heading.textContent='How to use wegen';body.append(heading);
+      for(const [example,translation] of [
+        ['Wegen des Wetters bleiben wir zu Hause.','Because of the weather, we are staying at home.'],
+        ['Wegen meiner Arbeit komme ich später.','Because of my work, I am coming later.']
+      ]){
+        const p=document.createElement('p');p.className='grammar-inspector-context';
+        p.textContent=example+' — '+translation;body.append(p);
+      }
+    }
     if(data.forms){
       const heading=document.createElement('h3');heading.textContent='Present tense · '+data.formLabel;body.append(heading);
       const table=document.createElement('div');table.className='grammar-inspector-paradigm';
@@ -293,7 +311,12 @@
       more.className='story-word-inspect';
       more.textContent='Grammar details · Expand';
       more.setAttribute('aria-label','Show grammar details for '+word.textContent);
-      more.onclick=event=>{event.stopPropagation();openInspector(word,parts);};
+      const selection={word,data:insight,language:activeLanguage};
+      more.onclick=event=>{
+        event.stopPropagation();
+        if(activeWord!==selection.word)return;
+        openInspector(selection);
+      };
       tooltip.append(more);
     }
     if(Array.isArray(parts)&&parts.length){
