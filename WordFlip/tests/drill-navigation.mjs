@@ -156,3 +156,16 @@ assert.match(reader,/window\.WordFlipOpenPractice=\(\)=>showPractice\(\)/,
 assert.match(reader,/window\.WordFlipOpenStories=\(\)=>showStories\(\)/,
   'Stories peer switches without a slide transition');
 console.log('Home icon, four instant footer destinations and Croatian Stories empty state verified.');
+
+assert.match(app,/id='wordflipPracticeExtra'/,'Opt-in reinforcement button must exist');
+assert.match(app,/extraButton\.onclick=\(\)=>window\.WordFlipDrill\.run\('forward'/,
+  'Extra practice starts explicitly');
+assert.match(app,/extraOnly=extraOnly===true/,'Click/change events cannot accidentally activate extra mode');
+assert.match(app,/function renderLearningProgress\(\)/,'Progress forecast has a rendering hook');
+assert.match(app,/className='progress-due-forecast'/,
+  'Forecast presents scheduled due reviews');
+assert.match(app,/\['Today',counts\.today\],\['Tomorrow',counts\.tomorrow\],\['Later',counts\.later\]/,
+  'Forecast separates due today, tomorrow and later');
+assert.match(layout,/\.progress-due-forecast\{/,'Forecast is styled');
+assert.match(layout,/\.practice-extra-button\{/,'Extra practice is styled');
+console.log('Extra practice control and per-language scheduled-review forecast verified.');
