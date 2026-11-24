@@ -281,16 +281,64 @@
   }
   const inspectorSheet=document.createElement('div');
   inspectorSheet.className='grammar-inspector-sheet';inspectorSheet.hidden=true;
-  inspectorSheet.innerHTML='<div class="grammar-inspector-backdrop"></div><section class="grammar-inspector-panel" role="dialog" aria-modal="true" aria-labelledby="grammarInspectorHeading"><div class="grammar-inspector-handle" aria-hidden="true"></div><header class="grammar-inspector-head"><div><span class="eyebrow">WORD IN CONTEXT</span><h2 id="grammarInspectorHeading"></h2></div><button type="button" class="grammar-inspector-close" aria-label="Close grammar details">×</button></header><div class="grammar-inspector-body"></div></section>';
+  inspectorSheet.innerHTML='<div class="grammar-inspector-backdrop"></div><section class="grammar-inspector-panel" role="dialog" aria-modal="true" aria-labelledby="grammarInspectorHeading"><div class="grammar-inspector-handle" aria-hidden="true"></div><header class="grammar-inspector-head"><div><span class="eyebrow">WORD IN CONTEXT</span><h2 id="grammarInspectorHeading"></h2></div></header><div class="grammar-inspector-body"></div></section>';
   document.body.append(inspectorSheet);
-  const closeInspector=()=>{
-    inspectorSelection=null;
-    inspectorSheet.hidden=true;
-    document.body.classList.remove('grammar-inspector-open');
-    if(activeWord){activeWord.focus({preventScroll:true});}
+  const inspectorPanel=inspectorSheet.querySelector('.grammar-inspector-panel');
+  const inspectorHandle=inspectorSheet.querySelector('.grammar-inspector-handle');
+  let inspectorExitTimer=null;
+  let touchStart=null;
+  const resetSheetDrag=()=>{
+    touchStart=null;
+    inspectorPanel.style.removeProperty('--sheet-drag');
+    inspectorSheet.classList.remove('is-dragging');
   };
-  inspectorSheet.querySelector('.grammar-inspector-close').onclick=closeInspector;
-  inspectorSheet.querySelector('.grammar-inspector-backdrop').onclick=closeInspector;
+  const closeInspector=({immediate=false}={})=>{
+    if(inspectorSheet.hidden||inspectorSheet.classList.contains('is-closing'))return;
+    resetSheetDrag();
+    inspectorSelection=null;
+    if(immediate||window.matchMedia?.('(prefers-reduced-motion: reduce)').matches){
+      inspectorSheet.hidden=true;
+      inspectorSheet.classList.remove('is-open','is-closing');
+      document.body.classList.remove('grammar-inspector-open');
+      return;
+    }
+    inspectorSheet.classList.add('is-closing');
+    inspectorSheet.classList.remove('is-open');
+    clearTimeout(inspectorExitTimer);
+    inspectorExitTimer=setTimeout(()=>{
+      inspectorSheet.hidden=true;
+      inspectorSheet.classList.remove('is-closing');
+      document.body.classList.remove('grammar-inspector-open');
+      activeWord?.focus({preventScroll:true});
+    },320);
+  };
+  inspectorSheet.querySelector('.grammar-inspector-backdrop').onclick=()=>closeInspector();
+  // Pull down to dismiss. Vertical reading scrolls within the panel; horizontal
+  // swipes and upward gestures never close it. Only pull at the top can dismiss.
+  inspectorPanel.addEventListener('touchstart',event=>{
+    if(event.touches.length!==1||event.target.closest('button'))return;
+    touchStart={x:event.touches[0].clientX,y:event.touches[0].clientY,
+      eligible:inspectorPanel.scrollTop<=1,dragging:false,dy:0};
+  },{passive:true});
+  inspectorPanel.addEventListener('touchmove',event=>{
+    if(!touchStart||event.touches.length!==1||!touchStart.eligible)return;
+    const dx=event.touches[0].clientX-touchStart.x;
+    const dy=event.touches[0].clientY-touchStart.y;
+    if(!touchStart.dragging){
+      if(Math.abs(dx)>Math.abs(dy)||dy<12)return;
+      touchStart.dragging=true;inspectorSheet.classList.add('is-dragging');
+    }
+    touchStart.dy=Math.max(0,dy);
+    inspectorPanel.style.setProperty('--sheet-drag',touchStart.dy+'px');
+    event.preventDefault();
+  },{passive:false});
+  inspectorPanel.addEventListener('touchend',()=>{
+    if(!touchStart)return;
+    const dy=touchStart.dy;
+    resetSheetDrag();
+    if(dy>95)closeInspector();
+  },{passive:true});
+  inspectorPanel.addEventListener('touchcancel',resetSheetDrag,{passive:true});
   function inspectorSpeak(text){
     if(!('speechSynthesis' in window))return;
     window.speechSynthesis.cancel();
@@ -399,14 +447,20 @@
       const note=document.createElement('p');note.className='grammar-inspector-context';
       note.textContent=data.note;body.append(note);
     }
-    inspectorSheet.hidden=false;document.body.classList.add('grammar-inspector-open');
-    inspectorSheet.querySelector('.grammar-inspector-close').focus({preventScroll:true});
+    clearTimeout(inspectorExitTimer);
+    resetSheetDrag();
+    inspectorSheet.classList.remove('is-closing','is-open');
+    inspectorSheet.hidden=false;
+    inspectorPanel.scrollTop=0;
+    document.body.classList.add('grammar-inspector-open');
+    requestAnimationFrame(()=>{if(!inspectorSheet.hidden)inspectorSheet.classList.add('is-open');});
   }
   document.addEventListener('keydown',event=>{
     if(inspectorSheet.hidden)return;
     if(event.key==='Escape'){event.preventDefault();closeInspector();}
     if(event.key==='Tab'){
       const controls=[...inspectorSheet.querySelectorAll('button')];
+      if(!controls.length)return;
       const n=controls.indexOf(document.activeElement);
       if(event.shiftKey&&n===0){event.preventDefault();controls[controls.length-1].focus();}
       if(!event.shiftKey&&n===controls.length-1){event.preventDefault();controls[0].focus();}
@@ -599,8 +653,9 @@
     dismiss();
   });
   document.addEventListener('keydown',event=>{if(event.key==='Escape')dismiss();});
-  window.addEventListener('scroll',dismiss,{passive:true});
-  window.addEventListener('resize',dismiss,{passive:true});
+  // Scrolling inside the modal (or iOS viewport bounce) is not dismissal.
+  window.addEventListener('scroll',()=>{if(inspectorSheet.hidden)dismiss();},{passive:true});
+  window.addEventListener('resize',()=>{if(inspectorSheet.hidden)dismiss();},{passive:true});
   // Keep navigation explicit. Watching and rewriting body classes in a
   // MutationObserver can create re-entrant updates and freeze navigation.
   // The app's language switch invokes WordFlipHideStoryViews within its transition.
