@@ -70,10 +70,16 @@ assert.match(layout,/\.wordflip-back-button\{/,'Visible Back button must be styl
 assert.match(layout,/body:not\(\.language-selected\) \.wordflip-back-button\{display:none\}/,'Root language picker must not show Back');
 console.log('Header Back button shares the existing swipe-back navigation.');
 
-assert.match(app,/insertBefore\(backButton,document\.getElementById\('wordflipHome'\)\)/,
-  'Back must be placed outside overlapping language-flag controls');
-assert.match(layout,/\.top>\.wordflip-back-button\{position:relative;z-index:2/,
-  'Back must stay visible beside the title');
+assert.match(app,/backRow\.className='wordflip-back-row'/,
+  'Back must be on its own row below the header');
+assert.match(app,/insertAdjacentElement\('afterend',backRow\)/,
+  'Back row must follow the complete brand and settings header');
+assert.match(layout,/\.wordflip-back-row\{display:flex;/,
+  'Back row must be visibly left aligned');
+assert.match(layout,/body\.training \.wordflip-back-row\{display:none!important\}/,
+  'Training must retain its dedicated visible Back exit');
+assert.match(layout,/button\.brand\{font-family:inherit;font-weight:780;/,
+  'WordFlip logo must retain its heavy wordmark typography');
 assert.match(source('training-layout.css'),/body\.training \.practice-exit \{display:flex\}/,
   'Practice view must show its own Back control');
 console.log('Back controls visible in header and flashcard training.');
