@@ -62,3 +62,41 @@ body.story-home-open #summary,body.stories-view-open #summary{display:none!impor
 .italian-stories{margin-top:15px}
 .story-library-back{margin:0 0 22px}
 @media(max-width:450px){.activity-actions button{padding:22px 20px}.wordflip-activity-home{margin-top:36px}}
+
+/* Completed stories show a readable label beneath the open-book icon. */
+.story-choice-read-icon{width:42px;height:45px;top:12px;right:12px;flex-direction:column;gap:1px}
+.story-choice-read-icon svg{width:23px;height:23px;flex:0 0 23px}
+.story-choice-read-icon small{font-size:10px;font-weight:750;line-height:1.2;letter-spacing:.1px}
+.story-choice:has(.story-choice-read-icon) .story-choice-top{padding-right:42px}
+/* One-tap translation stays lightweight; extra grammar is disclosed on demand. */
+.story-word-inspect{
+  display:block;width:100%;margin-top:10px;padding:9px 10px;border-radius:10px;
+  border:1px solid #dbe9e0;background:#f0f7f1;color:#29654c;
+  font-size:12px;font-weight:720;text-align:center;cursor:pointer
+}
+.grammar-inspector-sheet[hidden]{display:none!important}
+.grammar-inspector-sheet{position:fixed;inset:0;z-index:1500;display:flex;align-items:flex-end;justify-content:center}
+.grammar-inspector-backdrop{position:absolute;inset:0;background:#162b2166;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.grammar-inspector-panel{
+  position:relative;z-index:1;width:100%;max-width:620px;max-height:85dvh;
+  padding:10px 22px calc(env(safe-area-inset-bottom) + 26px);
+  border-radius:23px 23px 0 0;background:#fbfaf6;
+  overflow-y:auto;overscroll-behavior:contain;box-shadow:0 -10px 35px #142d2733
+}
+.grammar-inspector-handle{width:38px;height:5px;background:#cbd9d0;border-radius:99px;margin:0 auto 20px}
+.grammar-inspector-head{display:flex;justify-content:space-between;gap:14px;align-items:start}
+.grammar-inspector-head h2{font-size:28px;letter-spacing:-.8px;line-height:1.2;margin:8px 0 15px}
+.grammar-inspector-close{display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;background:#fff;border:1px solid #dce5df;border-radius:50%;font-size:26px;color:#395a48}
+.grammar-inspector-type{font-size:12px;text-transform:uppercase;letter-spacing:1.3px;font-weight:750;color:#668675;margin:0 0 6px}
+.grammar-inspector-lemma{font-size:17px;font-weight:650;color:#233e31;margin:0 0 22px}
+.grammar-inspector-body h3{font-size:14px;letter-spacing:.1px;font-weight:760;margin:0 0 10px}
+.grammar-inspector-paradigm{display:grid;gap:5px;margin-bottom:15px}
+.grammar-inspector-form{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 13px;border-radius:10px;background:#fff;border:1px solid #e5e9e2}
+.grammar-inspector-form>span,.grammar-inspector-form>strong{font-size:13px;color:#566d60}
+.grammar-inspector-form button{padding:7px 4px;border:0;background:transparent;color:#213e32;font-weight:750;font-size:15px;text-align:right}
+.grammar-inspector-form.is-selected{background:#e3f1e7;border-color:#95bea4}
+.grammar-inspector-form.is-selected button{color:#145c3b}
+.grammar-inspector-context{margin:14px 0 0;font-size:12px;color:#76877c;line-height:1.6}
+.grammar-inspector-form button:focus-visible,.grammar-inspector-close:focus-visible,.story-word-inspect:focus-visible{outline:3px solid #e8a77e;outline-offset:3px}
+body.grammar-inspector-open{overflow:hidden}
+@media(min-width:680px){.grammar-inspector-panel{margin-bottom:20px;border-radius:24px;max-height:80dvh}}
