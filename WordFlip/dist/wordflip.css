@@ -427,3 +427,23 @@ body.progress-view-open .wordflip-stories-empty{display:none!important}
 body.stories-view-open:has(.story-read-view:not([hidden])) #wordflipFooterNav{display:none!important}
 body.stories-view-open:has(.story-read-view:not([hidden])) .wordflip-back-row{display:flex!important}
 body.language-selected:not(.settings-view-open):not(.progress-view-open) #study>.progress-open-button{display:none!important}
+
+/* Scheduled learning: reinforce only when asked, rather than showing future reviews. */
+.practice-extra-button{
+  appearance:none;display:block;width:100%;max-width:100%;margin:0 0 18px;
+  padding:14px 16px;border:1px solid #a8c9b9;border-radius:15px;
+  background:#f2f8f3;color:#2a624a;font-size:14px;font-weight:730;cursor:pointer;
+}
+.practice-extra-button:active{background:#e3efe6}
+.practice-extra-button:focus-visible{outline:3px solid #e8a77e;outline-offset:3px}
+body.training .practice-extra-button,
+body.progress-view-open .practice-extra-button,
+body.stories-view-open .practice-extra-button,
+body.story-home-open .practice-extra-button{display:none!important}
+.progress-due-forecast{padding:17px 15px 13px;margin:0 0 22px;border-radius:19px;border:1px solid #e1e8df;background:#fff}
+.progress-due-forecast h2{margin:0 0 13px;font-size:16px;color:#234638;letter-spacing:-.25px}
+.progress-due-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.progress-due-item{background:#f3f7f3;border-radius:13px;padding:12px 7px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.progress-due-item strong{color:#275c46;font-size:26px;font-weight:780;font-variant-numeric:tabular-nums}
+.progress-due-item span{font-size:12px;color:#647e70}
+.progress-due-forecast p{margin:13px 0 0;font-size:11px;line-height:1.5;color:#7b8d82}
