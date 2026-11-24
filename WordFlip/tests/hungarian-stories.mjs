@@ -115,3 +115,14 @@ assert.match(reader,/more\.onclick=event=>\{event\.stopPropagation\(\);openInspe
 assert.match(readerCSS,/\.grammar-inspector-sheet\{z-index:3500\}/,
   'Expanded grammar bottom sheet must stack above the tooltip');
 console.log('Touch event hit testing for tooltip and Grammar Inspector covered.');
+
+const inspectorReader=fs.readFileSync(new URL('../dist/italian-stories.js',import.meta.url),'utf8');
+assert.match(inspectorReader,/const selection=\{word,data:insight,language:activeLanguage\}/,
+  'Grammar details must capture the current selected word and language');
+assert.match(inspectorReader,/selection\.word!==activeWord/,
+  'Stale detail buttons must not show data from a previously selected word');
+assert.match(inspectorReader,/inspectorSelection=selection/,
+  'Inspector must update its selected-word snapshot on every expansion');
+assert.match(inspectorReader,/Wegen des Wetters bleiben wir zu Hause/,
+  'German wegen explanation needs a contextual example');
+console.log('Grammar Inspector selected-word binding and wegen examples verified');
