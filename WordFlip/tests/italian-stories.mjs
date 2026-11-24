@@ -4,7 +4,7 @@ import vm from 'node:vm';
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync(new URL('../dist/italian-stories-data.js',import.meta.url),'utf8'),context);
 const stories=context.window.WordFlipItalianStories;
-assert.equal(stories.length,40,'Italian Stories must contain forty stories');
+assert.equal(stories.length,50,'Italian Stories must contain fifty stories');
 const ids=new Set();
 for(const story of stories){
   assert.ok(!ids.has(story.id),'Each story needs a unique id');
@@ -27,5 +27,6 @@ console.log('Italian Stories validated:',stories.length,'stories,',stories.reduc
 
 assert.equal(stories.slice(10,13).map(s=>s.level).join(','),'pre-A1,pre-A1,pre-A1');
 assert.equal(stories[39].level,'A2');
+assert.equal(stories[49].level,'B1');
 assert.match(fs.readFileSync(new URL('../dist/italian-stories.js',import.meta.url),'utf8'),/story\.level/);
-console.log('Italian reading progression validated: pre-A1 through A2');
+console.log('Italian reading progression validated: pre-A1 through B1');
