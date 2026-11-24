@@ -4,7 +4,7 @@ import vm from 'node:vm';
 const window={};
 vm.runInNewContext(fs.readFileSync(new URL('../dist/hungarian-stories-data.js',import.meta.url),'utf8'),{window});
 const stories=window.WordFlipHungarianStories;
-assert.equal(stories.length,10,'Ten Hungarian stories expected');
+assert.equal(stories.length,50,'Fifty graded Hungarian stories expected');
 let total=0,annotated=0;
 for(const story of stories){
   assert.ok(story.title&&story.subtitle);
@@ -86,3 +86,21 @@ console.log('Story tile and NEW corner badge visual markup verified');
 assert.match(corner,/\.face\.front\{overflow:hidden\}/,'Ribbon must clip to card radius');
 assert.match(corner,/left:66\.667%;top:33\.333%/,'Ribbon label must sit at triangular centroid');
 assert.match(corner,/transform:translate\(-50%,-50%\) rotate\(45deg\)/,'Ribbon label must remain centred while angled');
+
+for(const [label,filename] of [['Italian','italian-stories-data.js'],['German','german-stories-data.js']]){
+  const scoped={};
+  vm.runInNewContext(fs.readFileSync(new URL('../dist/'+filename,import.meta.url),'utf8'),{window:scoped});
+  const collection=label==='Italian'?scoped.WordFlipItalianStories:scoped.WordFlipGermanStories;
+  assert.equal(collection.length,50,label+': expected fifty stories');
+  assert.equal(new Set(collection.map(item=>item.id)).size,50,label+': IDs must remain stable and unique');
+  assert.equal(new Set(collection.map(item=>item.title)).size,50,label+': distinct titles expected');
+  for(const story of collection){
+    assert.ok(story.title&&story.subtitle&&story.words.length>=70,label+': incomplete story '+story.id);
+    for(const entry of story.words)assert.ok(entry[0]?.trim()&&entry[1]?.trim(),label+': missing gloss in story '+story.id);
+  }
+}
+assert.equal(new Set(stories.map(story=>story.title)).size,50,'Hungarian story titles must be unique');
+assert.match(reader,/grammar-inspector-sheet/,'Expandable Grammar Inspector should be available');
+assert.match(reader,/grammar-inspector-paradigm/,'Grammar Inspector should present actual conjugations');
+assert.match(reader,/readLabel\.textContent='Read'/,'Read status must include a visible label');
+console.log('150 graded stories validated across Italian, Hungarian and German, with Grammar Inspector.');
