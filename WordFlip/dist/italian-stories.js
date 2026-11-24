@@ -179,13 +179,13 @@
     renderList();scrollTop();
   }
   // Language selection and its hub are one atomic drill-down navigation.
-  window.WordFlipOpenPractice=()=>practiceButton.click();
-  window.WordFlipOpenStories=()=>readButton.click();
+  window.WordFlipOpenPractice=()=>showPractice();
+  window.WordFlipOpenStories=()=>showStories();
   window.WordFlipStoriesAvailable=()=>isSupported();
   window.WordFlipShowHub=showHub;
   window.WordFlipHideStoryViews=()=>{hideHub();hideStories();};
 
-  practiceButton.onclick=()=>window.WordFlipDrill.run('forward',()=>{
+  function showPractice(){
     // Show category pills and the existing "Start practice" button first.
     // The training-layout module owns starting an actual flashcard session.
     hideHub();hideStories();
@@ -197,7 +197,8 @@
     const progress=document.getElementById('learningProgress');
     if(progress)progress.hidden=true;
     scrollTop();
-  });
+  }
+  practiceButton.onclick=()=>window.WordFlipDrill.run('forward',showPractice);
   readButton.onclick=()=>window.WordFlipDrill.run('forward',showStories);
   // Flashcards also offer a clear return route to the activity choices.
   const practiceBack=document.createElement('button');practiceBack.type='button';
