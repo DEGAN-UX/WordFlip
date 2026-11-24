@@ -432,7 +432,37 @@
     updateAudioPauseButton();
   });
   updateAudioPauseButton();
-  $('settingsButton').onclick=()=>$('settings').style.display=$('settings').style.display==='block'?'none':'block';
+  // Settings is a real child page, rather than a panel above the current page.
+  // Preserve the underlying drill and scroll position for a seamless return.
+  let settingsOrigin=null;
+  function openSettings(){
+    if(document.body.classList.contains('settings-view-open'))return;
+    const body=document.body;
+    settingsOrigin={training:body.classList.contains('training'),scrollY:window.scrollY};
+    closeCoinsIfAvailable();
+    window.WordFlipDrill.run('forward',()=>{
+      if(settingsOrigin.training)body.classList.remove('training');
+      body.classList.add('settings-view-open');
+      $('settings').style.display='block';
+      $('settingsButton').setAttribute('aria-expanded','true');
+      window.scrollTo(0,0);
+    });
+  }
+  function closeSettings(){
+    if(!document.body.classList.contains('settings-view-open'))return;
+    window.WordFlipDrill.run('back',()=>{
+      document.body.classList.remove('settings-view-open');
+      $('settings').style.display='none';
+      $('settingsButton').setAttribute('aria-expanded','false');
+      if(settingsOrigin?.training)document.body.classList.add('training');
+      window.scrollTo(0,settingsOrigin?.scrollY||0);
+      settingsOrigin=null;
+    });
+  }
+  function closeCoinsIfAvailable(){window.WordFlipCloseCoins?.();}
+  window.WordFlipCloseSettings=closeSettings;
+  $('settingsButton').setAttribute('aria-expanded','false');
+  $('settingsButton').onclick=()=>document.body.classList.contains('settings-view-open')?closeSettings():openSettings();
   $('filters').addEventListener('click',e=>{
     const button=e.target.closest('[data-category]');if(!button)return;
     if(button.dataset.category==='cheatsheet'){openCheatsheetDrawer();return;}
@@ -585,6 +615,10 @@
         selectLanguage(code);
         document.body.classList.add('language-selected');
         window.WordFlipShowHub?.();
+        if(document.body.classList.contains('settings-view-open')){
+          document.body.classList.remove('settings-view-open');settingsOrigin=null;
+          $('settingsButton').setAttribute('aria-expanded','false');
+        }
         $('settings').style.display='none';
         window.scrollTo(0,0);
       });
@@ -641,7 +675,14 @@
       closeCoins();coinToggle.focus();
     }
   });
-  const goToLanguages=()=>window.WordFlipDrill.run('back',()=>{
+  const goToLanguages=()=>{
+    if(document.body.classList.contains('settings-view-open')){
+      document.body.classList.remove('settings-view-open');
+      settingsOrigin=null;
+      $('settingsButton').setAttribute('aria-expanded','false');
+    }
+    return window.WordFlipDrill.run('back',()=>{
+
     closeCoins();window.WordFlipHideStoryViews?.();
     stopSpeech();
     document.body.classList.remove('language-selected','training','progress-view-open');
@@ -651,7 +692,8 @@
     progressPage.hidden=true;
     updateLanguageStats();
     window.scrollTo(0,0);
-  });
+    });
+  };
   window.WordFlipNavigateToLanguages=goToLanguages;
   // Both the logo and the wordmark return home from any child screen.
   // Reuse the same reset and back transition as the existing home navigation.
@@ -660,10 +702,15 @@
        !document.body.classList.contains('training') &&
        !document.body.classList.contains('progress-view-open') &&
        !document.body.classList.contains('stories-view-open') &&
-       !document.body.classList.contains('story-home-open'))return;
+       !document.body.classList.contains('story-home-open') &&
+       !document.body.classList.contains('settings-view-open'))return;
     goToLanguages();
   };
   window.WordFlipCloseCoins=closeCoins;
+  const settingsHeading=document.createElement('header');
+  settingsHeading.className='settings-page-heading';
+  settingsHeading.innerHTML='<span class="eyebrow">PREFERENCES & DATA</span><h1>Settings</h1><p>Adjust your practice and manage your locally saved learning progress.</p>';
+  $('settings').prepend(settingsHeading);
   const progressButton=document.createElement('button');progressButton.className='progress-open-button';progressButton.type='button';
   progressButton.textContent='Your progress';
   // Stay in normal document flow, below the header, even before the updated CSS arrives.
