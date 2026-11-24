@@ -32,8 +32,22 @@ const compiled=extra.map((story,i)=>{
   return {id:story.id,title:story.title,subtitle:story.subtitle,level:story.level,topic:story.topic,words};
 });
 if(missing.size)throw new Error('Missing Italian glosses: '+[...missing].join(', '));
-const levels=['pre-A1','A1-','A1','A1+','A1+/A2-','A2-','A2'];
-const all=[...base.map(s=>({...s,level:'pre-A1',topic:'Everyday life'})),...compiled];
+const levels=['pre-A1','A1-','A1','A1+','A1+/A2-','A2-','A2','B1'];
+// Preserve newly authored graded stories already committed in dist.
+ // The first 40 are regenerated from their maintained source collections;
+ // additional IDs 41–50 are maintained in the checked-in story file.
+const existingDist=path.join(root,'dist/italian-stories-data.js');
+let extensions=[];
+if(fs.existsSync(existingDist)){
+  const data=read('dist/italian-stories-data.js');
+  const match=data.match(/^window\\.WordFlipItalianStories=(.*);\\s*$/s);
+  if(match){
+    const current=JSON.parse(match[1]);
+    extensions=current.filter(story=>story.id>=41).sort((a,b)=>a.id-b.id);
+  }
+}
+const all=[...base.map(s=>({...s,level:'pre-A1',topic:'Everyday life'})),...compiled,...extensions];
+if(all.length!==50||new Set(all.map(s=>s.id)).size!==50)throw Error('Italian stories must contain 50 unique IDs');
 for(const story of all){
   if(!levels.includes(story.level))throw new Error('Invalid level: '+story.level);
   let open=0;
