@@ -29,7 +29,7 @@ const distUrl=new URL('./dist/german-stories-data.js',import.meta.url);
 let extensions31to50=[];
 if(fs.existsSync(distUrl)){
   const content=fs.readFileSync(distUrl,'utf8');
-  const match=content.match(/^window\\.WordFlipGermanStories=(.*);\\s*$/s);
+  const match=content.match(/^window\.WordFlipGermanStories=(.*);\s*$/s);
   if(match)extensions31to50=JSON.parse(match[1]).filter(item=>item.id>=31).sort((a,b)=>a.id-b.id);
 }
 const stories=[...first,...rest,...extensions31to50];
