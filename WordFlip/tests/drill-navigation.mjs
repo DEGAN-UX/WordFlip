@@ -63,3 +63,9 @@ assert.match(app,/getElementById\('wordflipHome'\)\.onclick=/,'Home button must 
 assert.match(app,/goToLanguages\(\);\n  \};/,'Home button returns to language landing page');
 assert.match(layout,/button\.brand:focus-visible/,'Home button must be keyboard accessible');
 console.log('WordFlip icon and wordmark navigate home.');
+
+assert.match(app,/id='wordflipBack'/,'Visible Back button must exist');
+assert.match(app,/backButton\.onclick=\(\)=>window\.WordFlipDrill\.swipeBack\(\)/,'Back button and swipe must share navigation logic');
+assert.match(layout,/\.wordflip-back-button\{/,'Visible Back button must be styled');
+assert.match(layout,/body:not\(\.language-selected\) \.wordflip-back-button\{display:none\}/,'Root language picker must not show Back');
+console.log('Header Back button shares the existing swipe-back navigation.');
