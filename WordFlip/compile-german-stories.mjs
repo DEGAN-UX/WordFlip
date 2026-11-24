@@ -7,7 +7,7 @@ const extensions=JSON.parse(source('german-stories-01-06-expansions.json'));
 if(original.length!==6||extensions.length!==6)throw Error('Expected six original German stories and six extensions.');
 const first=original.map((story,i)=>{
   if(extensions[i].id!==story.id)throw Error('Mismatched original story id');
-  return {...story,level:'B1',words:[...story.words,...extensions[i].words]};
+  return {...story,words:[...story.words,...extensions[i].words]};
 });
 const context={window:{}};
 const files=[
@@ -34,10 +34,10 @@ if(fs.existsSync(distUrl)){
 }
 const stories=[...first,...rest,...extensions31to50];
 if(stories.length!==50||new Set(stories.map(s=>s.id)).size!==50)throw Error('German story count must be 50 unique stories');
-const levelFor=i=>i<12?'B1':i<18?'B1+':i<24?'B2-':i<30?'B2':i<36?'B1+':'B2';
+const allowedLevels=new Set(['A2','A2+','B1','B1+','B2']);
 for(const [i,story] of stories.entries()){
   if(story.id!==i+1)throw Error('German story IDs must be consecutive');
-  if(story.level!==levelFor(i))throw Error('Unexpected CEFR difficulty at story '+story.id);
+  if(!allowedLevels.has(story.level))throw Error('Unexpected CEFR difficulty at story '+story.id);
   if(!story.title||!story.subtitle||!story.topic||story.words.length<90)throw Error('Incomplete/short German story '+story.id);
   let quoteBalance=0;
   for(const item of story.words){
