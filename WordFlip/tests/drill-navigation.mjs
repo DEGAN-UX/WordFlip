@@ -83,3 +83,22 @@ assert.match(layout,/button\.brand\{font-family:inherit;font-weight:780;/,
 assert.match(source('training-layout.css'),/body\.training \.practice-exit \{display:flex\}/,
   'Practice view must show its own Back control');
 console.log('Back controls visible in header and flashcard training.');
+
+assert.match(app,/function openSettings\(\)/,'Settings opens as a child page');
+assert.match(app,/window\.WordFlipDrill\.run\('forward',\(\)=>\{/,'Settings must use the forward transition');
+assert.match(app,/function closeSettings\(\)/,'Settings has a return action');
+assert.match(app,/window\.WordFlipCloseSettings=closeSettings/,'The navigation engine can close Settings');
+assert.match(app,/settingsOrigin=\{training:body\.classList\.contains\('training'\),scrollY:window\.scrollY\}/,
+  'Returning from Settings must restore the previous screen and scroll');
+assert.match(nav,/classList\.contains\('settings-view-open'\)/,
+  'Right swipe must recognise the Settings page');
+assert.match(nav,/WordFlipCloseSettings\?\.\(\)/,
+  'Right swipe must return from Settings');
+assert.match(layout,/body\.settings-view-open main > :not\(\.top\):not\(\.wordflip-back-row\):not\(#settings\)/,
+  'Settings must replace, not overlay, the main page');
+assert.match(layout,/body\.settings-view-open \.wordflip-back-button\{display:grid!important\}/,
+  'Back remains visible in Settings including from language selection');
+assert.match(layout,/#settingsButton\.icon\{/,'Settings circle has an explicit size');
+assert.match(layout,/width:49px;height:49px;min-width:49px;min-height:49px/,
+  'Settings and flag coins have matching 49px frames');
+console.log('Settings drill-down, reverse navigation and equal circular header controls verified.');
