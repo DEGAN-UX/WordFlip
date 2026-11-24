@@ -200,3 +200,20 @@ body:not(.language-selected) .language-switch{display:none}
 /* The app icon and wordmark are one accessible Home control. */
 button.brand{appearance:none;-webkit-appearance:none;border:0;background:transparent;color:inherit;padding:0;margin:0;font:inherit;cursor:pointer;text-align:left;max-width:100%;-webkit-tap-highlight-color:transparent}
 button.brand:focus-visible{outline:3px solid #e8a77e;outline-offset:5px;border-radius:9px}
+
+/* A visible Back control complements the right-swipe navigation.
+   Both use the same parent-page handler; the language picker is the root. */
+.wordflip-back-button{
+  appearance:none;-webkit-appearance:none;display:grid;place-items:center;
+  flex:0 0 37px;width:37px;height:42px;padding:0;
+  border:1px solid #dce6de;border-radius:13px;
+  background:#fff;color:#2c5849;font-size:25px;font-weight:500;
+  line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+.wordflip-back-button:active{background:#edf3ef}
+.wordflip-back-button:focus-visible{outline:3px solid #e8a77e;outline-offset:3px}
+body:not(.language-selected) .wordflip-back-button{display:none}
+@media(max-width:375px){
+  .header-actions{gap:5px!important}
+  .wordflip-back-button{flex-basis:33px;width:33px;height:39px}
+}
