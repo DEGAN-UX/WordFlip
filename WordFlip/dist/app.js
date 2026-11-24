@@ -732,7 +732,7 @@
   const progressPage=document.createElement('section');progressPage.id='learningProgress';progressPage.className='learning-progress';
   progressPage.hidden=true;progressPage.innerHTML='<button type="button" class="progress-back">← Back to practice</button><header class="progress-heading"><span class="eyebrow">YOUR LEARNING JOURNEY</span><h1></h1><p>Discover what you have explored and how confidently you remember it.</p></header><div class="progress-category-list"></div><p class="progress-method">Seen counts unique exercises encountered. Recognition and recall represent recent-weighted confidence on tested exercises only. Older reviews are estimated from saved totals and the latest rating. A dash means not yet tested.</p>';
   $('study').insertAdjacentElement('afterend',progressPage);
-  const progressBack=()=>window.WordFlipDrill.run('back',()=>{progressPage.hidden=true;document.body.classList.remove('progress-view-open');window.scrollTo(0,0);});
+  const progressBack=()=>window.WordFlipDrill.run('back',()=>{progressPage.hidden=true;document.body.classList.remove('progress-view-open');updateFooterSelection();window.scrollTo(0,0);});
   progressPage.querySelector('.progress-back').onclick=progressBack;
   const progressSections={
     hu:[['word','Words'],['verb','Conjugation'],['phrase','Phrases'],['suffix','Suffixes'],['cheatsheet','Cheatsheet']],
@@ -854,9 +854,7 @@
   };
   footerTabs.get('settings').onclick=()=>{
     if(document.body.classList.contains('settings-view-open'))return;
-    if(document.body.classList.contains('progress-view-open')){
-      progressPage.hidden=true;document.body.classList.remove('progress-view-open');
-    }
+    // Keep the underlying section intact: Back returns to Progress or Learn.
     openSettings();
   };
   updateFooterSelection();
