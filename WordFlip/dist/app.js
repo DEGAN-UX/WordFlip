@@ -586,33 +586,58 @@
   const headerActions=document.createElement('div');headerActions.className='header-actions';
   // Explicit layout also protects the header if an installed PWA briefly uses an older cached stylesheet.
   Object.assign(headerActions.style,{display:'flex',flexDirection:'row',alignItems:'center',flexWrap:'nowrap',gap:'9px',flexShrink:'0'});
-  // The header uses a stack of overlapping flag coins. Open it to select
-  // another language directly, without passing through the landing page.
+  // The overlapping flags remain a compact language-switch trigger.
+  // Selection itself happens in a labelled, accessible overlay.
   const languageSwitch=document.createElement('div');
-  languageSwitch.className='language-switch';
-  languageSwitch.id='languageSwitcher';
+  languageSwitch.className='language-switch';languageSwitch.id='languageSwitcher';
   const coinTray=document.createElement('div');coinTray.className='language-coin-tray';
   const coinToggle=document.createElement('button');coinToggle.type='button';
   coinToggle.className='language-coin-toggle';
   coinToggle.setAttribute('aria-label','Choose another language');
+  coinToggle.setAttribute('aria-haspopup','dialog');
   coinToggle.setAttribute('aria-expanded','false');
-  coinToggle.setAttribute('aria-controls','languageCoinTray');
-  coinTray.id='languageCoinTray';
+  coinToggle.setAttribute('aria-controls','wordflipLanguageOverlay');
   const coinButtons=new Map();
   for(const [code,meta] of Object.entries(languages)){
-    const coin=document.createElement('button');coin.type='button';
-    coin.className='language-coin';coin.dataset.language=code;
-    coin.textContent=meta.flag;coin.title=meta.name;
-    coin.setAttribute('aria-label','Switch to '+meta.name);
-    coin.setAttribute('tabindex','-1');
+    const coin=document.createElement('span');coin.className='language-coin';
+    coin.textContent=meta.flag;coin.setAttribute('aria-hidden','true');
     coinTray.append(coin);coinButtons.set(code,coin);
-    coin.onclick=event=>{
-      event.stopPropagation();
+  }
+  languageSwitch.append(coinTray,coinToggle);
+  $('settingsButton').before(headerActions);
+  const backButton=document.createElement('button');
+  backButton.type='button';backButton.id='wordflipBack';
+  backButton.className='wordflip-back-button';backButton.textContent='←';
+  backButton.setAttribute('aria-label','Back to previous page');
+  backButton.title='Back';
+  backButton.onclick=()=>window.WordFlipDrill.swipeBack();
+  const backRow=document.createElement('div');
+  backRow.className='wordflip-back-row';backRow.append(backButton);
+  document.querySelector('main > .top').insertAdjacentElement('afterend',backRow);
+  headerActions.append(languageSwitch,$('settingsButton'));
+
+  const languageOverlay=document.createElement('div');
+  languageOverlay.id='wordflipLanguageOverlay';
+  languageOverlay.className='language-overlay';
+  languageOverlay.hidden=true;
+  languageOverlay.innerHTML='<div class="language-overlay-backdrop"></div><section class="language-overlay-panel" role="dialog" aria-modal="true" aria-labelledby="languageOverlayHeading"><div class="language-overlay-heading"><div><span class="eyebrow">LANGUAGES</span><h2 id="languageOverlayHeading">Choose a language</h2></div><button type="button" class="language-overlay-close" aria-label="Close language choices">×</button></div><div class="language-overlay-options"></div></section>';
+  document.body.append(languageOverlay);
+  const overlayOptions=languageOverlay.querySelector('.language-overlay-options');
+  const overlayClose=languageOverlay.querySelector('.language-overlay-close');
+  const overlayCards=new Map();
+  for(const [code,meta] of Object.entries(languages)){
+    const choice=document.createElement('button');choice.type='button';
+    choice.className='language-overlay-card';
+    choice.dataset.language=code;
+    choice.innerHTML='<span class="language-overlay-flag" aria-hidden="true"></span><span class="language-overlay-name"></span><span class="language-overlay-current"></span>';
+    choice.querySelector('.language-overlay-flag').textContent=meta.flag;
+    choice.querySelector('.language-overlay-name').textContent=meta.name;
+    choice.setAttribute('aria-label','Switch to '+meta.name);
+    choice.onclick=()=>{
       closeCoins();
       if(code===language)return;
       window.WordFlipDrill.run('forward',()=>{
-        stopSpeech();
-        selectLanguage(code);
+        stopSpeech();selectLanguage(code);
         document.body.classList.add('language-selected');
         window.WordFlipShowHub?.();
         if(document.body.classList.contains('settings-view-open')){
@@ -623,56 +648,45 @@
         window.scrollTo(0,0);
       });
     };
+    overlayOptions.append(choice);overlayCards.set(code,choice);
   }
-  languageSwitch.append(coinTray,coinToggle);
-  $('settingsButton').before(headerActions);
-  const backButton=document.createElement('button');
-  backButton.type='button';
-  backButton.id='wordflipBack';
-  backButton.className='wordflip-back-button';
-  backButton.textContent='←';
-  backButton.setAttribute('aria-label','Back to previous page');
-  backButton.title='Back';
-  backButton.onclick=()=>window.WordFlipDrill.swipeBack();
-  // Parent navigation belongs below the complete brand/flags/settings header,
-  // not inside it. Keep it independently positioned across mobile widths.
-  const backRow=document.createElement('div');
-  backRow.className='wordflip-back-row';
-  backRow.append(backButton);
-  document.querySelector('main > .top').insertAdjacentElement('afterend',backRow);
-  headerActions.append(languageSwitch,$('settingsButton'));
   function arrangeCoins(){
     const ordered=[...Object.keys(languages).filter(code=>code!==language),language];
     ordered.forEach((code,i)=>{
       const coin=coinButtons.get(code);
       coin.style.setProperty('--coin-depth',String(ordered.length-1-i));
       coin.style.zIndex=String(i+1);
-      coin.setAttribute('aria-current',code===language?'true':'false');
+      const card=overlayCards.get(code),selected=code===language;
+      card.classList.toggle('is-current',selected);
+      card.setAttribute('aria-current',selected?'true':'false');
+      card.querySelector('.language-overlay-current').textContent=selected?'Current':'';
     });
   }
   function closeCoins(){
+    if(languageOverlay.hidden)return;
+    languageOverlay.hidden=true;document.body.classList.remove('language-overlay-open');
     languageSwitch.classList.remove('is-open');
     coinToggle.setAttribute('aria-expanded','false');
-    coinToggle.setAttribute('aria-label','Choose another language');
-    for(const coin of coinButtons.values())coin.tabIndex=-1;
+    coinToggle.focus({preventScroll:true});
   }
   function openCoins(){
     if(!document.body.classList.contains('language-selected'))return;
+    languageOverlay.hidden=false;document.body.classList.add('language-overlay-open');
     languageSwitch.classList.add('is-open');
     coinToggle.setAttribute('aria-expanded','true');
-    coinToggle.setAttribute('aria-label','Close language choices');
-    for(const coin of coinButtons.values())coin.tabIndex=0;
+    overlayCards.get(language)?.focus({preventScroll:true});
   }
-  coinToggle.onclick=event=>{
-    event.stopPropagation();
-    if(languageSwitch.classList.contains('is-open'))closeCoins();else openCoins();
-  };
-  document.addEventListener('pointerdown',event=>{
-    if(!languageSwitch.contains(event.target))closeCoins();
-  });
+  coinToggle.onclick=()=>languageOverlay.hidden?openCoins():closeCoins();
+  overlayClose.onclick=closeCoins;
+  languageOverlay.querySelector('.language-overlay-backdrop').onclick=closeCoins;
   document.addEventListener('keydown',event=>{
-    if(event.key==='Escape'&&languageSwitch.classList.contains('is-open')){
-      closeCoins();coinToggle.focus();
+    if(languageOverlay.hidden)return;
+    if(event.key==='Escape'){event.preventDefault();closeCoins();}
+    if(event.key==='Tab'){
+      const items=[overlayClose,...overlayCards.values()];
+      const idx=items.indexOf(document.activeElement);
+      if(event.shiftKey&&idx<=0){event.preventDefault();items[items.length-1].focus();}
+      else if(!event.shiftKey&&idx===items.length-1){event.preventDefault();items[0].focus();}
     }
   });
   const goToLanguages=()=>{
