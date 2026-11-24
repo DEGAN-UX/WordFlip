@@ -167,12 +167,12 @@
       try{localStorage.setItem(key,String(first));}catch{}
     }
   }
-  function start(){
+  function start(extraOnly=false){
     queue=language==='hu'&&category==='cheatsheet'?cheatsheet.createSession(history,cheatsheet.enabled(),Number($('length').value)):
       window.WordFlipAdaptive.createSession({
       cards,history,engine,language,category,direction:$('direction').value,
       length:Number($('length').value),pace:$('learningPace').value,verbMode:$('verbMode').value,
-      phraseTopics:activePhraseTopics,phraseLevel:activePhraseLevel
+      phraseTopics:activePhraseTopics,phraseLevel:activePhraseLevel,extraOnly
     });
     shuffleSelectedQueue();
     index=0;knew=0;recognised=0;missed=0;correctRun=0;bestRun=0;
@@ -364,7 +364,7 @@
     $('study').classList.add('hidden');$('summary').style.display='block';
     const perfect=queue.length>0&&knew===queue.length;
     $('summary').querySelector('h2').textContent=perfect?'Perfect session.':queue.length?'Nicely done.':'All caught up.';
-    $('summary').querySelector('p').textContent=perfect?`${queue.length} answers · all correct on the first attempt. Your next reviews have been scheduled.`:queue.length?`A few minutes every day adds up. Longest correct streak: ${bestRun}. Your next reviews have been scheduled.`:'Nothing is due just now. Come back later, or choose a focused practice category.';
+    $('summary').querySelector('p').textContent=perfect?`${queue.length} answers · all correct on the first attempt. Your next reviews have been scheduled.`:queue.length?`A few minutes every day adds up. Longest correct streak: ${bestRun}. Your next reviews have been scheduled.`:'Nothing is due just now. Your scheduled cards can rest until they are due. Choose “Practise extra” for optional reinforcement.';
     $('summary').classList.toggle('perfect-session',perfect);
     const accuracy=queue.length?Math.round(knew/queue.length*100):0;
     const resultsFill=resultsProgress.querySelector('.results-fill');
@@ -744,6 +744,17 @@
   progressButton.style.display='block';
   progressButton.style.margin='24px 0 18px auto';
   $('study').insertAdjacentElement('afterbegin',progressButton);
+  // Optional reinforcement, separate from the scheduled automatic session.
+  const extraButton=document.createElement('button');
+  extraButton.type='button';extraButton.id='wordflipPracticeExtra';
+  extraButton.className='practice-extra-button';
+  extraButton.textContent='Practise extra';
+  extraButton.setAttribute('aria-label','Practise studied cards ahead of their review date');
+  document.querySelector('.home-launch').insertAdjacentElement('afterend',extraButton);
+  extraButton.onclick=()=>window.WordFlipDrill.run('forward',()=>{
+    document.body.classList.add('training');
+    start(true);window.scrollTo(0,0);
+  });
   const progressPage=document.createElement('section');progressPage.id='learningProgress';progressPage.className='learning-progress';
   progressPage.hidden=true;progressPage.innerHTML='<button type="button" class="progress-back">← Back to practice</button><header class="progress-heading"><span class="eyebrow">YOUR LEARNING JOURNEY</span><h1></h1><p>Discover what you have explored and how confidently you remember it.</p></header><div class="progress-category-list"></div><p class="progress-method">Seen counts unique exercises encountered. Recognition and recall represent recent-weighted confidence on tested exercises only. Older reviews are estimated from saved totals and the latest rating. A dash means not yet tested.</p>';
   $('study').insertAdjacentElement('afterend',progressPage);
@@ -806,6 +817,34 @@
     return card;
   }
   function renderLearningProgress(){
+    // Count scheduled review entries for this language. Recognition, recall and
+    // Hungarian verb stages each carry their own due date. Unseen cards are excluded.
+    const validIds=new Set(cards.map(c=>String(c.id)));
+    if(language==='hu')for(const record of cheatsheet.records)validIds.add('cheatsheet:'+record.patternId);
+    const now=Date.now();
+    const todayEnd=new Date();todayEnd.setHours(24,0,0,0);
+    const tomorrowEnd=new Date(todayEnd);tomorrowEnd.setDate(tomorrowEnd.getDate()+1);
+    const counts={today:0,tomorrow:0,later:0};
+    for(const [key,record] of Object.entries(history)){
+      if(!record||!(record.reviews>0)||!Number.isFinite(record.due))continue;
+      const parts=key.split(':');
+      const id=key.startsWith('cheatsheet:')?'cheatsheet:'+parts[1]:parts[0];
+      if(!validIds.has(id))continue;
+      if(record.due<todayEnd.getTime())counts.today++;
+      else if(record.due<tomorrowEnd.getTime())counts.tomorrow++;
+      else counts.later++;
+    }
+    let forecast=progressPage.querySelector('.progress-due-forecast');
+    if(!forecast){
+      forecast=document.createElement('section');
+      forecast.className='progress-due-forecast';
+      forecast.setAttribute('aria-label','Upcoming scheduled reviews');
+      progressPage.querySelector('.progress-heading').insertAdjacentElement('afterend',forecast);
+    }
+    forecast.innerHTML='<h2>Upcoming reviews</h2><div class="progress-due-grid">'+
+      [['Today',counts.today],['Tomorrow',counts.tomorrow],['Later',counts.later]]
+        .map(([label,count])=>'<div class="progress-due-item"><strong>'+count+'</strong><span>'+label+'</span></div>').join('')+
+      '</div><p>Scheduled reviews only. Translation directions and verb stages are counted separately; new cards are not included.</p>';
     progressPage.querySelector('h1').textContent=`${languages[language].flag} ${languages[language].name} progress`;
     const list=progressPage.querySelector('.progress-category-list');list.replaceChildren();
     for(const [section,label] of progressSections[language]){
