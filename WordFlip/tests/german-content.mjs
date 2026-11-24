@@ -23,8 +23,8 @@ for(const [c,count] of [['word',150],['verb',75],['phrase',75],['case',45],['art
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync(new URL('german-stories-data.js',dir),'utf8'),context);
 const stories=context.window.WordFlipGermanStories;
-assert.equal(stories.length,30,'German library must contain 30 B1-B2 stories');
-const expectedLevel=i=>i<12?'B1':i<18?'B1+':i<24?'B2-':'B2';
+assert.equal(stories.length,50,'German library must contain 50 B1-B2 stories');
+const expectedLevel=i=>i<12?'B1':i<18?'B1+':i<24?'B2-':i<30?'B2':i<36?'B1+':'B2';
 assert.equal(stories.reduce((n,s)=>n+s.words.length,0)>3000,true,'German library should contain over 3000 tappable words');
 for(const [index,story] of stories.entries()){
   assert.equal(story.id,index+1,'Stable consecutive story IDs required');
@@ -46,4 +46,4 @@ assert.match(index,/german-engine\.js/);
 assert.match(index,/german-stories-data\.js/);
 console.log('German module:',cards.length,'cards,',stories.length,'stories; all categories, glosses and integration verified');
 
-console.log('30 German stories verified, with B1 → B2 progression and English gloss on every word');
+console.log('50 German stories verified, with B1 → B2 progression and English gloss on every word');
