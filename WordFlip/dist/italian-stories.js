@@ -63,7 +63,7 @@
   // Curated grammar data. Never infer a full paradigm by stripping endings:
   // forms such as 'ist', 'ha' and separable verbs need explicit lexical entries.
   const grammarIndex={it:new Map(),de:new Map()};
-  const keyForGrammar=value=>String(value||'').toLocaleLowerCase().replace(/^[^\\p{L}]+|[^\\p{L}]+$/gu,'').trim();
+  const keyForGrammar=value=>String(value||'').toLocaleLowerCase().replace(/^[^\p{L}]+|[^\p{L}]+$/gu,'').trim();
   function addVerb(lang,inf,meaning,forms,note=''){
     const persons=lang==='it'?['io','tu','lui / lei','noi','voi','loro']:
       ['ich','du','er / sie / es','wir','ihr','sie / Sie'];
@@ -237,7 +237,7 @@
     inspectorSelection=selection;
     tooltip.hidden=true;
     const form=keyForGrammar(word.textContent);
-    inspectorSheet.querySelector('h2').textContent=word.textContent.replace(/^[^\\p{L}]+|[^\\p{L}]+$/gu,'');
+    inspectorSheet.querySelector('h2').textContent=word.textContent.replace(/^[^\p{L}]+|[^\p{L}]+$/gu,'');
     const body=inspectorSheet.querySelector('.grammar-inspector-body');body.replaceChildren();
     const type=document.createElement('p');type.className='grammar-inspector-type';type.textContent=data.type;
     const lemma=document.createElement('p');lemma.className='grammar-inspector-lemma';
