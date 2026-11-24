@@ -168,6 +168,7 @@
     }
   }
   function start(extraOnly=false){
+    extraOnly=extraOnly===true; // Event handlers may pass a click/change event.
     queue=language==='hu'&&category==='cheatsheet'?cheatsheet.createSession(history,cheatsheet.enabled(),Number($('length').value)):
       window.WordFlipAdaptive.createSession({
       cards,history,engine,language,category,direction:$('direction').value,
@@ -750,7 +751,9 @@
   extraButton.className='practice-extra-button';
   extraButton.textContent='Practise extra';
   extraButton.setAttribute('aria-label','Practise studied cards ahead of their review date');
-  document.querySelector('.home-launch').insertAdjacentElement('afterend',extraButton);
+  // training-layout.js creates the launch button at DOMContentLoaded.
+  // Insert before that handler runs; it will place Start practice first.
+  $('filters').insertAdjacentElement('afterend',extraButton);
   extraButton.onclick=()=>window.WordFlipDrill.run('forward',()=>{
     document.body.classList.add('training');
     start(true);window.scrollTo(0,0);
