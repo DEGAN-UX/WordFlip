@@ -132,3 +132,11 @@ assert.ok(reader.includes(String.raw`\p{L}`),
 assert.ok(!reader.includes(String.raw`\\p{L}`),
   'Double-escaped Unicode classes would collapse unrelated words onto wegen');
 console.log('Unicode grammar lookup normalisation validated');
+
+
+assert.match(reader,/const richerFacts=/,'Inspector needs curated noun, adjective and preposition tables');
+assert.match(reader,/grammar-inspector-story-example/,'Inspector must show words from the actual story');
+assert.match(reader,/contextWords\.slice\(from,to\)/,'Story context must come from the tapped word');
+assert.match(reader,/data\.type==='Verb'/,'Verb paradigms must retain pronunciation buttons');
+assert.match(reader,/-ban\/-ben marks location inside something/,'Hungarian location suffixes need contextual explanations');
+console.log('Expanded Grammar Inspector learning content verified');
