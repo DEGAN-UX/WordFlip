@@ -330,3 +330,27 @@ body.settings-view-open #settings button:focus-visible{outline:3px solid #e8a77e
 }
 body.language-overlay-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){.language-overlay-backdrop{backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+/* One current-language flag replaces the four stacked header coins.
+   The full list remains available in the labelled selection overlay. */
+.language-switch,
+.top .language-switch{
+  position:relative;flex:0 0 49px;width:49px;height:49px;
+  border-radius:50%;background:#fff;
+  border:1.5px solid #d8ded7;box-shadow:0 2px 6px #253a3519;
+}
+.language-coin-tray{position:absolute;inset:0;width:49px;height:49px;pointer-events:none}
+.language-switch .language-coin,
+.language-switch.is-open .language-coin{
+  position:absolute;inset:0;right:auto;top:auto;
+  display:grid;place-items:center;width:100%;height:100%;
+  border:0;border-radius:50%;background:transparent;box-shadow:none;
+  transform:none;transition:none;z-index:auto!important;
+}
+.language-coin-toggle{inset:0;top:0;right:0;width:49px;height:49px;border-radius:50%}
+@media(max-width:395px){
+  .top .language-switch{flex:0 0 49px;width:49px;height:49px}
+}
+@media(max-width:350px){
+  .top .language-switch{flex:0 0 49px;width:49px;height:49px}
+}
