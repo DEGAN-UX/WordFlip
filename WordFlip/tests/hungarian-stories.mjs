@@ -110,8 +110,8 @@ assert.match(readerCSS,/\.story-word-tooltip\{[^}]*pointer-events:auto;/,
   'Tooltips must intercept touches rather than passing them through to the story');
 assert.match(reader,/if\(tooltip\.contains\(event\.target\)\)return;/,
   'Outside tap handling must preserve taps on tooltip controls');
-assert.match(reader,/more\.onclick=event=>\{event\.stopPropagation\(\);openInspector\(word,parts\);\}/,
-  'Grammar Inspector button must receive a click and open details');
+assert.match(reader,/more\\.onclick=event=>\\{[\\s\\S]*?openInspector\\(selection\\);\\}/,
+  'Grammar Inspector button must open the current selected-word snapshot');
 assert.match(readerCSS,/\.grammar-inspector-sheet\{z-index:3500\}/,
   'Expanded grammar bottom sheet must stack above the tooltip');
 console.log('Touch event hit testing for tooltip and Grammar Inspector covered.');
