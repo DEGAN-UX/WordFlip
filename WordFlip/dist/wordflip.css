@@ -391,3 +391,12 @@ body.language-selected:not(.training) #study>.progress-open-button{display:none!
 @media(max-width:395px){
   #wordflipFooterNav{margin-left:-22px;margin-right:-22px}
 }
+
+/* Pin navigation to the viewport instead of the end of long Settings/Progress content. */
+#wordflipFooterNav{
+  position:fixed;left:50%;bottom:0;transform:translateX(-50%);
+  width:100%;max-width:620px;margin:0;
+  padding:8px 15px calc(env(safe-area-inset-bottom) + 8px);
+}
+body.language-selected main{padding-bottom:calc(env(safe-area-inset-bottom) + 92px)}
+body.settings-view-open main{padding-bottom:calc(env(safe-area-inset-bottom) + 92px)}
