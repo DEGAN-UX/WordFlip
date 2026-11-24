@@ -198,10 +198,47 @@
   for(const [lang,rows] of Object.entries(grammarFacts))for(const [surface,type,lemma,meaning,note] of rows){
     grammarIndex[lang].set(keyForGrammar(surface),{type,lemma,meaning,note});
   }
+  // Only curated, unambiguous facts: no suffix-based guesses about inflections.
+  const richerFacts={
+    de:{
+      'haus':{forms:[['Gender','neuter · das'],['Plural','die Häuser'],['Genitive singular','des Hauses'],['Dative singular','dem Haus']],note:'German nouns are capitalised. The article changes with case.'},
+      'wohnung':{forms:[['Gender','feminine · die'],['Plural','die Wohnungen'],['Dative singular','der Wohnung'],['Genitive singular','der Wohnung']]},
+      'buch':{forms:[['Gender','neuter · das'],['Plural','die Bücher'],['Genitive singular','des Buches']]},
+      'zug':{forms:[['Gender','masculine · der'],['Plural','die Züge'],['Accusative singular','den Zug'],['Dative singular','dem Zug']]},
+      'mann':{forms:[['Gender','masculine · der'],['Plural','die Männer'],['Accusative singular','den Mann'],['Dative singular','dem Mann']]},
+      'frau':{forms:[['Gender','feminine · die'],['Plural','die Frauen'],['Dative singular','der Frau']]},
+      'gut':{forms:[['Comparative','besser'],['Superlative','am besten']],note:'Adjective endings also depend on case, gender and the article: ein guter Tag, der gute Tag.'},
+      'gross':{forms:[['Comparative','grösser'],['Superlative','am grössten']],note:'Swiss Standard German spells ss rather than ß.'},
+      'klein':{forms:[['Comparative','kleiner'],['Superlative','am kleinsten']]},
+      'mit':{forms:[['Required case','Dative'],['Example','mit dem Freund · with the friend'],['Pronoun','mit mir · with me']]},
+      'für':{forms:[['Required case','Accusative'],['Example','für den Freund · for the friend'],['Pronoun','für mich · for me']]},
+      'wegen':{forms:[['Standard written case','Genitive'],['Example','wegen des Wetters · because of the weather'],['Colloquial alternative','wegen dem Wetter · dative (informal)']]}
+    },
+    it:{
+      'casa':{forms:[['Gender','feminine · la'],['Singular','la casa'],['Plural','le case']]},
+      'amico':{forms:[['Masculine','l’amico · gli amici'],['Feminine','l’amica · le amiche']]},
+      'libro':{forms:[['Gender','masculine · il'],['Plural','i libri']]},
+      'caffè':{forms:[['Gender','masculine · il'],['Plural','i caffè · unchanged noun']]},
+      'giorno':{forms:[['Gender','masculine · il'],['Plural','i giorni']]},
+      'tempo':{forms:[['Gender','masculine · il'],['Plural','i tempi']]},
+      'buono':{forms:[['Feminine singular','buona'],['Masculine plural','buoni'],['Feminine plural','buone'],['Comparative','migliore']]},
+      'grande':{forms:[['Singular','grande'],['Plural','grandi'],['Comparative','più grande']]},
+      'piccolo':{forms:[['Feminine singular','piccola'],['Masculine plural','piccoli'],['Feminine plural','piccole'],['Comparative','più piccolo']]},
+      'a':{forms:[['Use','to / at'],['Example','a Roma · in Rome'],['Articulated form','a + il = al']]},
+      'di':{forms:[['Use','of / from'],['Example','il libro di Anna · Anna’s book'],['Articulated form','di + il = del']]},
+      'con':{forms:[['Use','with'],['Example','con me · with me']]}
+    }
+  };
+  for(const [lang,entries] of Object.entries(richerFacts)){
+    for(const [surface,detail] of Object.entries(entries)){
+      const item=grammarIndex[lang].get(surface);
+      if(item)Object.assign(item,detail);
+    }
+  }
   function inspectorData(word,parts){
     const text=keyForGrammar(word.textContent);
     const found=grammarIndex[activeLanguage]?.get(text);
-    if(found)return found;
+    if(found&&(found.type==='Verb'||(found.forms?.length)||found.note))return found;
     if(activeLanguage==='hu'&&Array.isArray(parts)&&parts.length)
       return {type:'Hungarian morphology',lemma:parts[0][0],meaning:parts[0][1],
         note:'This word combines a base form and an ending. The breakdown above shows how they contribute to its meaning.',
@@ -243,6 +280,20 @@
     const lemma=document.createElement('p');lemma.className='grammar-inspector-lemma';
     lemma.textContent=data.lemma+' · '+data.meaning;
     body.append(type,lemma);
+    // The example is taken from the actual reading text, not generated from endings.
+    const contextWords=[...(word.closest('.story-text p')?.querySelectorAll('.story-word')||[])];
+    if(contextWords.length){
+      const index=contextWords.indexOf(word);
+      const from=Math.max(0,index-8),to=Math.min(contextWords.length,index+9);
+      const contextHeading=document.createElement('h3');contextHeading.textContent='In this story';
+      const excerpt=document.createElement('p');excerpt.className='grammar-inspector-story-example';
+      contextWords.slice(from,to).forEach((token,i)=>{
+        if(i)excerpt.append(document.createTextNode(' '));
+        const span=document.createElement(token===word?'strong':'span');
+        span.textContent=token.textContent;excerpt.append(span);
+      });
+      body.append(contextHeading,excerpt);
+    }
     // Show meaningful contextual guidance, not merely the same word translation.
     if(activeLanguage==='de'&&form==='wegen'){
       const heading=document.createElement('h3');heading.textContent='How to use wegen';body.append(heading);
@@ -255,21 +306,32 @@
       }
     }
     if(data.forms){
-      const heading=document.createElement('h3');heading.textContent='Present tense · '+data.formLabel;body.append(heading);
+      const heading=document.createElement('h3');heading.textContent=data.type==='Verb'?'Present tense · '+data.formLabel:'Forms and usage';body.append(heading);
       const table=document.createElement('div');table.className='grammar-inspector-paradigm';
       for(const [person,value] of data.forms){
         const row=document.createElement('div');row.className='grammar-inspector-form';
         if(keyForGrammar(value)===form)row.classList.add('is-selected');
         const pronoun=document.createElement('span');pronoun.textContent=person;
-        const formButton=document.createElement('button');formButton.type='button';
-        formButton.textContent=value;formButton.setAttribute('aria-label','Pronounce '+person+' '+value);
-        formButton.onclick=()=>inspectorSpeak(value);
-        row.append(pronoun,formButton);table.append(row);
+        const isVerb=data.type==='Verb';
+        const valueEl=document.createElement(isVerb?'button':'span');
+        if(isVerb){
+          valueEl.type='button';
+          valueEl.setAttribute('aria-label','Pronounce '+person+' '+value);
+          valueEl.onclick=()=>inspectorSpeak(value);
+        }
+        valueEl.textContent=value;
+        row.append(pronoun,valueEl);table.append(row);
       }
       body.append(table);
-      const note=document.createElement('p');note.className='grammar-inspector-context';
-      note.textContent='Highlighted: the form found in this story. Tap a form to hear it.';
-      body.append(note);
+      if(data.type==='Verb'){
+        const note=document.createElement('p');note.className='grammar-inspector-context';
+        note.textContent='The form in the story is highlighted when it matches this table. Tap a form to hear it.';
+        body.append(note);
+      }
+    }
+    if(data.type!=='Verb'&&Array.isArray(data.forms)){
+      // Structured forms for nouns, adjectives and prepositions.
+      // (These entries use the same accessible form-row component.)
     }
     if(data.parts){
       const table=document.createElement('div');table.className='grammar-inspector-paradigm';
@@ -281,7 +343,18 @@
       }
       body.append(table);
     }
-    if(data.note){
+    if(data.parts){
+      const note=document.createElement('p');note.className='grammar-inspector-context';
+      const endings=data.parts.map(part=>part[0]).filter(part=>part.startsWith('-'));
+      const suffix=endings.at(-1)||'';
+      if(/^-(ban|ben)$/.test(suffix))note.textContent='-ban/-ben marks location inside something (where?). It follows vowel harmony. A final a or e in the stem often lengthens to á or é before a suffix.';
+      else if(/^-(ba|be)$/.test(suffix))note.textContent='-ba/-be indicates movement into something (where to?). The vowel follows vowel harmony.';
+      else if(/^-(ból|ből)$/.test(suffix))note.textContent='-ból/-ből indicates movement out of something (where from?). The vowel follows vowel harmony.';
+      else if(/^-(nak|nek)$/.test(suffix))note.textContent='-nak/-nek marks the recipient or beneficiary (to / for someone). The vowel follows vowel harmony.';
+      else if(/^-(val|vel)$/.test(suffix))note.textContent='-val/-vel means with. After a consonant, its v assimilates: barát + val → baráttal.';
+      else note.textContent='The base and endings above show the meaning of this particular word form.';
+      body.append(note);
+    }else if(data.note){
       const note=document.createElement('p');note.className='grammar-inspector-context';
       note.textContent=data.note;body.append(note);
     }
