@@ -204,7 +204,7 @@
     if(found)return found;
     if(activeLanguage==='hu'&&Array.isArray(parts)&&parts.length)
       return {type:'Hungarian morphology',lemma:parts[0][0],meaning:parts[0][1],
-        note:'Suffixes change the role or meaning of the word. The breakdown below refers to this exact form.',
+        note:'This word combines a base form and an ending. The breakdown above shows how they contribute to its meaning.',
         parts};
     return null;
   }
