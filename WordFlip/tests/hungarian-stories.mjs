@@ -127,8 +127,8 @@ assert.match(inspectorReader,/Wegen des Wetters bleiben wir zu Hause/,
   'German wegen explanation needs a contextual example');
 console.log('Grammar Inspector selected-word binding and wegen examples verified');
 
-assert.ok(reader.includes(String.raw`\\p{L}`),
+assert.ok(reader.includes(String.raw`\p{L}`),
   'Grammar Inspector must use Unicode letter classes for word lookup');
-assert.ok(!reader.includes(String.raw`\\\\p{L}`),
+assert.ok(!reader.includes(String.raw`\\p{L}`),
   'Double-escaped Unicode classes would collapse unrelated words onto wegen');
 console.log('Unicode grammar lookup normalisation validated');
