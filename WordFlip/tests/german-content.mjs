@@ -24,7 +24,7 @@ const context={window:{}};
 vm.runInNewContext(fs.readFileSync(new URL('german-stories-data.js',dir),'utf8'),context);
 const stories=context.window.WordFlipGermanStories;
 assert.equal(stories.length,50,'German library must contain 50 B1-B2 stories');
-const levels=['A2','A2+','B1','B1+','B2'];
+const levels=['A2','A2+','B1','B1+','B2-','B2'];
 assert.equal(stories.reduce((n,s)=>n+s.words.length,0)>3000,true,'German library should contain over 3000 tappable words');
 for(const [index,story] of stories.entries()){
   assert.equal(story.id,index+1,'Stable consecutive story IDs required');
